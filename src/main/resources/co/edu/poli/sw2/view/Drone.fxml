@@ -9,37 +9,64 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.poli.sw2.controller.BroneController">
+<AnchorPane maxHeight="-Infinity"
+            maxWidth="-Infinity"
+            minHeight="-Infinity"
+            minWidth="-Infinity"
+            prefHeight="430.0"
+            prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/26"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.poli.sw2.controller.DronController">
 
     <children>
 
         <!-- ==================== FONDO ==================== -->
 
-        <ImageView fitHeight="445.0" fitWidth="621.0" layoutX="-14.0" layoutY="-13.0" preserveRatio="false">
+        <ImageView fitHeight="445.0"
+                   fitWidth="621.0"
+                   layoutX="-14.0"
+                   layoutY="-13.0"
+                   preserveRatio="false">
+
             <image>
-                <Image url="@../images/Fondo_D.png" />
+                <Image url="@../images/Fondo_D.png"/>
             </image>
+
         </ImageView>
 
 
         <!-- ==================== BOTÓN CREAR ==================== -->
 
-        <Button fx:id="btnCrear" layoutX="318.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: transparent;                        -fx-border-color: transparent;">
+        <Button fx:id="btnCrear"
+                layoutX="318.0"
+                layoutY="15.0"
+                mnemonicParsing="false"
+                style="-fx-background-color: transparent;
+                       -fx-border-color: transparent;">
 
             <graphic>
-                <ImageView fitHeight="48.0" fitWidth="50.0">
+                <ImageView fitHeight="48.0"
+                           fitWidth="50.0">
+
                     <image>
-                        <Image url="@../images/I_Agregar.png" />
+                        <Image url="@../images/I_Agregar.png"/>
                     </image>
+
                 </ImageView>
             </graphic>
 
         </Button>
 
-        <Text layoutX="338.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Crear">
+        <Text layoutX="338.0"
+              layoutY="79.0"
+              strokeType="OUTSIDE"
+              strokeWidth="0.0"
+              text="Crear">
 
             <font>
-                <Font name="System Bold" size="12.0" />
+                <Font name="System Bold"
+                      size="12.0"/>
             </font>
 
         </Text>
@@ -47,22 +74,35 @@
 
         <!-- ==================== BOTÓN BUSCAR ==================== -->
 
-        <Button fx:id="btnBuscar" layoutX="374.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: transparent;                        -fx-border-color: transparent;">
+        <Button fx:id="btnBuscar"
+                layoutX="374.0"
+                layoutY="14.0"
+                mnemonicParsing="false"
+                style="-fx-background-color: transparent;
+                       -fx-border-color: transparent;">
 
             <graphic>
-                <ImageView fitHeight="49.0" fitWidth="59.0">
+                <ImageView fitHeight="49.0"
+                           fitWidth="59.0">
+
                     <image>
-                        <Image url="@../images/I_Buscar.png" />
+                        <Image url="@../images/I_Buscar.png"/>
                     </image>
+
                 </ImageView>
             </graphic>
 
         </Button>
 
-        <Text layoutX="395.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buscar">
+        <Text layoutX="395.0"
+              layoutY="78.0"
+              strokeType="OUTSIDE"
+              strokeWidth="0.0"
+              text="Buscar">
 
             <font>
-                <Font name="System Bold" size="12.0" />
+                <Font name="System Bold"
+                      size="12.0"/>
             </font>
 
         </Text>
@@ -70,22 +110,35 @@
 
         <!-- ==================== BOTÓN EDITAR ==================== -->
 
-        <Button fx:id="btnActualizar" layoutX="437.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: transparent;                        -fx-border-color: transparent;">
+        <Button fx:id="btnActualizar"
+                layoutX="437.0"
+                layoutY="15.0"
+                mnemonicParsing="false"
+                style="-fx-background-color: transparent;
+                       -fx-border-color: transparent;">
 
             <graphic>
-                <ImageView fitHeight="49.0" fitWidth="51.0">
+                <ImageView fitHeight="49.0"
+                           fitWidth="51.0">
+
                     <image>
-                        <Image url="@../images/I_Editar.png" />
+                        <Image url="@../images/I_Editar.png"/>
                     </image>
+
                 </ImageView>
             </graphic>
 
         </Button>
 
-        <Text layoutX="457.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Editar">
+        <Text layoutX="457.0"
+              layoutY="79.0"
+              strokeType="OUTSIDE"
+              strokeWidth="0.0"
+              text="Editar">
 
             <font>
-                <Font name="System Bold" size="12.0" />
+                <Font name="System Bold"
+                      size="12.0"/>
             </font>
 
         </Text>
@@ -93,123 +146,293 @@
 
         <!-- ==================== BOTÓN ELIMINAR ==================== -->
 
-        <Button fx:id="btnEliminar" layoutX="495.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: transparent;                        -fx-border-color: transparent;">
+        <Button fx:id="btnEliminar"
+                layoutX="495.0"
+                layoutY="15.0"
+                mnemonicParsing="false"
+                style="-fx-background-color: transparent;
+                       -fx-border-color: transparent;">
 
             <graphic>
-                <ImageView fitHeight="49.0" fitWidth="51.0">
+                <ImageView fitHeight="49.0"
+                           fitWidth="51.0">
+
                     <image>
-                        <Image url="@../images/I_Eliminar.png" />
+                        <Image url="@../images/I_Eliminar.png"/>
                     </image>
+
                 </ImageView>
             </graphic>
 
         </Button>
 
-        <Text layoutX="509.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Eliminar">
+        <Text layoutX="509.0"
+              layoutY="79.0"
+              strokeType="OUTSIDE"
+              strokeWidth="0.0"
+              text="Eliminar">
 
             <font>
-                <Font name="System Bold" size="12.0" />
+                <Font name="System Bold"
+                      size="12.0"/>
             </font>
 
         </Text>
 
-        <TextField fx:id="txtId" layoutX="51.0" layoutY="97.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="190.0" promptText="Ingrese ID" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 19px;">
+
+        <!-- ==================== ID ==================== -->
+
+        <TextField fx:id="txtId"
+                   layoutX="51.0"
+                   layoutY="97.0"
+                   minHeight="-Infinity"
+                   minWidth="-Infinity"
+                   prefHeight="32.0"
+                   prefWidth="190.0"
+                   promptText="Ingrese ID"
+                   style="-fx-background-color: rgba(255,255,255,0.65);
+                          -fx-background-radius: 8;
+                          -fx-border-color: rgba(0,0,0,0.25);
+                          -fx-border-radius: 8;
+                          -fx-font-size: 19px;">
 
             <cursor>
-                <Cursor fx:constant="TEXT" />
-            </cursor>
-
-        </TextField>
-
-        <TextField fx:id="txtModelo" layoutX="51.0" layoutY="137.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="190.0" promptText="Modelo del dron" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 19px;">
-
-            <cursor>
-                <Cursor fx:constant="TEXT" />
-            </cursor>
-
-        </TextField>
-
-        <TextField fx:id="txtSerial" layoutX="51.0" layoutY="177.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="190.0" promptText="Número de serial" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 19px;">
-
-            <cursor>
-                <Cursor fx:constant="TEXT" />
-            </cursor>
-
-        </TextField>
-
-        <TextField fx:id="txtFabricante" layoutX="51.0" layoutY="216.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="190.0" promptText="Fabricante" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 19px;">
-
-            <cursor>
-                <Cursor fx:constant="TEXT" />
-            </cursor>
-
-        </TextField>
-
-        <TextField fx:id="txtPeso" layoutX="51.0" layoutY="255.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="190.0" promptText="Peso del dron" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 19px;">
-
-            <cursor>
-                <Cursor fx:constant="TEXT" />
-            </cursor>
-
-        </TextField>
-
-        <TextField fx:id="txtPiloto" layoutX="51.0" layoutY="294.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="190.0" promptText="Piloto" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 19px;">
-
-            <cursor>
-                <Cursor fx:constant="TEXT" />
+                <Cursor fx:constant="TEXT"/>
             </cursor>
 
         </TextField>
 
 
-        <!-- ==================== SENSOR ==================== -->
+        <!-- ==================== MODELO ==================== -->
 
-        <Text layoutX="38.0" layoutY="115.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
+        <TextField fx:id="txtModelo"
+                   layoutX="51.0"
+                   layoutY="137.0"
+                   minHeight="-Infinity"
+                   minWidth="-Infinity"
+                   prefHeight="32.0"
+                   prefWidth="190.0"
+                   promptText="Modelo del dron"
+                   style="-fx-background-color: rgba(255,255,255,0.65);
+                          -fx-background-radius: 8;
+                          -fx-border-color: rgba(0,0,0,0.25);
+                          -fx-border-radius: 8;
+                          -fx-font-size: 19px;">
+
+            <cursor>
+                <Cursor fx:constant="TEXT"/>
+            </cursor>
+
+        </TextField>
+
+
+        <!-- ==================== SERIAL ==================== -->
+
+        <TextField fx:id="txtSerial"
+                   layoutX="51.0"
+                   layoutY="177.0"
+                   minHeight="-Infinity"
+                   minWidth="-Infinity"
+                   prefHeight="32.0"
+                   prefWidth="190.0"
+                   promptText="Número de serial"
+                   style="-fx-background-color: rgba(255,255,255,0.65);
+                          -fx-background-radius: 8;
+                          -fx-border-color: rgba(0,0,0,0.25);
+                          -fx-border-radius: 8;
+                          -fx-font-size: 19px;">
+
+            <cursor>
+                <Cursor fx:constant="TEXT"/>
+            </cursor>
+
+        </TextField>
+
+
+        <!-- ==================== FABRICANTE ==================== -->
+
+        <TextField fx:id="txtFabricante"
+                   layoutX="51.0"
+                   layoutY="216.0"
+                   minHeight="-Infinity"
+                   minWidth="-Infinity"
+                   prefHeight="32.0"
+                   prefWidth="190.0"
+                   promptText="Fabricante"
+                   style="-fx-background-color: rgba(255,255,255,0.65);
+                          -fx-background-radius: 8;
+                          -fx-border-color: rgba(0,0,0,0.25);
+                          -fx-border-radius: 8;
+                          -fx-font-size: 19px;">
+
+            <cursor>
+                <Cursor fx:constant="TEXT"/>
+            </cursor>
+
+        </TextField>
+
+
+        <!-- ==================== PESO ==================== -->
+
+        <TextField fx:id="txtPeso"
+                   layoutX="51.0"
+                   layoutY="255.0"
+                   minHeight="-Infinity"
+                   minWidth="-Infinity"
+                   prefHeight="32.0"
+                   prefWidth="190.0"
+                   promptText="Peso del dron"
+                   style="-fx-background-color: rgba(255,255,255,0.65);
+                          -fx-background-radius: 8;
+                          -fx-border-color: rgba(0,0,0,0.25);
+                          -fx-border-radius: 8;
+                          -fx-font-size: 19px;">
+
+            <cursor>
+                <Cursor fx:constant="TEXT"/>
+            </cursor>
+
+        </TextField>
+
+
+        <!-- ==================== PILOTO ==================== -->
+
+        <TextField fx:id="txtPiloto"
+                   layoutX="51.0"
+                   layoutY="294.0"
+                   minHeight="-Infinity"
+                   minWidth="-Infinity"
+                   prefHeight="32.0"
+                   prefWidth="190.0"
+                   promptText="Piloto"
+                   style="-fx-background-color: rgba(255,255,255,0.65);
+                          -fx-background-radius: 8;
+                          -fx-border-color: rgba(0,0,0,0.25);
+                          -fx-border-radius: 8;
+                          -fx-font-size: 19px;">
+
+            <cursor>
+                <Cursor fx:constant="TEXT"/>
+            </cursor>
+
+        </TextField>
+
+
+        <!-- ==================== MISIÓN ==================== -->
+
+        <TextField fx:id="txtMision"
+                   layoutX="51.0"
+                   layoutY="334.0"
+                   minHeight="-Infinity"
+                   minWidth="-Infinity"
+                   prefHeight="32.0"
+                   prefWidth="190.0"
+                   promptText="ID de la misión"
+                   style="-fx-background-color: rgba(255,255,255,0.65);
+                          -fx-background-radius: 8;
+                          -fx-border-color: rgba(0,0,0,0.25);
+                          -fx-border-radius: 8;
+                          -fx-font-size: 19px;">
+
+            <cursor>
+                <Cursor fx:constant="TEXT"/>
+            </cursor>
+
+        </TextField>
+
+
+        <!-- ==================== ASTERISCOS ==================== -->
+
+        <Text layoutX="38.0"
+              layoutY="115.0"
+              strokeType="OUTSIDE"
+              strokeWidth="0.0"
+              text="*">
 
             <font>
-                <Font name="System Bold" size="25.0" />
+                <Font name="System Bold"
+                      size="25.0"/>
             </font>
 
         </Text>
 
-        <TextField fx:id="txtSensor" layoutX="51.0" layoutY="334.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="190.0" promptText="Sensor" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 19px;">
+        <Text layoutX="38.0"
+              layoutY="155.0"
+              strokeType="OUTSIDE"
+              strokeWidth="0.0"
+              text="*">
 
-            <cursor>
-                <Cursor fx:constant="TEXT" />
-            </cursor>
+            <font>
+                <Font name="System Bold"
+                      size="25.0"/>
+            </font>
 
-        </TextField>
-      <Text layoutX="38.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
-         <font>
-            <Font name="System Bold" size="25.0" />
-         </font>
-      </Text>
-      <Text layoutX="38.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
-         <font>
-            <Font name="System Bold" size="25.0" />
-         </font>
-      </Text>
-      <Text layoutX="38.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
-         <font>
-            <Font name="System Bold" size="25.0" />
-         </font>
-      </Text>
-      <Text layoutX="38.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
-         <font>
-            <Font name="System Bold" size="25.0" />
-         </font>
-      </Text>
-      <Text layoutX="38.0" layoutY="315.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
-         <font>
-            <Font name="System Bold" size="25.0" />
-         </font>
-      </Text>
-      <Text layoutX="38.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
-         <font>
-            <Font name="System Bold" size="25.0" />
-         </font>
-      </Text>
+        </Text>
 
+        <Text layoutX="38.0"
+              layoutY="195.0"
+              strokeType="OUTSIDE"
+              strokeWidth="0.0"
+              text="*">
+
+            <font>
+                <Font name="System Bold"
+                      size="25.0"/>
+            </font>
+
+        </Text>
+
+        <Text layoutX="38.0"
+              layoutY="235.0"
+              strokeType="OUTSIDE"
+              strokeWidth="0.0"
+              text="*">
+
+            <font>
+                <Font name="System Bold"
+                      size="25.0"/>
+            </font>
+
+        </Text>
+
+        <Text layoutX="38.0"
+              layoutY="275.0"
+              strokeType="OUTSIDE"
+              strokeWidth="0.0"
+              text="*">
+
+            <font>
+                <Font name="System Bold"
+                      size="25.0"/>
+            </font>
+
+        </Text>
+
+        <Text layoutX="38.0"
+              layoutY="315.0"
+              strokeType="OUTSIDE"
+              strokeWidth="0.0"
+              text="*">
+
+            <font>
+                <Font name="System Bold"
+                      size="25.0"/>
+            </font>
+
+        </Text>
+
+        <Text layoutX="38.0"
+              layoutY="355.0"
+              strokeType="OUTSIDE"
+              strokeWidth="0.0"
+              text="*">
+
+            <font>
+                <Font name="System Bold"
+                      size="25.0"/>
+            </font>
+
+        </Text>
 
     </children>
 
