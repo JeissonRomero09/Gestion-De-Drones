@@ -12,7 +12,7 @@ public class app extends Application {
     public void start(Stage stage) throws Exception {
 
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/boceto.fxml")
+        		getClass().getResource("/co/edu/poli/sw2/view/drone.fxml")
         );
 
         AnchorPane root = loader.load();
