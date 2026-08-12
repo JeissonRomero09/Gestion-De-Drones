@@ -23,7 +23,7 @@ import javafx.scene.control.TextField;
  * {@link DronDao}.
  * </p>
  *
- * @author Jeison Romero
+ * @author Camilo Vera
  * @version 1.0
  */
 public class DronController {
