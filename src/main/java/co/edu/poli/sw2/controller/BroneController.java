@@ -94,10 +94,10 @@ public class DronController {
     private TextField txtPiloto;
 
     /**
-     * Campo de texto utilizado para ingresar el identificador de la misión.
+     * Campo de texto utilizado para ingresar el identificador de el sensor
      */
     @FXML
-    private TextField txtMision;
+    private TextField txtSensor;
 
 
     // ==============================
@@ -226,7 +226,7 @@ public class DronController {
             drone.setFabricante(txtFabricante.getText());
             drone.setPeso(Double.parseDouble(txtPeso.getText()));
             drone.setPilotoId(Integer.parseInt(txtPiloto.getText()));
-            drone.setMisionId(Integer.parseInt(txtMision.getText()));
+            drone.setSensor(Integer.parseInt(txtMision.getText()));
 
             dronDao.crear(drone);
 
@@ -412,7 +412,7 @@ public class DronController {
                     || txtFabricante.getText().isEmpty()
                     || txtPeso.getText().isEmpty()
                     || txtPiloto.getText().isEmpty()
-                    || txtMision.getText().isEmpty()) {
+                    || txtSensor.getText().isEmpty()) {
 
                 mostrarAlerta(
                         Alert.AlertType.WARNING,
@@ -431,7 +431,7 @@ public class DronController {
             drone.setFabricante(txtFabricante.getText());
             drone.setPeso(Double.parseDouble(txtPeso.getText()));
             drone.setPilotoId(Integer.parseInt(txtPiloto.getText()));
-            drone.setMisionId(Integer.parseInt(txtMision.getText()));
+            drone.setSensor(Integer.parseInt(txtMision.getText()));
 
             dronDao.actualizar(drone);
 
@@ -472,7 +472,7 @@ public class DronController {
         txtFabricante.clear();
         txtPeso.clear();
         txtPiloto.clear();
-        txtMision.clear();
+        txtSensor.clear();
     }
 
 
