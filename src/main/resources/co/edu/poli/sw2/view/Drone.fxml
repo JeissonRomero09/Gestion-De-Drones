@@ -318,7 +318,7 @@
         </TextField>
 
 
-        <!-- ==================== MISIÓN ==================== -->
+        <!-- ==================== SENSORES ==================== -->
 
         <TextField fx:id="txtMision"
                    layoutX="51.0"
@@ -327,7 +327,7 @@
                    minWidth="-Infinity"
                    prefHeight="32.0"
                    prefWidth="190.0"
-                   promptText="ID de la misión"
+                   promptText="Sensor"
                    style="-fx-background-color: rgba(255,255,255,0.65);
                           -fx-background-radius: 8;
                           -fx-border-color: rgba(0,0,0,0.25);
