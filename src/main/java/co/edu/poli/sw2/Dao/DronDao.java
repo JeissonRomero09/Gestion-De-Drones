@@ -1,7 +1,7 @@
 package co.edu.poli.sw2.Dao;
 
 import co.edu.poli.sw2.Dao.ConexionBD;
-import co.edu.poli.sw2.model.Drone;
+import co.edu.poli.sw2.model.Dron;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,10 +10,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DroneDao {
+public class DronDao {
 
     // CREAR
-    public void crear(Drone drone) {
+    public void crear(Dron drone) {
 
         String sql = "INSERT INTO dron "
                 + "(serial, modelo, fabricante, peso, piloto_id, mision_id) "
@@ -39,7 +39,7 @@ public class DroneDao {
     }
 
     // BUSCAR
-    public Drone buscar(int id) {
+    public Dron buscar(int id) {
 
         String sql = "SELECT * FROM dron WHERE id = ?";
 
@@ -52,7 +52,7 @@ public class DroneDao {
 
             if (rs.next()) {
 
-                Drone drone = new Drone();
+                Dron drone = new Dron();
 
                 drone.setId(rs.getInt("id"));
                 drone.setSerial(rs.getString("serial"));
@@ -73,9 +73,9 @@ public class DroneDao {
     }
 
     // LISTAR
-    public List<Drone> listar() {
+    public List<Dron> listar() {
 
-        List<Drone> drones = new ArrayList<>();
+        List<Dron> drones = new ArrayList<>();
 
         String sql = "SELECT * FROM dron";
 
@@ -85,7 +85,7 @@ public class DroneDao {
 
             while (rs.next()) {
 
-                Drone drone = new Drone();
+                Dron drone = new Dron();
 
                 drone.setId(rs.getInt("id"));
                 drone.setSerial(rs.getString("serial"));
@@ -106,7 +106,7 @@ public class DroneDao {
     }
 
     // ACTUALIZAR
-    public void actualizar(Drone drone) {
+    public void actualizar(Dron drone) {
 
         String sql = "UPDATE dron SET "
                 + "serial = ?, "

@@ -1,6 +1,6 @@
 package co.edu.poli.sw2.model;
 
-public class Drone {
+public class Dron {
 
     private int id;
     private String serial;
@@ -10,10 +10,10 @@ public class Drone {
     private int pilotoId;
     private int misionId;
 
-    public Drone() {
+    public Dron() {
     }
 
-    public Drone(int id, String serial, String modelo, String fabricante,
+    public Dron(int id, String serial, String modelo, String fabricante,
                  double peso, int pilotoId, int misionId) {
 
         this.id = id;

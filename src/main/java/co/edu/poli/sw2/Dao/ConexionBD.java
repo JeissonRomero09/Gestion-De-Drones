@@ -4,29 +4,35 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import io.github.cdimascio.dotenv.Dotenv;
+
 public class ConexionBD {
 
-    private static final String URL = "jdbc:mysql://localhost:3306/sistema_drones";
-    private static final String USUARIO = "root";
-    private static final String PASSWORD = "";
+    private static final Dotenv dotenv = Dotenv.load();
+
+    private static final String URL = dotenv.get("DB_URL");
+    private static final String USUARIO = dotenv.get("DB_USER");
+    private static final String PASSWORD = dotenv.get("DB_PASSWORD");
 
     public static Connection conectar() {
 
-        Connection conexion = null;
-
         try {
-            conexion = DriverManager.getConnection(
-                URL,
-                USUARIO,
-                PASSWORD
+
+            Connection conexion = DriverManager.getConnection(
+                    URL,
+                    USUARIO,
+                    PASSWORD
             );
 
             System.out.println("Conexion exitosa a la base de datos");
 
-        } catch (SQLException e) {
-            System.out.println("Error de conexion: " + e.getMessage());
-        }
+            return conexion;
 
-        return conexion;
+        } catch (SQLException e) {
+
+            System.out.println("Error de conexion: " + e.getMessage());
+
+            return null;
+        }
     }
 }
