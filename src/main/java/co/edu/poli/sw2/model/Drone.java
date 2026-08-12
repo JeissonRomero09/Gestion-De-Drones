@@ -2,66 +2,95 @@ package co.edu.poli.sw2.model;
 
 public class Drone {
 
-	private int id;
-	private String senal;
-	private String modelo;
-	private String fabricante;
-	private double peso;
+    private int id;
+    private String serial;
+    private String modelo;
+    private String fabricante;
+    private double peso;
+    private int pilotoId;
+    private int misionId;
 
-	public Drone() {
-	}
+    public Drone() {
+    }
 
-	public Drone(int id, String senal, String modelo, String fabricante, double peso) {
-		this.id = id;
-		this.senal = senal;
-		this.modelo = modelo;
-		this.fabricante = fabricante;
-		this.peso = peso;
-	}
+    public Drone(int id, String serial, String modelo, String fabricante,
+                 double peso, int pilotoId, int misionId) {
 
-	public int getId() {
-		return id;
-	}
+        this.id = id;
+        this.serial = serial;
+        this.modelo = modelo;
+        this.fabricante = fabricante;
+        this.peso = peso;
+        this.pilotoId = pilotoId;
+        this.misionId = misionId;
+    }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getSenal() {
-		return senal;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setSenal(String senal) {
-		this.senal = senal;
-	}
+    public String getSerial() {
+        return serial;
+    }
 
-	public String getModelo() {
-		return modelo;
-	}
+    public void setSerial(String serial) {
+        this.serial = serial;
+    }
 
-	public void setModelo(String modelo) {
-		this.modelo = modelo;
-	}
+    public String getModelo() {
+        return modelo;
+    }
 
-	public String getFabricante() {
-		return fabricante;
-	}
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
 
-	public void setFabricante(String fabricante) {
-		this.fabricante = fabricante;
-	}
+    public String getFabricante() {
+        return fabricante;
+    }
 
-	public double getPeso() {
-		return peso;
-	}
+    public void setFabricante(String fabricante) {
+        this.fabricante = fabricante;
+    }
 
-	public void setPeso(double peso) {
-		this.peso = peso;
-	}
+    public double getPeso() {
+        return peso;
+    }
 
-	@Override
-	public String toString() {
-		return "Drone{" + "id=" + id + ", senal='" + senal + '\'' + ", modelo='" + modelo + '\'' + ", fabricante='"
-				+ fabricante + '\'' + ", peso=" + peso + '}';
-	}
+    public void setPeso(double peso) {
+        this.peso = peso;
+    }
+
+    public int getPilotoId() {
+        return pilotoId;
+    }
+
+    public void setPilotoId(int pilotoId) {
+        this.pilotoId = pilotoId;
+    }
+
+    public int getMisionId() {
+        return misionId;
+    }
+
+    public void setMisionId(int misionId) {
+        this.misionId = misionId;
+    }
+
+    @Override
+    public String toString() {
+        return "Drone{" +
+                "id=" + id +
+                ", serial='" + serial + '\'' +
+                ", modelo='" + modelo + '\'' +
+                ", fabricante='" + fabricante + '\'' +
+                ", peso=" + peso +
+                ", pilotoId=" + pilotoId +
+                ", misionId=" + misionId +
+                '}';
+    }
 }
