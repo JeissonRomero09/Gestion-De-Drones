@@ -5,8 +5,7 @@ package co.edu.poli.sw2.model;
  *
  * <p>
  * Esta clase contiene la información básica de un dron, incluyendo su
- * identificador, serial, modelo, fabricante, peso y las referencias al piloto y
- * misión asociados.
+ * identificador, serial, modelo, fabricante, peso y el piloto asociado.
  * </p>
  *
  * @author Jeison Romero
@@ -45,11 +44,6 @@ public class Dron {
 	private int pilotoId;
 
 	/**
-	 * Identificador de la misión asociada al dron.
-	 */
-	private int misionId;
-
-	/**
 	 * Constructor vacío de la clase Dron.
 	 */
 	public Dron() {
@@ -64,9 +58,8 @@ public class Dron {
 	 * @param fabricante fabricante del dron.
 	 * @param peso       peso del dron.
 	 * @param pilotoId   identificador del piloto asociado.
-	 * @param misionId   identificador de la misión asociada.
 	 */
-	public Dron(int id, String serial, String modelo, String fabricante, double peso, int pilotoId, int misionId) {
+	public Dron(int id, String serial, String modelo, String fabricante, double peso, int pilotoId) {
 
 		this.id = id;
 		this.serial = serial;
@@ -74,7 +67,6 @@ public class Dron {
 		this.fabricante = fabricante;
 		this.peso = peso;
 		this.pilotoId = pilotoId;
-		this.misionId = misionId;
 	}
 
 	/**
@@ -186,24 +178,6 @@ public class Dron {
 	}
 
 	/**
-	 * Obtiene el identificador de la misión asociada.
-	 *
-	 * @return identificador de la misión.
-	 */
-	public int getMisionId() {
-		return misionId;
-	}
-
-	/**
-	 * Establece el identificador de la misión asociada.
-	 *
-	 * @param misionId identificador de la misión.
-	 */
-	public void setMisionId(int misionId) {
-		this.misionId = misionId;
-	}
-
-	/**
 	 * Devuelve una representación textual del objeto Dron.
 	 *
 	 * @return cadena de texto con los datos del dron.
@@ -211,6 +185,6 @@ public class Dron {
 	@Override
 	public String toString() {
 		return "Dron{" + "id=" + id + ", serial='" + serial + '\'' + ", modelo='" + modelo + '\'' + ", fabricante='"
-				+ fabricante + '\'' + ", peso=" + peso + ", pilotoId=" + pilotoId + ", misionId=" + misionId + '}';
+				+ fabricante + '\'' + ", peso=" + peso + ", pilotoId=" + pilotoId + '}';
 	}
 }
