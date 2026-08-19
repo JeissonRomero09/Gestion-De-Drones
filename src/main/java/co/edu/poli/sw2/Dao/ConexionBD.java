@@ -7,67 +7,99 @@ import java.sql.SQLException;
 import io.github.cdimascio.dotenv.Dotenv;
 
 /**
- * Clase encargada de gestionar la conexión con la base de datos.
+ * Clase Singleton encargada de gestionar la conexión con la base de datos.
  *
  * <p>
  * La información de conexión se obtiene desde las variables de entorno
  * definidas en el archivo {@code .env}.
  * </p>
  *
- * @author Jeison Romero
+ * @author Jeison Romero, Cristian vera
  * @version 1.0
  */
 public class ConexionBD {
 
-	/**
-	 * Objeto utilizado para cargar las variables de entorno desde el archivo
-	 * {@code .env}.
-	 */
-	private static final Dotenv dotenv = Dotenv.load();
+    /**
+     * Instancia única de la clase.
+     */
+    private static ConexionBD instancia;
 
-	/**
-	 * URL de conexión a la base de datos.
-	 */
-	private static final String URL = dotenv.get("DB_URL");
+    /**
+     * Conexión única a la base de datos.
+     */
+    private Connection conexion;
 
-	/**
-	 * Usuario utilizado para conectarse a la base de datos.
-	 */
-	private static final String USUARIO = dotenv.get("DB_USER");
+    /**
+     * Objeto utilizado para cargar las variables de entorno.
+     */
+    private static final Dotenv dotenv = Dotenv.load();
 
-	/**
-	 * Contraseña utilizada para conectarse a la base de datos.
-	 */
-	private static final String PASSWORD = dotenv.get("DB_PASSWORD");
+    /**
+     * URL de conexión a la base de datos.
+     */
+    private static final String URL = dotenv.get("DB_URL");
 
-	/**
-	 * Establece una conexión con la base de datos utilizando las credenciales
-	 * configuradas en el archivo {@code .env}.
-	 *
-	 * <p>
-	 * Si la conexión se realiza correctamente, retorna un objeto
-	 * {@link Connection}. En caso de producirse un error de SQL, se muestra el
-	 * mensaje correspondiente y se retorna {@code null}.
-	 * </p>
-	 *
-	 * @return objeto {@link Connection} si la conexión es exitosa; {@code null} si
-	 *         ocurre un error durante la conexión.
-	 */
-	public static Connection conectar() {
+    /**
+     * Usuario utilizado para conectarse a la base de datos.
+     */
+    private static final String USUARIO = dotenv.get("DB_USER");
 
-		try {
+    /**
+     * Contraseña utilizada para conectarse a la base de datos.
+     */
+    private static final String PASSWORD = dotenv.get("DB_PASSWORD");
 
-			Connection conexion = DriverManager.getConnection(URL, USUARIO, PASSWORD);
+    /**
+     * Constructor privado para evitar que otras clases
+     * creen instancias directamente.
+     */
+    private ConexionBD() throws SQLException {
 
-			System.out.println("Conexion exitosa a la base de datos");
+        conectar();
 
-			return conexion;
+    }
 
-		} catch (SQLException e) {
+    /**
+     * Obtiene la única instancia de la clase ConexionBD.
+     *
+     * @return instancia única de ConexionBD.
+     * @throws SQLException si ocurre un error al establecer la conexión.
+     */
+    public static ConexionBD getInstance() throws SQLException {
 
-			System.out.println("Error de conexion: " + e.getMessage());
+        if (instancia == null) {
 
-			return null;
-		}
-	}
+            instancia = new ConexionBD();
+
+        }
+
+        return instancia;
+    }
+
+    /**
+     * Establece la conexión con la base de datos.
+     *
+     * @throws SQLException si ocurre un error al establecer la conexión.
+     */
+    private void conectar() throws SQLException {
+
+        conexion = DriverManager.getConnection(
+                URL,
+                USUARIO,
+                PASSWORD
+        );
+
+    }
+
+    /**
+     * Obtiene la conexión actual.
+     *
+     * @return objeto Connection.
+     */
+    public Connection getConexion() {
+
+        return conexion;
+
+    }
+
 }
