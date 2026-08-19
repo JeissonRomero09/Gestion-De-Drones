@@ -320,7 +320,7 @@
 
         <!-- ==================== SENSORES ==================== -->
 
-        <TextField fx:id="txtMision"
+        <TextField fx:id="txtSensor"
                    layoutX="51.0"
                    layoutY="334.0"
                    minHeight="-Infinity"
