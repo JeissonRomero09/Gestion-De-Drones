@@ -8,6 +8,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+import java.sql.SQLException;
+
 /**
  * Controlador encargado de gestionar la interfaz gráfica de los drones.
  *
@@ -94,7 +96,7 @@ public class DronController {
     private TextField txtPiloto;
 
     /**
-     * Campo de texto utilizado para ingresar el identificador de el sensor
+     * Campo de texto utilizado para ingresar el identificador del sensor.
      */
     @FXML
     private TextField txtSensor;
@@ -144,12 +146,6 @@ public class DronController {
     /**
      * Configura los efectos visuales de interacción de un botón.
      *
-     * <p>
-     * El botón aumenta ligeramente su tamaño cuando el cursor entra,
-     * vuelve a su tamaño original cuando sale, se reduce al presionarlo
-     * y recupera su tamaño al soltarlo.
-     * </p>
-     *
      * @param boton botón al que se le aplicarán los efectos visuales.
      */
     private void efectoBoton(Button boton) {
@@ -182,22 +178,6 @@ public class DronController {
 
     /**
      * Crea un nuevo dron en la base de datos.
-     *
-     * <p>
-     * Antes de realizar el registro, verifica que los campos obligatorios
-     * estén completos. También convierte los valores numéricos de peso,
-     * piloto y misión a sus respectivos tipos.
-     * </p>
-     *
-     * <p>
-     * Si los datos son válidos, se crea un objeto {@link Dron} y se envía
-     * al {@link DronDao} para realizar la inserción en la base de datos.
-     * </p>
-     *
-     * <p>
-     * Después de guardar el dron correctamente, se muestra un mensaje
-     * de confirmación y se limpian los campos del formulario.
-     * </p>
      */
     private void crear() {
 
@@ -208,7 +188,7 @@ public class DronController {
                     || txtFabricante.getText().isEmpty()
                     || txtPeso.getText().isEmpty()
                     || txtPiloto.getText().isEmpty()
-                    || txtMision.getText().isEmpty()) {
+                    || txtSensor.getText().isEmpty()) {
 
                 mostrarAlerta(
                         Alert.AlertType.WARNING,
@@ -226,7 +206,7 @@ public class DronController {
             drone.setFabricante(txtFabricante.getText());
             drone.setPeso(Double.parseDouble(txtPeso.getText()));
             drone.setPilotoId(Integer.parseInt(txtPiloto.getText()));
-            drone.setSensor(Integer.parseInt(txtMision.getText()));
+            drone.setsensorid(Integer.parseInt(txtSensor.getText()));
 
             dronDao.crear(drone);
 
@@ -243,7 +223,14 @@ public class DronController {
             mostrarAlerta(
                     Alert.AlertType.ERROR,
                     "Datos inválidos",
-                    "Peso, piloto y misión deben ser valores numéricos."
+                    "Peso, piloto y sensor deben ser valores numéricos."
+            );
+        } catch (SQLException e) {
+
+            mostrarAlerta(
+                    Alert.AlertType.ERROR,
+                    "Error de Base de Datos",
+                    "No se pudo guardar el dron: " + e.getMessage()
             );
         }
     }
@@ -255,16 +242,6 @@ public class DronController {
 
     /**
      * Busca un dron utilizando su identificador.
-     *
-     * <p>
-     * El método valida que el campo ID no esté vacío y que contenga
-     * un número entero. Luego consulta el {@link DronDao}.
-     * </p>
-     *
-     * <p>
-     * Si el dron existe, sus datos son cargados en los campos del formulario.
-     * Si no existe, se muestra una alerta informando al usuario.
-     * </p>
      */
     private void buscar() {
 
@@ -292,7 +269,7 @@ public class DronController {
                 txtFabricante.setText(drone.getFabricante());
                 txtPeso.setText(String.valueOf(drone.getPeso()));
                 txtPiloto.setText(String.valueOf(drone.getPilotoId()));
-                txtMision.setText(String.valueOf(drone.getMisionId()));
+                txtSensor.setText(String.valueOf(drone.getsensorid()));
 
                 mostrarAlerta(
                         Alert.AlertType.INFORMATION,
@@ -316,6 +293,13 @@ public class DronController {
                     "ID inválido",
                     "El ID debe ser un número entero."
             );
+        } catch (SQLException e) {
+
+            mostrarAlerta(
+                    Alert.AlertType.ERROR,
+                    "Error de Base de Datos",
+                    "No se pudo consultar el dron: " + e.getMessage()
+            );
         }
     }
 
@@ -326,16 +310,6 @@ public class DronController {
 
     /**
      * Elimina un dron de la base de datos utilizando su identificador.
-     *
-     * <p>
-     * Primero verifica que se haya ingresado un ID válido. Posteriormente
-     * solicita al {@link DronDao} realizar la eliminación correspondiente.
-     * </p>
-     *
-     * <p>
-     * Una vez realizada la operación, se muestra un mensaje de confirmación
-     * y se limpian los campos del formulario.
-     * </p>
      */
     private void eliminar() {
 
@@ -371,6 +345,13 @@ public class DronController {
                     "ID inválido",
                     "El ID debe ser un número entero."
             );
+        } catch (SQLException e) {
+
+            mostrarAlerta(
+                    Alert.AlertType.ERROR,
+                    "Error de Base de Datos",
+                    "No se pudo eliminar el dron: " + e.getMessage()
+            );
         }
     }
 
@@ -381,16 +362,6 @@ public class DronController {
 
     /**
      * Actualiza la información de un dron existente.
-     *
-     * <p>
-     * Valida que se haya ingresado un ID y que todos los campos necesarios
-     * estén completos. Posteriormente crea un objeto {@link Dron} con los
-     * nuevos datos y lo envía al {@link DronDao} para actualizarlo.
-     * </p>
-     *
-     * <p>
-     * Los valores de ID, peso, piloto y misión deben ser numéricos.
-     * </p>
      */
     private void actualizar() {
 
@@ -431,7 +402,7 @@ public class DronController {
             drone.setFabricante(txtFabricante.getText());
             drone.setPeso(Double.parseDouble(txtPeso.getText()));
             drone.setPilotoId(Integer.parseInt(txtPiloto.getText()));
-            drone.setSensor(Integer.parseInt(txtMision.getText()));
+            drone.setsensorid(Integer.parseInt(txtSensor.getText()));
 
             dronDao.actualizar(drone);
 
@@ -446,7 +417,14 @@ public class DronController {
             mostrarAlerta(
                     Alert.AlertType.ERROR,
                     "Datos inválidos",
-                    "ID, peso, piloto y misión deben contener valores numéricos."
+                    "ID, peso, piloto y sensor deben contener valores numéricos."
+            );
+        } catch (SQLException e) {
+
+            mostrarAlerta(
+                    Alert.AlertType.ERROR,
+                    "Error de Base de Datos",
+                    "No se pudo actualizar el dron: " + e.getMessage()
             );
         }
     }
@@ -458,11 +436,6 @@ public class DronController {
 
     /**
      * Limpia todos los campos del formulario.
-     *
-     * <p>
-     * Este método se utiliza después de completar operaciones como
-     * crear o eliminar un dron.
-     * </p>
      */
     private void limpiarCampos() {
 
