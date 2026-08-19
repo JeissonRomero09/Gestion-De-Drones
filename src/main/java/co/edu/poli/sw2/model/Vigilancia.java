@@ -9,7 +9,7 @@ package co.edu.poli.sw2.model;
  * de vigilancia y monitoreo.
  * </p>
  *
- * @author
+ * @author jeisson romero
  * @version 1.0
  */
 public class Vigilancia extends Dron {
