@@ -29,9 +29,8 @@ public class DronDao {
 		String sql = "INSERT INTO dron (serial, modelo, fabricante, peso, piloto_id, sensor_id) "
 				+ "VALUES (?, ?, ?, ?, ?, ?)";
 
-		Connection conexion = ConexionBD.getInstance().getConexion();
-
-		try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+		try (Connection conexion = ConexionBD.conectar();
+			 PreparedStatement ps = conexion.prepareStatement(sql)) {
 
 			ps.setString(1, drone.getSerial());
 			ps.setString(2, drone.getModelo());
@@ -55,9 +54,8 @@ public class DronDao {
 
 		String sql = "SELECT * FROM dron WHERE id = ?";
 
-		Connection conexion = ConexionBD.getInstance().getConexion();
-
-		try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+		try (Connection conexion = ConexionBD.conectar();
+			 PreparedStatement ps = conexion.prepareStatement(sql)) {
 
 			ps.setInt(1, id);
 
@@ -95,9 +93,8 @@ public class DronDao {
 
 		String sql = "SELECT * FROM dron";
 
-		Connection conexion = ConexionBD.getInstance().getConexion();
-
-		try (PreparedStatement ps = conexion.prepareStatement(sql);
+		try (Connection conexion = ConexionBD.conectar();
+			 PreparedStatement ps = conexion.prepareStatement(sql);
 			 ResultSet rs = ps.executeQuery()) {
 
 			while (rs.next()) {
@@ -130,9 +127,8 @@ public class DronDao {
 		String sql = "UPDATE dron SET serial = ?, modelo = ?, fabricante = ?, peso = ?, piloto_id = ?, sensor_id = ? "
 				+ "WHERE id = ?";
 
-		Connection conexion = ConexionBD.getInstance().getConexion();
-
-		try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+		try (Connection conexion = ConexionBD.conectar();
+			 PreparedStatement ps = conexion.prepareStatement(sql)) {
 
 			ps.setString(1, drone.getSerial());
 			ps.setString(2, drone.getModelo());
@@ -156,9 +152,8 @@ public class DronDao {
 
 		String sql = "DELETE FROM dron WHERE id = ?";
 
-		Connection conexion = ConexionBD.getInstance().getConexion();
-
-		try (PreparedStatement ps = conexion.prepareStatement(sql)) {
+		try (Connection conexion = ConexionBD.conectar();
+			 PreparedStatement ps = conexion.prepareStatement(sql)) {
 
 			ps.setInt(1, id);
 
