@@ -7,16 +7,11 @@ import java.sql.SQLException;
 
 import org.junit.jupiter.api.Test;
 
-import co.edu.poli.sw2.Dao.ConexionBD;
+import co.edu.poli.sw2.Service.Singleton;
 
 /**
  * Prueba de integración para verificar la conexión entre la aplicación y la
  * base de datos.
- *
- * <p>
- * Esta clase comprueba que el método {@link ConexionBD#getInstance()} pueda
- * establecer correctamente una conexión con la base de datos.
- * </p>
  *
  * @author Jeison Romero
  * @version 1.0
@@ -26,15 +21,12 @@ class DronDAOIntegrationTest {
 	/**
 	 * Verifica que la conexión con la base de datos se establezca correctamente.
 	 *
-	 * <p>
-	 * La prueba falla si el método de conexión retorna {@code null}.
-	 * </p>
-	 * @throws SQLException 
+	 * @throws SQLException si ocurre un error durante la conexión.
 	 */
 	@Test
 	void probarConexionBD() throws SQLException {
 
-		Connection conexion = ConexionBD.getInstance().getConexion();
+		Connection conexion = Singleton.getInstance().getConexion();
 
 		assertNotNull(conexion);
 	}

@@ -41,17 +41,15 @@ public class ConexionBD {
 	private static final String PASSWORD = dotenv.get("DB_PASSWORD");
 
 	/**
-	 * Establece una conexión con la base de datos utilizando las credenciales
-	 * configuradas en el archivo {@code .env}.
+	 * Constructor privado para evitar la creación de objetos de esta clase.
+	 */
+	private ConexionBD() {
+	}
+
+	/**
+	 * Establece una conexión con la base de datos.
 	 *
-	 * <p>
-	 * Si la conexión se realiza correctamente, retorna un objeto
-	 * {@link Connection}. En caso de producirse un error, la excepción
-	 * {@link SQLException} se propaga hacia el controlador para que pueda
-	 * ser gestionada y mostrada por la vista.
-	 * </p>
-	 *
-	 * @return objeto {@link Connection} si la conexión es exitosa.
+	 * @return objeto {@link Connection} correspondiente a la conexión.
 	 * @throws SQLException si ocurre un error durante la conexión.
 	 */
 	public static Connection conectar() throws SQLException {
