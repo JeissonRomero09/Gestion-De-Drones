@@ -10,8 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+
  * Clase DAO encargada de realizar las operaciones de acceso a datos de la
  * entidad Dron.
+
+ * Clase DAO (Data Access Object) encargada de realizar las operaciones de
+ * acceso a datos de la entidad {@link Dron}.
+
  *
  * @author Jeison Romero
  * @version 1.0
@@ -21,6 +26,7 @@ public class DronDao {
 	/**
 	 * Registra un nuevo dron en la base de datos y lo relaciona con un sensor.
 	 *
+
 	 * @param drone objeto Dron que contiene los datos del dron.
 	 * @param sensorId identificador del sensor asociado al dron.
 	 * @return true si el dron y su relación con el sensor fueron registrados
@@ -77,30 +83,63 @@ public class DronDao {
 			System.out.println("ERROR DE CONEXIÓN:");
 			e.printStackTrace();
 
-			return false;
+			return false;		
+		}
+			/**
+	 * @param drone objeto {@link Dron} con la información a registrar.
+	 * @throws SQLException si ocurre un error de acceso a la base de datos.
+	 */
+	public void crear(Dron drone) throws SQLException {
+
+		String sql = "INSERT INTO dron (serial, modelo, fabricante, peso, piloto_id, sensor_id) "
+				+ "VALUES (?, ?, ?, ?, ?, ?)";
+
+		try (Connection conexion = ConexionBD.conectar();
+			 PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+			ps.setString(1, drone.getSerial());
+			ps.setString(2, drone.getModelo());
+			ps.setString(3, drone.getFabricante());
+			ps.setDouble(4, drone.getPeso());
+			ps.setInt(5, drone.getPilotoId());
+			ps.setInt(6, drone.getsensorid());
+
+			ps.executeUpdate();
+
 		}
 	}
 
 	/**
 	 * Busca un dron utilizando su identificador.
 	 *
+
 	 * @param id identificador del dron.
 	 * @return Dron encontrado o null si no existe.
+
+	 * @param id identificador único del dron.
+	 * @return objeto {@link Dron} encontrado o {@code null} si no existe.
+	 * @throws SQLException si ocurre un error de acceso a la base de datos.
+
 	 */
-	public Dron buscar(int id) {
+	public Dron buscar(int id) throws SQLException {
 
 		String sql = "SELECT * FROM dron WHERE id = ?";
 
 		try (Connection conexion = ConexionBD.conectar();
+
 				PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+			 PreparedStatement ps = conexion.prepareStatement(sql)) {
+
 
 			ps.setInt(1, id);
 
-			ResultSet rs = ps.executeQuery();
+			try (ResultSet rs = ps.executeQuery()) {
 
-			if (rs.next()) {
+				if (rs.next()) {
 
-				Dron drone = new Dron();
+					Dron drone = new Dron();
+
 
 				drone.setId(rs.getInt("id"));
 				drone.setSerial(rs.getString("serial"));
@@ -109,12 +148,24 @@ public class DronDao {
 				drone.setPeso(rs.getDouble("peso"));
 				drone.setPilotoId(rs.getInt("piloto_id"));
 
-				return drone;
+					drone.setId(rs.getInt("id"));
+					drone.setSerial(rs.getString("serial"));
+					drone.setModelo(rs.getString("modelo"));
+					drone.setFabricante(rs.getString("fabricante"));
+					drone.setPeso(rs.getDouble("peso"));
+					drone.setPilotoId(rs.getInt("piloto_id"));
+					drone.setsensorid(rs.getInt("sensor_id"));
+
+
+					return drone;
+				}
 			}
+
 
 		} catch (SQLException e) {
 
 			System.out.println("Error al buscar el dron: " + e.getMessage());
+
 		}
 
 		return null;
@@ -122,6 +173,7 @@ public class DronDao {
 	/**
 	 * Busca el identificador del sensor asociado a un dron.
 	 *
+
 	 * @param dronId identificador del dron.
 	 * @return identificador del sensor asociado al dron o null si no existe
 	 *         una relación registrada.
@@ -152,16 +204,20 @@ public class DronDao {
 	 * Obtiene todos los drones registrados.
 	 *
 	 * @return lista de drones.
+
+	 * @return lista de objetos {@link Dron}.
+	 * @throws SQLException si ocurre un error de acceso a la base de datos.
+
 	 */
-	public List<Dron> listar() {
+	public List<Dron> listar() throws SQLException {
 
 		List<Dron> drones = new ArrayList<>();
 
 		String sql = "SELECT * FROM dron";
 
 		try (Connection conexion = ConexionBD.conectar();
-				PreparedStatement ps = conexion.prepareStatement(sql);
-				ResultSet rs = ps.executeQuery()) {
+			 PreparedStatement ps = conexion.prepareStatement(sql);
+			 ResultSet rs = ps.executeQuery()) {
 
 			while (rs.next()) {
 
@@ -174,12 +230,19 @@ public class DronDao {
 				drone.setPeso(rs.getDouble("peso"));
 				drone.setPilotoId(rs.getInt("piloto_id"));
 
+
 				drones.add(drone);
 			}
 
 		} catch (SQLException e) {
 
 			System.out.println("Error al listar los drones: " + e.getMessage());
+
+				drone.setsensorid(rs.getInt("sensor_id"));
+
+				drones.add(drone);
+			}
+
 		}
 
 		return drones;
@@ -188,9 +251,15 @@ public class DronDao {
 	/**
 	 * Actualiza la información de un dron.
 	 *
+
 	 * @param drone objeto Dron con los datos actualizados.
+
+	 * @param drone objeto {@link Dron} con los datos actualizados.
+	 * @throws SQLException si ocurre un error de acceso a la base de datos.
+
 	 */
-	public void actualizar(Dron drone) {
+	public void actualizar(Dron drone) throws SQLException {
+
 
 		String sql = "UPDATE dron SET "
 				+ "serial = ?, "
@@ -203,11 +272,19 @@ public class DronDao {
 		try (Connection conexion = ConexionBD.conectar();
 				PreparedStatement ps = conexion.prepareStatement(sql)) {
 
+		String sql = "UPDATE dron SET serial = ?, modelo = ?, fabricante = ?, peso = ?, piloto_id = ?, sensor_id = ? "
+				+ "WHERE id = ?";
+
+		try (Connection conexion = ConexionBD.conectar();
+			 PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+
 			ps.setString(1, drone.getSerial());
 			ps.setString(2, drone.getModelo());
 			ps.setString(3, drone.getFabricante());
 			ps.setDouble(4, drone.getPeso());
 			ps.setInt(5, drone.getPilotoId());
+
 			ps.setInt(6, drone.getId());
 
 			ps.executeUpdate();
@@ -217,6 +294,12 @@ public class DronDao {
 		} catch (SQLException e) {
 
 			System.out.println("Error al actualizar el dron: " + e.getMessage());
+
+			ps.setInt(6, drone.getsensorid());
+			ps.setInt(7, drone.getId());
+
+			ps.executeUpdate();
+
 		}
 	
 	}
@@ -224,14 +307,23 @@ public class DronDao {
 	/**
 	 * Elimina un dron utilizando su identificador.
 	 *
+
 	 * @param id identificador del dron.
+
+	 * @param id identificador único del dron.
+	 * @throws SQLException si ocurre un error de acceso a la base de datos.
+
 	 */
-	public void eliminar(int id) {
+	public void eliminar(int id) throws SQLException {
 
 		String sql = "DELETE FROM dron WHERE id = ?";
 
 		try (Connection conexion = ConexionBD.conectar();
+
 				PreparedStatement ps = conexion.prepareStatement(sql)) {
+
+			 PreparedStatement ps = conexion.prepareStatement(sql)) {
+
 
 			ps.setInt(1, id);
 
@@ -242,6 +334,8 @@ public class DronDao {
 		} catch (SQLException e) {
 
 			System.out.println("Error al eliminar el dron: " + e.getMessage());
+
+
 		}
 	}
 }

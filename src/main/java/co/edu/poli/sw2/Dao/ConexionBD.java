@@ -46,28 +46,20 @@ public class ConexionBD {
 	 *
 	 * <p>
 	 * Si la conexión se realiza correctamente, retorna un objeto
-	 * {@link Connection}. En caso de producirse un error de SQL, se muestra el
-	 * mensaje correspondiente y se retorna {@code null}.
+	 * {@link Connection}. En caso de producirse un error, la excepción
+	 * {@link SQLException} se propaga hacia el controlador para que pueda
+	 * ser gestionada y mostrada por la vista.
 	 * </p>
 	 *
-	 * @return objeto {@link Connection} si la conexión es exitosa; {@code null} si
-	 *         ocurre un error durante la conexión.
+	 * @return objeto {@link Connection} si la conexión es exitosa.
+	 * @throws SQLException si ocurre un error durante la conexión.
 	 */
-	public static Connection conectar() {
+	public static Connection conectar() throws SQLException {
 
-		try {
-
-			Connection conexion = DriverManager.getConnection(URL, USUARIO, PASSWORD);
-
-			System.out.println("Conexion exitosa a la base de datos");
-
-			return conexion;
-
-		} catch (SQLException e) {
-
-			System.out.println("Error de conexion: " + e.getMessage());
-
-			return null;
-		}
+		return DriverManager.getConnection(
+				URL,
+				USUARIO,
+				PASSWORD
+		);
 	}
 }

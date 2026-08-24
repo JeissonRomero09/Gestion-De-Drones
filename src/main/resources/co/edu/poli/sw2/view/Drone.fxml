@@ -265,7 +265,22 @@
 				<Cursor fx:constant="TEXT" />
 			</cursor>
 
+
 		</TextField>
+
+        <TextField fx:id="txtSensor"
+                   layoutX="51.0"
+                   layoutY="334.0"
+                   minHeight="-Infinity"
+                   minWidth="-Infinity"
+                   prefHeight="32.0"
+                   prefWidth="190.0"
+                   promptText="Sensor"
+                   style="-fx-background-color: rgba(255,255,255,0.65);
+                          -fx-background-radius: 8;
+                          -fx-border-color: rgba(0,0,0,0.25);
+                          -fx-border-radius: 8;
+                          -fx-font-size: 19px;">
 
 		<!-- ==================== ASTERISCOS ==================== -->
 
