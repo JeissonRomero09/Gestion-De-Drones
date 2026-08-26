@@ -37,8 +37,8 @@ public class Vigilancia extends Dron {
      * @param deteccionTermica indica si el dron cuenta con detección térmica
      */
     public Vigilancia(int id, String serial, String modelo, String fabricante,
-                      int peso, boolean deteccionTermica) {
-        super(id, serial, modelo, fabricante, peso);
+                      int peso,Piloto piloto, Sensores sensores, boolean deteccionTermica) {
+        super(id, serial, modelo, fabricante, peso, piloto, sensores);
         this.deteccionTermica = deteccionTermica;
     }
 
