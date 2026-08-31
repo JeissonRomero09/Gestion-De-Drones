@@ -595,4 +595,100 @@ public class DroneController {
 		alerta.setContentText(mensaje);
 		alerta.showAndWait();
 	}
+
+		 * PUNTO 2: Implementación y demostración formal del patrón Builder (Estructura GoF).
+	 */
+	@FXML
+	public void ejecutarBuilder() {
+		try {
+			// 1. Validar selección de tipo de fábrica abajo
+			if (dronFactory == null) {
+				javafx.scene.control.Alert alertWarning = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+				alertWarning.setTitle("Tipo no seleccionado");
+				alertWarning.setHeaderText(null);
+				alertWarning.setContentText("Por favor, seleccione primero si el dron es Agrícola o Vigilante con los botones de abajo.");
+				alertWarning.showAndWait();
+				return;
+			}
+
+			// 2. Validar campos de texto requeridos vacíos
+			if (txtSerial.getText().isEmpty() || txtModelo.getText().isEmpty() || 
+				txtFabricante.getText().isEmpty() || txtPeso.getText().isEmpty()) {
+
+				javafx.scene.control.Alert alertCampos = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+				alertCampos.setTitle("Campos incompletos");
+				alertCampos.setHeaderText(null);
+				alertCampos.setContentText("Por favor, complete los campos (Serial, Modelo, Fabricante y Peso) a la izquierda antes de construir.");
+				alertCampos.showAndWait();
+				return;
+			}
+
+			// 3. Obtener variables desde la GUI
+			String serial = txtSerial.getText().trim();
+			String modelo = txtModelo.getText().trim();
+			String fabricante = txtFabricante.getText().trim();
+			int peso = Integer.parseInt(txtPeso.getText().trim());
+			
+			int id = 0;
+			if (txtId.getText() != null && !txtId.getText().trim().isEmpty()) {
+				try {
+					id = Integer.parseInt(txtId.getText().trim());
+				} catch (NumberFormatException ignored) {}
+			}
+
+			// 4. INVOCACIÓN SIGUIENDO EL DIAGRAMA DE CLASES
+			Dron dronConstruido = null;
+			String detallesEspecializados = "";
+
+			if (dronFactory instanceof co.edu.poli.sw2.Service.VigilanciaFactory) {
+				// Instanciar el ConcreteBuilder1 de tu diagrama
+				co.edu.poli.sw2.Service.VigilanciaBuilder vegBuilder = new co.edu.poli.sw2.Service.VigilanciaBuilder();
+				vegBuilder.buildDatosBasicos(id, serial, modelo, fabricante, peso); // buildStepA
+				vegBuilder.buildAtributoEspecializado();                           // buildStepB
+				dronConstruido = vegBuilder.getResult();                           // getResult()
+				detallesEspecializados = "• Sistema Térmico: INSTALADO (true)\n";
+				
+			} else if (dronFactory instanceof co.edu.poli.sw2.Service.AgriculturaFactory) {
+				// Instanciar el ConcreteBuilder2 de tu diagrama
+				co.edu.poli.sw2.Service.AgriculturaBuilder agroBuilder = new co.edu.poli.sw2.Service.AgriculturaBuilder();
+				agroBuilder.buildDatosBasicos(id, serial, modelo, fabricante, peso); // buildStepA
+				agroBuilder.buildAtributoEspecializado();                            // buildStepB
+				dronConstruido = agroBuilder.getResult();                            // getResult()
+				detallesEspecializados = "• Volumen del Tanque: 25.0 L\n";
+			}
+
+			// 5. Registrar el objeto en el mapa de prototipos para que el botón clonar funcione de inmediato
+			prototypeService.registrarPrototipo(serial, dronConstruido);
+
+			// 6. Construir mensaje de demostración para el Pop-up flotante
+			StringBuilder sb = new StringBuilder();
+			sb.append("Construcción GoF Certificada:\n");
+			sb.append("• Clase Creada: ").append(dronConstruido.getClass().getSimpleName()).append("\n");
+			sb.append("• ID del Dron: ").append(dronConstruido.getId() == 0 ? "Asignado por DB" : dronConstruido.getId()).append("\n");
+			sb.append("• Serial / Llave: ").append(dronConstruido.getSerial()).append("\n");
+			sb.append("• Modelo: ").append(dronConstruido.getModelo()).append("\n");
+			sb.append("• Fabricante: ").append(dronConstruido.getFabricante()).append("\n");
+			sb.append("• Peso total: ").append(dronConstruido.getPeso()).append(" gramos\n");
+			sb.append(detallesEspecializados);
+			
+			// Lanzar alerta de confirmación nativa de JavaFX
+			javafx.scene.control.Alert alertSuccess = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+			alertSuccess.setTitle("Patrón Builder Clásico Ejecutado");
+			alertSuccess.setHeaderText("¡Estructura de construcción GoF verificada!");
+			alertSuccess.setContentText(sb.toString());
+			alertSuccess.showAndWait();
+
+			// Pintar reporte en la caja de texto
+			if (txtMemoria != null) {
+				txtMemoria.setText("=== ESTRUCTURA FORMAL BUILDER (GoF) ===\n" + sb.toString());
+			}
+
+		} catch (NumberFormatException e) {
+			javafx.scene.control.Alert alertError = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+			alertError.setTitle("Error de Formato");
+			alertError.setHeaderText(null);
+			alertError.setContentText("El campo Peso debe ser un número entero válido.");
+			alertError.showAndWait();
+		}
+	}
 }
