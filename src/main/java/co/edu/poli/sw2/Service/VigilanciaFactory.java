@@ -1,8 +1,6 @@
 package co.edu.poli.sw2.Service;
 
 import co.edu.poli.sw2.model.Dron;
-import co.edu.poli.sw2.model.Piloto;
-import co.edu.poli.sw2.model.Sensores;
 import co.edu.poli.sw2.model.Vigilancia;
 
 /**
@@ -20,8 +18,6 @@ public class VigilanciaFactory implements DronFactory {
     private String modelo;
     private String fabricante;
     private int peso;
-    private Piloto piloto;
-    private Sensores sensores;
     private boolean deteccionTermica;
 
     /**
@@ -39,19 +35,15 @@ public class VigilanciaFactory implements DronFactory {
      * @param modelo Modelo del dron.
      * @param fabricante Empresa fabricante.
      * @param peso Peso total del dron.
-     * @param piloto Objeto {@link Piloto} asignado al dron.
-     * @param sensores Objeto {@link Sensores} equipado en el dron.
      * @param deteccionTermica Estado del sensor de detección térmica.
      */
     public VigilanciaFactory(int id, String serial, String modelo, String fabricante, 
-                             int peso, Piloto piloto, Sensores sensores, boolean deteccionTermica) {
+                             int peso, boolean deteccionTermica) {
         this.id = id;
         this.serial = serial;
         this.modelo = modelo;
         this.fabricante = fabricante;
         this.peso = peso;
-        this.piloto = piloto;
-        this.sensores = sensores;
         this.deteccionTermica = deteccionTermica;
     }
 
@@ -62,6 +54,6 @@ public class VigilanciaFactory implements DronFactory {
      */
     @Override
     public Dron crearDron() {
-        return new Vigilancia(id, serial, modelo, fabricante, peso,piloto, sensores, deteccionTermica);
+        return new Vigilancia(id, serial, modelo, fabricante, peso, deteccionTermica);
     }
 }

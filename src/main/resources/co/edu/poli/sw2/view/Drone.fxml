@@ -17,216 +17,242 @@
 		<!-- ==================== FONDO ==================== -->
 
 		<ImageView fitHeight="438.0" fitWidth="575.0" layoutX="-14.0" layoutY="-6.0" preserveRatio="false">
-
 			<image>
 				<Image url="@../images/Fondo_D.png" />
 			</image>
-
 		</ImageView>
-      <ImageView fitHeight="65.0" fitWidth="155.0" layoutX="427.0" layoutY="327.0" AnchorPane.leftAnchor="427.0">
-         <image>
-            <Image url="@../images/B.v.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="475.0" fitWidth="399.0" layoutX="555.0" layoutY="-31.0" preserveRatio="false">
-         <image>
-            <Image url="@../images/Fondo_D.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="66.0" fitWidth="158.0" layoutX="271.0" layoutY="327.0">
-         <image>
-            <Image url="@../images/B.a.png" />
-         </image>
-      </ImageView>
 
+		<ImageView fitHeight="475.0" fitWidth="399.0" layoutX="555.0" layoutY="-31.0" preserveRatio="false">
+			<image>
+				<Image url="@../images/Fondo_D.png" />
+			</image>
+		</ImageView>
+
+
+		<!-- ==================== IMAGEN VIGILANTE ==================== -->
+
+		<ImageView fx:id="imgVigilante" fitHeight="55.0" fitWidth="70.0" layoutX="413.0" layoutY="339.0" preserveRatio="true">
+			<image>
+				<Image url="@../images/B.v.png" />
+			</image>
+		</ImageView>
+
+
+		<!-- ==================== IMAGEN AGRÍCOLA ==================== -->
+
+		<ImageView fx:id="imgAgricola" fitHeight="55.0" fitWidth="70.0" layoutX="339.0" layoutY="339.0" preserveRatio="true">
+			<image>
+				<Image url="@../images/B.a.png" />
+			</image>
+		</ImageView>
 
 		<!-- ==================== BOTÓN CREAR ==================== -->
+		<Button fx:id="btnCrear" layoutX="280.0" layoutY="15.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+			<graphic>
+				<ImageView fitHeight="48.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+					<image>
+						<Image url="@../images/I_Agregar.png" />
+					</image>
+				</ImageView>
+			</graphic>
+		</Button>
 
-		<Button fx:id="btnCrear" layoutX="318.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: transparent;                        -fx-border-color: transparent;" />
-
-		<Text layoutX="295.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Crear">
-
+		<Text layoutX="299.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Crear">
 			<font>
 				<Font name="System Bold" size="12.0" />
 			</font>
-
 		</Text>
 
 
 		<!-- ==================== BOTÓN BUSCAR ==================== -->
+		<Button fx:id="btnBuscar" layoutX="350.0" layoutY="14.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+			<graphic>
+				<ImageView fitHeight="49.0" fitWidth="59.0" pickOnBounds="true" preserveRatio="true">
+					<image>
+						<Image url="@../images/I_Buscar.png" />
+					</image>
+				</ImageView>
+			</graphic>
+		</Button>
 
-		<Button fx:id="btnBuscar" layoutX="374.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: transparent;                        -fx-border-color: transparent;" />
-
-		<Text layoutX="360.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buscar">
-
+		<Text layoutX="368.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Buscar">
 			<font>
 				<Font name="System Bold" size="12.0" />
 			</font>
-
 		</Text>
 
 
 		<!-- ==================== BOTÓN EDITAR ==================== -->
+		<Button fx:id="btnActualizar" layoutX="420.0" layoutY="13.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+			<graphic>
+				<ImageView fitHeight="49.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
+					<image>
+						<Image url="@../images/I_Editar.png" />
+					</image>
+				</ImageView>
+			</graphic>
+		</Button>
 
-		<Button fx:id="btnActualizar" layoutX="439.0" layoutY="13.0" mnemonicParsing="false" style="-fx-background-color: transparent;                        -fx-border-color: transparent;" />
-
-		<Text layoutX="428.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Editar">
-
+		<Text layoutX="437.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Editar">
 			<font>
 				<Font name="System Bold" size="12.0" />
 			</font>
-
 		</Text>
 
 
 		<!-- ==================== BOTÓN ELIMINAR ==================== -->
+		<Button fx:id="btnEliminar" layoutX="490.0" layoutY="15.0" mnemonicParsing="false" prefHeight="55.0" prefWidth="55.0" style="-fx-background-color: transparent; -fx-border-color: transparent;">
+			<graphic>
+				<ImageView fitHeight="49.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true">
+					<image>
+						<Image url="@../images/I_Eliminar.png" />
+					</image>
+				</ImageView>
+			</graphic>
+		</Button>
 
-		<Button fx:id="btnEliminar" layoutX="495.0" layoutY="15.0" mnemonicParsing="false" style="-fx-background-color: transparent;                        -fx-border-color: transparent;" />
-
-		<Text layoutX="492.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Eliminar">
-
+		<Text layoutX="501.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Eliminar">
 			<font>
 				<Font name="System Bold" size="12.0" />
 			</font>
+		</Text>
+		<!-- ==================== BOTÓN AGRÍCOLA ==================== -->
 
+		<Button fx:id="btnAgricola" layoutX="340.0" layoutY="330.0" mnemonicParsing="false" onAction="#crearDronAgricola" prefHeight="65.0" prefWidth="70.0" style="-fx-background-color: transparent;                        -fx-border-color: transparent;" />
+
+		<Text layoutX="341.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Agricola">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Text>
+
+
+		<!-- ==================== BOTÓN VIGILANTE ==================== -->
+
+		<Button fx:id="btnVigilante" layoutX="413.0" layoutY="330.0" mnemonicParsing="false" onAction="#crearDronVigilante" prefHeight="65.0" prefWidth="70.0" style="-fx-background-color: transparent;                        -fx-border-color: transparent;" />
+
+		<Text layoutX="414.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vigilante">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
 		</Text>
 
 
 		<!-- ==================== ID ==================== -->
 
 		<TextField fx:id="txtId" layoutX="35.0" layoutY="29.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="213.0" promptText=" Id del dron" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 19px;">
-
 			<cursor>
 				<Cursor fx:constant="TEXT" />
 			</cursor>
-
 		</TextField>
 
 
 		<!-- ==================== MODELO ==================== -->
 
 		<TextField fx:id="txtModelo" layoutX="35.0" layoutY="90.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="213.0" promptText="Modelo del dron" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 19px;">
-
 			<cursor>
 				<Cursor fx:constant="TEXT" />
 			</cursor>
-
 		</TextField>
 
 
 		<!-- ==================== SERIAL ==================== -->
 
 		<TextField fx:id="txtSerial" layoutX="35.0" layoutY="130.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="213.0" promptText="Número de serial" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 19px;">
-
 			<cursor>
 				<Cursor fx:constant="TEXT" />
 			</cursor>
-
 		</TextField>
 
 
 		<!-- ==================== FABRICANTE ==================== -->
 
 		<TextField fx:id="txtFabricante" layoutX="35.0" layoutY="170.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="213.0" promptText="Fabricante" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 19px;">
-
 			<cursor>
 				<Cursor fx:constant="TEXT" />
 			</cursor>
-
 		</TextField>
 
 
 		<!-- ==================== PESO ==================== -->
 
 		<TextField fx:id="txtPeso" layoutX="35.0" layoutY="211.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="213.0" promptText="Peso del dron" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 19px;">
-
 			<cursor>
 				<Cursor fx:constant="TEXT" />
 			</cursor>
-
 		</TextField>
 
 
 		<!-- ==================== PILOTO ==================== -->
 
-		<TextField fx:id="txtPiloto" layoutX="35.0" layoutY="250.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="213.0" promptText="Id del Piloto" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 19px;">
-
+		<TextField fx:id="txtPiloto" layoutX="35.0" layoutY="250.0" minHeight="-Infinity" minWidth="-Infinity" opacity="0.3" prefHeight="32.0" prefWidth="213.0" promptText="Id del Piloto" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 19px;">
 			<cursor>
 				<Cursor fx:constant="TEXT" />
 			</cursor>
-
 		</TextField>
+
+
 		<!-- ==================== SENSOR ==================== -->
 
-		<TextField fx:id="txtSensor" layoutX="35.0" layoutY="290.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="213.0" promptText="Id del sensor" style="-fx-background-color: rgba(255,255,255,0.65);            -fx-background-radius: 8;            -fx-border-color: rgba(0,0,0,0.25);            -fx-border-radius: 8;            -fx-font-size: 19px;">
-
+		<TextField fx:id="txtSensor" layoutX="35.0" layoutY="290.0" minHeight="-Infinity" minWidth="-Infinity" opacity="0.3" prefHeight="32.0" prefWidth="213.0" promptText="Id del sensor" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 19px;">
 			<cursor>
 				<Cursor fx:constant="TEXT" />
 			</cursor>
-
-
 		</TextField>
 
-		<!-- ==================== ASTERISCOS ==================== -->
+
+		<!-- ==================== ASTERISCO ==================== -->
 
 		<Text layoutX="23.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="*">
-
 			<font>
 				<Font name="System Bold" size="25.0" />
 			</font>
-
 		</Text>
-      <Text layoutX="325.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Agricola">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Text>
-      <Text layoutX="479.0" layoutY="406.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vigilante">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Text>
-				<ImageView fitHeight="48.0" fitWidth="50.0" layoutX="280.0" layoutY="30.0">
 
-					<image>
-						<Image url="@../images/I_Agregar.png" />
-					</image>
 
-				</ImageView>
-				<ImageView fitHeight="49.0" fitWidth="59.0" layoutX="350.0" layoutY="30.0">
+		<!-- ==================== TEXTO AGRÍCOLA ==================== -->
 
-					<image>
-						<Image url="@../images/I_Buscar.png" />
-					</image>
+		<Text layoutX="341.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Agricola">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Text>
 
-				</ImageView>
-				<ImageView fitHeight="49.0" fitWidth="51.0" layoutX="420.0" layoutY="30.0">
 
-					<image>
-						<Image url="@../images/I_Editar.png" />
-					</image>
+		<!-- ==================== TEXTO VIGILANTE ==================== -->
 
-				</ImageView>
-				<ImageView fitHeight="49.0" fitWidth="51.0" layoutX="490.0" layoutY="30.0">
+		<Text layoutX="414.0" layoutY="411.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vigilante">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Text>
 
-					<image>
-						<Image url="@../images/I_Eliminar.png" />
-					</image>
 
-				</ImageView>
-      <Button layoutX="590.0" layoutY="273.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="141.0" text="Clone Prototype" />
-      <Button layoutX="590.0" layoutY="322.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="141.0" text="Builder" />
-      <TextArea layoutX="584.0" layoutY="115.0" prefHeight="134.0" prefWidth="153.0" />
-      <Text layoutX="584.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dirreccion De Memoria">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Text>
-      <Text layoutX="584.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dron">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Text>
+		<!-- ==================== CLONE PROTOTYPE ==================== -->
+
+		<Button layoutX="590.0" layoutY="273.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="141.0" text="Clone Prototype" />
+
+
+		<!-- ==================== BUILDER ==================== -->
+
+		<Button layoutX="590.0" layoutY="322.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="141.0" text="Builder" />
+
+
+		<!-- ==================== DIRECCIÓN DE MEMORIA ==================== -->
+
+		<TextArea layoutX="584.0" layoutY="115.0" prefHeight="134.0" prefWidth="153.0" />
+
+		<Text layoutX="584.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dirreccion De Memoria">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Text>
+
+		<Text layoutX="584.0" layoutY="111.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dron">
+			<font>
+				<Font name="System Bold" size="12.0" />
+			</font>
+		</Text>
 
 	</children>
 

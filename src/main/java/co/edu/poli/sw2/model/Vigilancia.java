@@ -10,7 +10,7 @@ package co.edu.poli.sw2.model;
  * </p>
  *
  * @author jeisson romero
- * @version 1.0
+ * @version 2.0
  */
 public class Vigilancia extends Dron {
 
@@ -37,8 +37,8 @@ public class Vigilancia extends Dron {
      * @param deteccionTermica indica si el dron cuenta con detección térmica
      */
     public Vigilancia(int id, String serial, String modelo, String fabricante,
-                      int peso,Piloto piloto, Sensores sensores, boolean deteccionTermica) {
-        super(id, serial, modelo, fabricante, peso, piloto, sensores);
+                      int peso, boolean deteccionTermica) {
+        super(id, serial, modelo, fabricante, peso);
         this.deteccionTermica = deteccionTermica;
     }
 

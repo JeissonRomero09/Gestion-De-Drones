@@ -5,11 +5,11 @@ package co.edu.poli.sw2.model;
  *
  * <p>
  * Esta clase contiene la información básica de un dron, incluyendo su
- * identificador, serial, modelo, fabricante, peso, piloto y sensores asociados.
+ * identificador, serial, modelo, fabricante y peso.
  * </p>
  *
  * @author Jeison Romero
- * @version 1.0
+ * @version 2.0
  */
 public class Dron {
 
@@ -38,17 +38,6 @@ public class Dron {
 	 */
 	private int peso;
 
-
-	/**
-	 * Pilotos asociados al dron.
-	 */
-	private Piloto piloto;
-
-	/**
-	 * Sensores asociados al dron.
-	 */
-	private Sensores sensores;
-
 	/**
 	 * Constructor vacío de la clase Dron.
 	 */
@@ -56,26 +45,20 @@ public class Dron {
 	}
 
 	/**
-	 * Constructor que permite crear un dron con todos sus atributos.
+	 * Constructor que permite crear un dron con sus atributos básicos.
 	 *
 	 * @param id identificador único del dron.
 	 * @param serial número de serie del dron.
 	 * @param modelo modelo del dron.
 	 * @param fabricante fabricante del dron.
 	 * @param peso peso del dron.
-	 * @param pilotoId identificador del piloto asociado.
-	 * @param sensores sensores asociados al dron.
 	 */
-	public Dron(int id, String serial, String modelo, String fabricante,
-			int peso, Piloto piloto, Sensores sensores) {
-
+	public Dron(int id, String serial, String modelo, String fabricante, int peso) {
 		this.id = id;
 		this.serial = serial;
 		this.modelo = modelo;
 		this.fabricante = fabricante;
 		this.peso = peso;
-		this.piloto = piloto;
-		this.sensores = sensores;
 	}
 
 	public int getId() {
@@ -118,21 +101,6 @@ public class Dron {
 		this.peso = peso;
 	}
 
-	public Piloto getPiloto() {
-		return piloto;
-	}
-
-	public void setPiloto(Piloto piloto) {
-		this.piloto = piloto;
-	}
-	public Sensores getSensores() {
-		return sensores;
-	}
-
-	public void setSensores(Sensores sensores) {
-		this.sensores = sensores;
-	}
-
 	/**
 	 * Devuelve una representación textual del objeto Dron.
 	 *
@@ -146,8 +114,6 @@ public class Dron {
 				", modelo='" + modelo + '\'' +
 				", fabricante='" + fabricante + '\'' +
 				", peso=" + peso +
-				", piloto=" + piloto +
-				", sensores=" + sensores +
 				'}';
 	}
 }

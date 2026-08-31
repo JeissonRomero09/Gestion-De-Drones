@@ -9,7 +9,7 @@ package co.edu.poli.sw2.model;
  * </p>
  *
  * @author Jeisson Romero
- * @version 1.0
+ * @version 2.0
  */
 public class Agricultura extends Dron {
 
@@ -37,8 +37,8 @@ public class Agricultura extends Dron {
      * @param capacidadTanque capacidad del tanque del dron
      */
     public Agricultura(int id, String serial, String modelo, String fabricante,
-                       int peso, Piloto piloto, Sensores sensores, double capacidadTanque) {
-        super(id, serial, modelo, fabricante, peso, piloto, sensores);
+                       int peso, double capacidadTanque) {
+        super(id, serial, modelo, fabricante, peso);
         this.capacidadTanque = capacidadTanque;
     }
 
