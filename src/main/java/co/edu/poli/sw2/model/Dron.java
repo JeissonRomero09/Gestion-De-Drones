@@ -1,17 +1,13 @@
 package co.edu.poli.sw2.model;
 
 /**
- * Representa un dron dentro del sistema de gestión.
- *
- * <p>
- * Esta clase contiene la información básica de un dron, incluyendo su
- * identificador, serial, modelo, fabricante y peso.
- * </p>
+ * Representa un dron dentro del sistema de gestión e implementa la clonación
+ * mediante el patrón creacional Prototype (ConcretePrototype).
  *
  * @author Jeison Romero
- * @version 2.0
+ * @version 3.0
  */
-public class Dron {
+public class Dron implements Prototype {
 
 	/**
 	 * Identificador único del dron.
@@ -59,6 +55,32 @@ public class Dron {
 		this.modelo = modelo;
 		this.fabricante = fabricante;
 		this.peso = peso;
+	}
+
+	/**
+	 * Constructor de copia que transfiere el estado de una instancia prototipo
+	 * existente a un nuevo objeto en memoria (Alineado con ConcretePrototype).
+	 *
+	 * @param prototype Instancia base a copiar (this.field1 = prototype.field1).
+	 */
+	public Dron(Dron prototype) {
+		if (prototype != null) {
+			this.id = prototype.id;
+			this.serial = prototype.serial;
+			this.modelo = prototype.modelo;
+			this.fabricante = prototype.fabricante;
+			this.peso = prototype.peso;
+		}
+	}
+
+	/**
+	 * Clona la instancia actual invocando su constructor de copia.
+	 *
+	 * @return Un nuevo objeto {@link Prototype} duplicado en memoria.
+	 */
+	@Override
+	public Prototype clone() {
+		return new Dron(this);
 	}
 
 	public int getId() {

@@ -4,13 +4,12 @@ package co.edu.poli.sw2.model;
  * Representa un dron especializado para actividades de vigilancia.
  *
  * <p>
- * Esta clase extiende la clase {@link Dron} y agrega información específica
- * relacionada con la capacidad de detección térmica utilizada en labores
- * de vigilancia y monitoreo.
+ * Esta clase extiende la clase {@link Dron} e implementa el patrón Prototype
+ * como SubclassPrototype, permitiendo clonar sus atributos heredados y propios.
  * </p>
  *
- * @author jeisson romero
- * @version 2.0
+ * @author Jeisson Romero
+ * @version 3.0
  */
 public class Vigilancia extends Dron {
 
@@ -40,6 +39,28 @@ public class Vigilancia extends Dron {
                       int peso, boolean deteccionTermica) {
         super(id, serial, modelo, fabricante, peso);
         this.deteccionTermica = deteccionTermica;
+    }
+
+    /**
+     * Constructor de copia de la subclase (Alineado con SubclassPrototype).
+     *
+     * @param prototype Instancia previa a clonar (super(prototype) y copia de field2).
+     */
+    public Vigilancia(Vigilancia prototype) {
+        super(prototype); // super(prototype)
+        if (prototype != null) {
+            this.deteccionTermica = prototype.deteccionTermica; // this.field2 = prototype.field2
+        }
+    }
+
+    /**
+     * Clona el objeto actual retornando una nueva instancia especializada.
+     *
+     * @return Una copia de tipo {@link Prototype}.
+     */
+    @Override
+    public Prototype clone() {
+        return new Vigilancia(this); // return new SubclassPrototype(this)
     }
 
     /**

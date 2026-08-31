@@ -3,6 +3,8 @@ package co.edu.poli.sw2.controller;
 import co.edu.poli.sw2.Dao.DronDao;
 import co.edu.poli.sw2.Service.AgriculturaFactory;
 import co.edu.poli.sw2.Service.DronFactory;
+import co.edu.poli.sw2.Service.DronPrototype;
+import co.edu.poli.sw2.Service.DronPrototypeImpl;
 import co.edu.poli.sw2.Service.VigilanciaFactory;
 import co.edu.poli.sw2.model.Agricultura;
 import co.edu.poli.sw2.model.Dron;
@@ -11,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
@@ -63,10 +66,25 @@ public class DroneController {
 
 	@FXML
 	private ImageView imgVigilante;
+	
+	@FXML
+	private TextArea txtMemoria;
+
+	@FXML
+	private Button btnClonar;
+
 
 	private DronFactory dronFactory;
 
 	private Button botonTipoSeleccionado;
+	
+	
+
+
+	/**
+	 * Servicio encargado de gestionar la lógica de negocio y clonación de prototipos.
+	 */
+	private DronPrototype prototypeService = new DronPrototypeImpl();
 
 	/**
 	 * Objeto DAO encargado de gestionar la persistencia y las operaciones de acceso
@@ -113,7 +131,77 @@ public class DroneController {
 
 		limpiarSeleccionTipo();
 	}
+	
+	
+	
+	
+	/**
+	 * Busca el prototipo original, extrae su dirección de memoria en RAM,
+	 * genera un clon con una dirección de memoria distinta y despliega ambos resultados.
+	 */
+	@FXML
+	private void clonar() {
+		if (txtId == null || txtId.getText() == null || txtId.getText().trim().isEmpty()) {
+			mostrarAlerta(Alert.AlertType.WARNING, "ID Requerido", 
+					"Por favor, ingrese el ID del dron que desea clonar.");
+			return;
+		}
 
+		String idBusqueda = txtId.getText().trim();
+
+		// 1. Obtener el objeto ORIGINAL (prototipo base) guardado en el mapa
+		Dron dronOriginal = prototypeService.obtenerPrototipoBase(idBusqueda);
+
+		// Si no existe en el mapa, intentamos crearlo con los datos actuales de la vista
+				if (dronOriginal == null) {
+					if (txtModelo != null && !txtModelo.getText().isEmpty() && dronFactory != null) {
+						dronOriginal = dronFactory.crearDron();
+						dronOriginal.setSerial(idBusqueda);
+						dronOriginal.setModelo(txtModelo.getText());
+						
+						if (txtFabricante != null) dronOriginal.setFabricante(txtFabricante.getText());
+						if (txtPeso != null && !txtPeso.getText().isEmpty()) {
+							try {
+								dronOriginal.setPeso(Integer.parseInt(txtPeso.getText()));
+							} catch (NumberFormatException ignored) {}
+						}
+
+						prototypeService.registrarPrototipo(idBusqueda, dronOriginal);
+					}
+				}
+
+		if (dronOriginal == null) {
+			mostrarAlerta(Alert.AlertType.ERROR, "No se puede clonar", 
+					"No hay ningún dron registrado o cargado con el ID: " + idBusqueda);
+			return;
+		}
+
+		// 2. Obtener el CLON independiente a través del servicio
+		Dron dronClonado = prototypeService.obtenerClon(idBusqueda);
+
+		// 3. Extraer las direcciones de memoria ÚNICAS de cada objeto en la RAM
+		String memOriginal = "0x" + Integer.toHexString(System.identityHashCode(dronOriginal)).toUpperCase();
+		String memClonado  = "0x" + Integer.toHexString(System.identityHashCode(dronClonado)).toUpperCase();
+
+		// 4. Mostrar ambos resultados detallados en el TextArea
+		StringBuilder sb = new StringBuilder();
+		sb.append("--- DRON ORIGINAL (Prototipo) ---\n");
+		sb.append("ID/Serial: ").append(idBusqueda).append("\n");
+		sb.append("Tipo: ").append(dronOriginal.getClass().getSimpleName()).append("\n");
+		sb.append("Modelo: ").append(dronOriginal.getModelo() != null ? dronOriginal.getModelo() : "N/A").append("\n");
+		sb.append("Memoria RAM: ").append(memOriginal).append("\n\n");
+		
+		sb.append("--- DRON CLONADO ---\n");
+		sb.append("ID/Serial: ").append(idBusqueda).append("\n");
+		sb.append("Tipo: ").append(dronClonado.getClass().getSimpleName()).append("\n");
+		sb.append("Modelo: ").append(dronClonado.getModelo() != null ? dronClonado.getModelo() : "N/A").append("\n");
+		sb.append("Memoria RAM: ").append(memClonado);
+
+		txtMemoria.setText(sb.toString());
+
+		mostrarAlerta(Alert.AlertType.INFORMATION, "Clonación Exitosa", 
+				"Clon generado en una posición de memoria diferente.");
+	}
 	/**
 	 * Maneja el evento de selección para configurar el contexto de creación hacia
 	 * un dron de tipo Agrícola.

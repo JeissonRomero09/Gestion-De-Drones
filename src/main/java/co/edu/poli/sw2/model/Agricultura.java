@@ -4,12 +4,12 @@ package co.edu.poli.sw2.model;
  * Representa un dron especializado para actividades de agricultura.
  *
  * <p>
- * Esta clase extiende la clase {@link Dron} y agrega información específica
- * relacionada con la capacidad del tanque utilizado en labores agrícolas.
+ * Esta clase extiende la clase {@link Dron} e implementa el patrón Prototype
+ * como SubclassPrototype, permitiendo clonar sus atributos heredados y propios.
  * </p>
  *
  * @author Jeisson Romero
- * @version 2.0
+ * @version 3.0
  */
 public class Agricultura extends Dron {
 
@@ -40,6 +40,28 @@ public class Agricultura extends Dron {
                        int peso, double capacidadTanque) {
         super(id, serial, modelo, fabricante, peso);
         this.capacidadTanque = capacidadTanque;
+    }
+
+    /**
+     * Constructor de copia de la subclase (Alineado con SubclassPrototype).
+     *
+     * @param prototype Instancia previa a clonar (super(prototype) y copia de field2).
+     */
+    public Agricultura(Agricultura prototype) {
+        super(prototype); // super(prototype)
+        if (prototype != null) {
+            this.capacidadTanque = prototype.capacidadTanque; // this.field2 = prototype.field2
+        }
+    }
+
+    /**
+     * Clona el objeto actual retornando una nueva instancia especializada.
+     *
+     * @return Una copia de tipo {@link Prototype}.
+     */
+    @Override
+    public Prototype clone() {
+        return new Agricultura(this); // return new SubclassPrototype(this)
     }
 
     /**
