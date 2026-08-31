@@ -285,8 +285,8 @@
 
 		<!-- ==================== BUILDER ==================== -->
 
-		<Button layoutX="590.0" layoutY="322.0" mnemonicParsing="false"
-			prefHeight="33.0" prefWidth="141.0" text="Builder" />
+		<Button fx:id="btnBuilder" layoutX="590.0" layoutY="322.0" mnemonicParsing="false"
+			onAction="#ejecutarBuilder" prefHeight="33.0" prefWidth="141.0" text="Builder" />
 
 
 		<!-- ==================== DIRECCIÓN DE MEMORIA ==================== -->
