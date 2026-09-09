@@ -200,7 +200,7 @@ public class DroneController {
 		txtMemoria.setText(sb.toString());
 
 		mostrarAlerta(Alert.AlertType.INFORMATION, "Clonación Exitosa", 
-				"Clon generado en una posición de memoria diferente.");
+				"Clon generado");
 	}
 	/**
 	 * Maneja el evento de selección para configurar el contexto de creación hacia

@@ -1,3 +1,4 @@
+
 package co.edu.poli.sw2.model;
 
 /**
@@ -5,7 +6,7 @@ package co.edu.poli.sw2.model;
  *
  * <p>
  * Esta clase extiende la clase {@link Dron} e implementa el patrón Prototype
- * como SubclassPrototype, permitiendo clonar sus atributos heredados y propios.
+ * mediante un constructor de copia y el método {@code clone()}.
  * </p>
  *
  * @author Jeisson Romero
@@ -37,30 +38,34 @@ public class Vigilancia extends Dron {
      */
     public Vigilancia(int id, String serial, String modelo, String fabricante,
                       int peso, boolean deteccionTermica) {
+
         super(id, serial, modelo, fabricante, peso);
         this.deteccionTermica = deteccionTermica;
     }
 
     /**
-     * Constructor de copia de la subclase (Alineado con SubclassPrototype).
+     * Constructor de copia de la clase Vigilancia.
      *
-     * @param prototype Instancia previa a clonar (super(prototype) y copia de field2).
+     * @param prototype instancia de Vigilancia que se utilizará como prototipo
      */
     public Vigilancia(Vigilancia prototype) {
-        super(prototype); // super(prototype)
+
+        super(prototype);
+
         if (prototype != null) {
-            this.deteccionTermica = prototype.deteccionTermica; // this.field2 = prototype.field2
+            this.deteccionTermica = prototype.deteccionTermica;
         }
     }
 
     /**
-     * Clona el objeto actual retornando una nueva instancia especializada.
+     * Crea una copia de la instancia actual.
      *
-     * @return Una copia de tipo {@link Prototype}.
+     * @return una nueva instancia de Vigilancia con los mismos atributos
      */
     @Override
-    public Prototype clone() {
-        return new Vigilancia(this); // return new SubclassPrototype(this)
+    public Vigilancia clone() {
+
+        return new Vigilancia(this);
     }
 
     /**
@@ -70,15 +75,36 @@ public class Vigilancia extends Dron {
      *         {@code false} en caso contrario
      */
     public boolean isDeteccionTermica() {
+
         return deteccionTermica;
     }
 
     /**
-     * Establece si el dron cuenta con detección térmica.
+     * Modifica el estado de la detección térmica.
      *
      * @param deteccionTermica nuevo estado de la detección térmica
      */
     public void setDeteccionTermica(boolean deteccionTermica) {
+
         this.deteccionTermica = deteccionTermica;
     }
+
+    /**
+     * Devuelve una representación textual del objeto Vigilancia.
+     *
+     * @return cadena de texto con los datos del dron de vigilancia
+     */
+    @Override
+    public String toString() {
+
+        return "Vigilancia{" +
+                "id=" + getId() +
+                ", serial='" + getSerial() + '\'' +
+                ", modelo='" + getModelo() + '\'' +
+                ", fabricante='" + getFabricante() + '\'' +
+                ", peso=" + getPeso() +
+                ", deteccionTermica=" + deteccionTermica +
+                '}';
+    }
 }
+

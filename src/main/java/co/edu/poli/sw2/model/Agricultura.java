@@ -1,3 +1,4 @@
+
 package co.edu.poli.sw2.model;
 
 /**
@@ -5,7 +6,7 @@ package co.edu.poli.sw2.model;
  *
  * <p>
  * Esta clase extiende la clase {@link Dron} e implementa el patrón Prototype
- * como SubclassPrototype, permitiendo clonar sus atributos heredados y propios.
+ * mediante un constructor de copia y el método {@code clone()}.
  * </p>
  *
  * @author Jeisson Romero
@@ -38,30 +39,34 @@ public class Agricultura extends Dron {
      */
     public Agricultura(int id, String serial, String modelo, String fabricante,
                        int peso, double capacidadTanque) {
+
         super(id, serial, modelo, fabricante, peso);
         this.capacidadTanque = capacidadTanque;
     }
 
     /**
-     * Constructor de copia de la subclase (Alineado con SubclassPrototype).
+     * Constructor de copia de la clase Agricultura.
      *
-     * @param prototype Instancia previa a clonar (super(prototype) y copia de field2).
+     * @param prototype instancia de Agricultura que se utilizará como prototipo
      */
     public Agricultura(Agricultura prototype) {
-        super(prototype); // super(prototype)
+
+        super(prototype);
+
         if (prototype != null) {
-            this.capacidadTanque = prototype.capacidadTanque; // this.field2 = prototype.field2
+            this.capacidadTanque = prototype.capacidadTanque;
         }
     }
 
     /**
-     * Clona el objeto actual retornando una nueva instancia especializada.
+     * Crea una copia de la instancia actual.
      *
-     * @return Una copia de tipo {@link Prototype}.
+     * @return una nueva instancia de Agricultura con los mismos atributos
      */
     @Override
-    public Prototype clone() {
-        return new Agricultura(this); // return new SubclassPrototype(this)
+    public Agricultura clone() {
+
+        return new Agricultura(this);
     }
 
     /**
@@ -70,15 +75,36 @@ public class Agricultura extends Dron {
      * @return capacidad del tanque
      */
     public double getCapacidadTanque() {
+
         return capacidadTanque;
     }
 
     /**
-     * Establece la capacidad del tanque del dron.
+     * Modifica la capacidad del tanque del dron.
      *
      * @param capacidadTanque nueva capacidad del tanque
      */
     public void setCapacidadTanque(double capacidadTanque) {
+
         this.capacidadTanque = capacidadTanque;
     }
+
+    /**
+     * Devuelve una representación textual del objeto Agricultura.
+     *
+     * @return cadena de texto con los datos del dron agrícola
+     */
+    @Override
+    public String toString() {
+
+        return "Agricultura{" +
+                "id=" + getId() +
+                ", serial='" + getSerial() + '\'' +
+                ", modelo='" + getModelo() + '\'' +
+                ", fabricante='" + getFabricante() + '\'' +
+                ", peso=" + getPeso() +
+                ", capacidadTanque=" + capacidadTanque +
+                '}';
+    }
 }
+
