@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 import org.junit.jupiter.api.Test;
 
-import co.edu.poli.sw2.Service.Singleton;
+import co.edu.poli.sw2.Service.Singleton.Singleton;
 
 /**
  * Prueba de integración para verificar la conexión entre la aplicación y la

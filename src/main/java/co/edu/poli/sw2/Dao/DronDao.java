@@ -1,9 +1,9 @@
 package co.edu.poli.sw2.Dao;
 
-import co.edu.poli.sw2.Service.Singleton;
-import co.edu.poli.sw2.Service.DronFactory;
-import co.edu.poli.sw2.Service.AgriculturaFactory;
-import co.edu.poli.sw2.Service.VigilanciaFactory;
+import co.edu.poli.sw2.Service.Factory.AgriculturaFactory;
+import co.edu.poli.sw2.Service.Factory.DronFactory;
+import co.edu.poli.sw2.Service.Factory.VigilanciaFactory;
+import co.edu.poli.sw2.Service.Singleton.Singleton;
 import co.edu.poli.sw2.model.Dron;
 
 import java.sql.Connection;

@@ -1,4 +1,4 @@
-package co.edu.poli.sw2.Service;
+package co.edu.poli.sw2.Service.Singleton;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -1,11 +1,11 @@
 package co.edu.poli.sw2.controller;
 
 import co.edu.poli.sw2.Dao.DronDao;
-import co.edu.poli.sw2.Service.AgriculturaFactory;
-import co.edu.poli.sw2.Service.DronFactory;
-import co.edu.poli.sw2.Service.DronPrototype;
-import co.edu.poli.sw2.Service.DronPrototypeImpl;
-import co.edu.poli.sw2.Service.VigilanciaFactory;
+import co.edu.poli.sw2.Service.Factory.AgriculturaFactory;
+import co.edu.poli.sw2.Service.Factory.DronFactory;
+import co.edu.poli.sw2.Service.Factory.VigilanciaFactory;
+import co.edu.poli.sw2.Service.Protorype.DronPrototype;
+import co.edu.poli.sw2.Service.Protorype.DronPrototypeImpl;
 import co.edu.poli.sw2.model.Agricultura;
 import co.edu.poli.sw2.model.Dron;
 import co.edu.poli.sw2.model.Vigilancia;
@@ -66,23 +66,20 @@ public class DroneController {
 
 	@FXML
 	private ImageView imgVigilante;
-	
+
 	@FXML
 	private TextArea txtMemoria;
 
 	@FXML
 	private Button btnClonar;
 
-
 	private DronFactory dronFactory;
 
 	private Button botonTipoSeleccionado;
-	
-	
-
 
 	/**
-	 * Servicio encargado de gestionar la lógica de negocio y clonación de prototipos.
+	 * Servicio encargado de gestionar la lógica de negocio y clonación de
+	 * prototipos.
 	 */
 	private DronPrototype prototypeService = new DronPrototypeImpl();
 
@@ -131,18 +128,15 @@ public class DroneController {
 
 		limpiarSeleccionTipo();
 	}
-	
-	
-	
-	
+
 	/**
-	 * Busca el prototipo original, extrae su dirección de memoria en RAM,
-	 * genera un clon con una dirección de memoria distinta y despliega ambos resultados.
+	 * Busca el prototipo original, extrae su dirección de memoria en RAM, genera un
+	 * clon con una dirección de memoria distinta y despliega ambos resultados.
 	 */
 	@FXML
 	private void clonar() {
 		if (txtId == null || txtId.getText() == null || txtId.getText().trim().isEmpty()) {
-			mostrarAlerta(Alert.AlertType.WARNING, "ID Requerido", 
+			mostrarAlerta(Alert.AlertType.WARNING, "ID Requerido",
 					"Por favor, ingrese el ID del dron que desea clonar.");
 			return;
 		}
@@ -152,26 +146,29 @@ public class DroneController {
 		// 1. Obtener el objeto ORIGINAL (prototipo base) guardado en el mapa
 		Dron dronOriginal = prototypeService.obtenerPrototipoBase(idBusqueda);
 
-		// Si no existe en el mapa, intentamos crearlo con los datos actuales de la vista
-				if (dronOriginal == null) {
-					if (txtModelo != null && !txtModelo.getText().isEmpty() && dronFactory != null) {
-						dronOriginal = dronFactory.crearDron();
-						dronOriginal.setSerial(idBusqueda);
-						dronOriginal.setModelo(txtModelo.getText());
-						
-						if (txtFabricante != null) dronOriginal.setFabricante(txtFabricante.getText());
-						if (txtPeso != null && !txtPeso.getText().isEmpty()) {
-							try {
-								dronOriginal.setPeso(Integer.parseInt(txtPeso.getText()));
-							} catch (NumberFormatException ignored) {}
-						}
+		// Si no existe en el mapa, intentamos crearlo con los datos actuales de la
+		// vista
+		if (dronOriginal == null) {
+			if (txtModelo != null && !txtModelo.getText().isEmpty() && dronFactory != null) {
+				dronOriginal = dronFactory.crearDron();
+				dronOriginal.setSerial(idBusqueda);
+				dronOriginal.setModelo(txtModelo.getText());
 
-						prototypeService.registrarPrototipo(idBusqueda, dronOriginal);
+				if (txtFabricante != null)
+					dronOriginal.setFabricante(txtFabricante.getText());
+				if (txtPeso != null && !txtPeso.getText().isEmpty()) {
+					try {
+						dronOriginal.setPeso(Integer.parseInt(txtPeso.getText()));
+					} catch (NumberFormatException ignored) {
 					}
 				}
 
+				prototypeService.registrarPrototipo(idBusqueda, dronOriginal);
+			}
+		}
+
 		if (dronOriginal == null) {
-			mostrarAlerta(Alert.AlertType.ERROR, "No se puede clonar", 
+			mostrarAlerta(Alert.AlertType.ERROR, "No se puede clonar",
 					"No hay ningún dron registrado o cargado con el ID: " + idBusqueda);
 			return;
 		}
@@ -181,7 +178,7 @@ public class DroneController {
 
 		// 3. Extraer las direcciones de memoria ÚNICAS de cada objeto en la RAM
 		String memOriginal = "0x" + Integer.toHexString(System.identityHashCode(dronOriginal)).toUpperCase();
-		String memClonado  = "0x" + Integer.toHexString(System.identityHashCode(dronClonado)).toUpperCase();
+		String memClonado = "0x" + Integer.toHexString(System.identityHashCode(dronClonado)).toUpperCase();
 
 		// 4. Mostrar ambos resultados detallados en el TextArea
 		StringBuilder sb = new StringBuilder();
@@ -190,7 +187,7 @@ public class DroneController {
 		sb.append("Tipo: ").append(dronOriginal.getClass().getSimpleName()).append("\n");
 		sb.append("Modelo: ").append(dronOriginal.getModelo() != null ? dronOriginal.getModelo() : "N/A").append("\n");
 		sb.append("Memoria RAM: ").append(memOriginal).append("\n\n");
-		
+
 		sb.append("--- DRON CLONADO ---\n");
 		sb.append("ID/Serial: ").append(idBusqueda).append("\n");
 		sb.append("Tipo: ").append(dronClonado.getClass().getSimpleName()).append("\n");
@@ -199,9 +196,9 @@ public class DroneController {
 
 		txtMemoria.setText(sb.toString());
 
-		mostrarAlerta(Alert.AlertType.INFORMATION, "Clonación Exitosa", 
-				"Clon generado");
+		mostrarAlerta(Alert.AlertType.INFORMATION, "Clonación Exitosa", "Clon generado");
 	}
+
 	/**
 	 * Maneja el evento de selección para configurar el contexto de creación hacia
 	 * un dron de tipo Agrícola.
@@ -596,29 +593,37 @@ public class DroneController {
 		alerta.showAndWait();
 	}
 
-		 * PUNTO 2: Implementación y demostración formal del patrón Builder (Estructura GoF).
+	/**
+	 * PUNTO 2: Implementación y demostración formal del patrón Builder (Estructura
+	 * GoF).
+	 * 
+	 * 
 	 */
 	@FXML
 	public void ejecutarBuilder() {
 		try {
 			// 1. Validar selección de tipo de fábrica abajo
 			if (dronFactory == null) {
-				javafx.scene.control.Alert alertWarning = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+				javafx.scene.control.Alert alertWarning = new javafx.scene.control.Alert(
+						javafx.scene.control.Alert.AlertType.WARNING);
 				alertWarning.setTitle("Tipo no seleccionado");
 				alertWarning.setHeaderText(null);
-				alertWarning.setContentText("Por favor, seleccione primero si el dron es Agrícola o Vigilante con los botones de abajo.");
+				alertWarning.setContentText(
+						"Por favor, seleccione primero si el dron es Agrícola o Vigilante con los botones de abajo.");
 				alertWarning.showAndWait();
 				return;
 			}
 
 			// 2. Validar campos de texto requeridos vacíos
-			if (txtSerial.getText().isEmpty() || txtModelo.getText().isEmpty() || 
-				txtFabricante.getText().isEmpty() || txtPeso.getText().isEmpty()) {
+			if (txtSerial.getText().isEmpty() || txtModelo.getText().isEmpty() || txtFabricante.getText().isEmpty()
+					|| txtPeso.getText().isEmpty()) {
 
-				javafx.scene.control.Alert alertCampos = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.WARNING);
+				javafx.scene.control.Alert alertCampos = new javafx.scene.control.Alert(
+						javafx.scene.control.Alert.AlertType.WARNING);
 				alertCampos.setTitle("Campos incompletos");
 				alertCampos.setHeaderText(null);
-				alertCampos.setContentText("Por favor, complete los campos (Serial, Modelo, Fabricante y Peso) a la izquierda antes de construir.");
+				alertCampos.setContentText(
+						"Por favor, complete los campos (Serial, Modelo, Fabricante y Peso) a la izquierda antes de construir.");
 				alertCampos.showAndWait();
 				return;
 			}
@@ -628,51 +633,55 @@ public class DroneController {
 			String modelo = txtModelo.getText().trim();
 			String fabricante = txtFabricante.getText().trim();
 			int peso = Integer.parseInt(txtPeso.getText().trim());
-			
+
 			int id = 0;
 			if (txtId.getText() != null && !txtId.getText().trim().isEmpty()) {
 				try {
 					id = Integer.parseInt(txtId.getText().trim());
-				} catch (NumberFormatException ignored) {}
+				} catch (NumberFormatException ignored) {
+				}
 			}
 
 			// 4. INVOCACIÓN SIGUIENDO EL DIAGRAMA DE CLASES
 			Dron dronConstruido = null;
 			String detallesEspecializados = "";
 
-			if (dronFactory instanceof co.edu.poli.sw2.Service.VigilanciaFactory) {
+			if (dronFactory instanceof co.edu.poli.sw2.Service.Factory.VigilanciaFactory) {
 				// Instanciar el ConcreteBuilder1 de tu diagrama
-				co.edu.poli.sw2.Service.VigilanciaBuilder vegBuilder = new co.edu.poli.sw2.Service.VigilanciaBuilder();
+				co.edu.poli.sw2.Service.Builder.VigilanciaBuilder vegBuilder = new co.edu.poli.sw2.Service.Builder.VigilanciaBuilder();
 				vegBuilder.buildDatosBasicos(id, serial, modelo, fabricante, peso); // buildStepA
-				vegBuilder.buildAtributoEspecializado();                           // buildStepB
-				dronConstruido = vegBuilder.getResult();                           // getResult()
+				vegBuilder.buildAtributoEspecializado(); // buildStepB
+				dronConstruido = vegBuilder.getResult(); // getResult()
 				detallesEspecializados = "• Sistema Térmico: INSTALADO (true)\n";
-				
-			} else if (dronFactory instanceof co.edu.poli.sw2.Service.AgriculturaFactory) {
+
+			} else if (dronFactory instanceof co.edu.poli.sw2.Service.Factory.AgriculturaFactory) {
 				// Instanciar el ConcreteBuilder2 de tu diagrama
-				co.edu.poli.sw2.Service.AgriculturaBuilder agroBuilder = new co.edu.poli.sw2.Service.AgriculturaBuilder();
+				co.edu.poli.sw2.Service.Builder.AgriculturaBuilder agroBuilder = new co.edu.poli.sw2.Service.Builder.AgriculturaBuilder();
 				agroBuilder.buildDatosBasicos(id, serial, modelo, fabricante, peso); // buildStepA
-				agroBuilder.buildAtributoEspecializado();                            // buildStepB
-				dronConstruido = agroBuilder.getResult();                            // getResult()
+				agroBuilder.buildAtributoEspecializado(); // buildStepB
+				dronConstruido = agroBuilder.getResult(); // getResult()
 				detallesEspecializados = "• Volumen del Tanque: 25.0 L\n";
 			}
 
-			// 5. Registrar el objeto en el mapa de prototipos para que el botón clonar funcione de inmediato
+			// 5. Registrar el objeto en el mapa de prototipos para que el botón clonar
+			// funcione de inmediato
 			prototypeService.registrarPrototipo(serial, dronConstruido);
 
 			// 6. Construir mensaje de demostración para el Pop-up flotante
 			StringBuilder sb = new StringBuilder();
 			sb.append("Construcción GoF Certificada:\n");
 			sb.append("• Clase Creada: ").append(dronConstruido.getClass().getSimpleName()).append("\n");
-			sb.append("• ID del Dron: ").append(dronConstruido.getId() == 0 ? "Asignado por DB" : dronConstruido.getId()).append("\n");
+			sb.append("• ID del Dron: ")
+					.append(dronConstruido.getId() == 0 ? "Asignado por DB" : dronConstruido.getId()).append("\n");
 			sb.append("• Serial / Llave: ").append(dronConstruido.getSerial()).append("\n");
 			sb.append("• Modelo: ").append(dronConstruido.getModelo()).append("\n");
 			sb.append("• Fabricante: ").append(dronConstruido.getFabricante()).append("\n");
 			sb.append("• Peso total: ").append(dronConstruido.getPeso()).append(" gramos\n");
 			sb.append(detallesEspecializados);
-			
+
 			// Lanzar alerta de confirmación nativa de JavaFX
-			javafx.scene.control.Alert alertSuccess = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+			javafx.scene.control.Alert alertSuccess = new javafx.scene.control.Alert(
+					javafx.scene.control.Alert.AlertType.INFORMATION);
 			alertSuccess.setTitle("Patrón Builder Clásico Ejecutado");
 			alertSuccess.setHeaderText("¡Estructura de construcción GoF verificada!");
 			alertSuccess.setContentText(sb.toString());
@@ -684,7 +693,8 @@ public class DroneController {
 			}
 
 		} catch (NumberFormatException e) {
-			javafx.scene.control.Alert alertError = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+			javafx.scene.control.Alert alertError = new javafx.scene.control.Alert(
+					javafx.scene.control.Alert.AlertType.ERROR);
 			alertError.setTitle("Error de Formato");
 			alertError.setHeaderText(null);
 			alertError.setContentText("El campo Peso debe ser un número entero válido.");
