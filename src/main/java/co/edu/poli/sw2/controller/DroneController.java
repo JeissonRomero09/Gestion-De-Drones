@@ -68,7 +68,7 @@ public class DroneController {
 	private ImageView imgVigilante;
 
 	@FXML
-	private TextArea txtMemoria;
+	private TextArea txtConsola;
 
 	@FXML
 	private Button btnClonar;
@@ -194,7 +194,7 @@ public class DroneController {
 		sb.append("Modelo: ").append(dronClonado.getModelo() != null ? dronClonado.getModelo() : "N/A").append("\n");
 		sb.append("Memoria RAM: ").append(memClonado);
 
-		txtMemoria.setText(sb.toString());
+		txtConsola.setText(sb.toString());
 
 		mostrarAlerta(Alert.AlertType.INFORMATION, "Clonación Exitosa", "Clon generado");
 	}
@@ -688,8 +688,8 @@ public class DroneController {
 			alertSuccess.showAndWait();
 
 			// Pintar reporte en la caja de texto
-			if (txtMemoria != null) {
-				txtMemoria.setText("=== ESTRUCTURA FORMAL BUILDER (GoF) ===\n" + sb.toString());
+			if (txtConsola != null) {
+				txtConsola.setText("=== ESTRUCTURA FORMAL BUILDER (GoF) ===\n" + sb.toString());
 			}
 
 		} catch (NumberFormatException e) {
