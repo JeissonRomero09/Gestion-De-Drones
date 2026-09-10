@@ -2,6 +2,6 @@ package co.edu.poli.sw2.Service.Bridge;
 
 public interface ControlDron {
 	
-    String controlar();
+	String controlar(int id);
 
 }

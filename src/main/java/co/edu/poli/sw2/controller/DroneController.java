@@ -1,6 +1,8 @@
 package co.edu.poli.sw2.controller;
 
 import co.edu.poli.sw2.Dao.DronDao;
+import co.edu.poli.sw2.Service.Bridge.ControlAutonomo;
+import co.edu.poli.sw2.Service.Bridge.ControlBasico;
 import co.edu.poli.sw2.Service.Factory.AgriculturaFactory;
 import co.edu.poli.sw2.Service.Factory.DronFactory;
 import co.edu.poli.sw2.Service.Factory.VigilanciaFactory;
@@ -13,10 +15,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-
+import javafx.scene.control.ToggleGroup;
 import java.sql.SQLException;
 
 /**
@@ -73,6 +76,12 @@ public class DroneController {
 	@FXML
 	private Button btnClonar;
 
+	@FXML
+	private RadioButton rbBasico;
+
+	@FXML
+	private RadioButton rbAutomatico;
+
 	private DronFactory dronFactory;
 
 	private Button botonTipoSeleccionado;
@@ -100,6 +109,11 @@ public class DroneController {
 	 */
 	@FXML
 	public void initialize() {
+
+		ToggleGroup grupoControlDron = new ToggleGroup();
+
+		rbBasico.setToggleGroup(grupoControlDron);
+		rbAutomatico.setToggleGroup(grupoControlDron);
 
 		// Aplicar efectos a TODOS los botones
 		efectoBoton(btnCrear);
@@ -225,24 +239,31 @@ public class DroneController {
 
 	/**
 	 * Procesa la creación e inserción de un nuevo dron en la base de datos.
+	 *
 	 * <p>
 	 * El método valida que se haya seleccionado una fábrica concreta
 	 * ({@link DronFactory}), verifica que los campos obligatorios del formulario no
-	 * estén vacíos, construye la instancia correspondiente usando el patrón
-	 * <i>Abstract Factory</i> y asigna los atributos capturados desde la interfaz
-	 * gráfica.
+	 * estén vacíos, comprueba que se haya seleccionado una modalidad de control
+	 * mediante el patrón Bridge y construye la instancia correspondiente usando el
+	 * patrón <i>Abstract Factory</i>.
 	 * </p>
+	 *
+	 * <p>
+	 * La implementación de control básico o autónomo se asigna al dron mediante el
+	 * patrón estructural Bridge.
+	 * </p>
+	 *
 	 * <p>
 	 * Si la inserción en la base de datos es exitosa, se actualiza el campo de
-	 * texto del ID con la clave primaria generada y se reinicia el formulario.
+	 * texto del ID con la clave primaria generada y se muestra en la consola el
+	 * mensaje correspondiente al tipo de control seleccionado.
 	 * </p>
-	 * 
+	 *
 	 * @see DronFactory#crearDron()
 	 * @see DronDao#crear(Dron)
 	 */
 	@FXML
 	private void crear() {
-
 		try {
 			if (dronFactory == null) {
 				mostrarAlerta(Alert.AlertType.WARNING, "Tipo de dron no seleccionado",
@@ -250,15 +271,26 @@ public class DroneController {
 				return;
 			}
 
+			if (!rbBasico.isSelected() && !rbAutomatico.isSelected()) {
+				mostrarAlerta(Alert.AlertType.WARNING, "Control no seleccionado",
+						"Por favor, seleccione el tipo de control del dron.");
+				return;
+			}
+
 			if (txtSerial.getText().isEmpty() || txtModelo.getText().isEmpty() || txtFabricante.getText().isEmpty()
 					|| txtPeso.getText().isEmpty()) {
-
 				mostrarAlerta(Alert.AlertType.WARNING, "Campos incompletos",
 						"Por favor, complete todos los campos requeridos.");
 				return;
 			}
 
 			Dron drone = dronFactory.crearDron();
+
+			if (rbBasico.isSelected()) {
+				drone.setControlDron(new ControlBasico());
+			} else if (rbAutomatico.isSelected()) {
+				drone.setControlDron(new ControlAutonomo());
+			}
 
 			drone.setSerial(txtSerial.getText());
 			drone.setModelo(txtModelo.getText());
@@ -269,13 +301,18 @@ public class DroneController {
 
 			txtId.setText(String.valueOf(idGenerado));
 
+			String mensajeControl = drone.controlar();
+
 			mostrarAlerta(Alert.AlertType.INFORMATION, "Dron guardado",
 					"El dron se guardó correctamente con ID: " + idGenerado);
 
 			limpiarCampos();
 
+			txtConsola.setText(mensajeControl);
+
 		} catch (NumberFormatException e) {
 			mostrarAlerta(Alert.AlertType.ERROR, "Datos inválidos", "El peso debe ser un valor numérico entero.");
+
 		} catch (SQLException e) {
 			mostrarAlerta(Alert.AlertType.ERROR, "Error de Base de Datos",
 					"No se pudo guardar el dron: " + e.getMessage());
