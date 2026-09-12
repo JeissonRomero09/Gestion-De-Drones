@@ -234,13 +234,14 @@
 			</children>
 		</VBox>
 		
-		<!-- ==================== DECORATOR ==================== -->
-		<VBox layoutX="581.0" layoutY="148.0" prefHeight="75.0" prefWidth="153.0" spacing="8.0" style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;">
-			<children>
-				<Button fx:id="btnBuilder1" mnemonicParsing="false" onAction="#ejecutarBuilder" prefHeight="25.0" prefWidth="193.0" style="-fx-background-color: #70a1ff; -fx-text-fill: white; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;" text="Decorator" />
-				<CheckBox mnemonicParsing="false" style="-fx-text-fill: #000000; -fx-base: #74b9ff;" text="Bateria" />
-			</children>
-		</VBox>
-	</children>
+<!-- ==================== DECORATOR ==================== -->
+        <VBox layoutX="581.0" layoutY="148.0" prefHeight="75.0" prefWidth="153.0" spacing="8.0" style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;">
+            <children>
+                <Button fx:id="btnDecorator" mnemonicParsing="false" onAction="#ejecutarDecorator" prefHeight="25.0" prefWidth="193.0" style="-fx-background-color: #70a1ff; -fx-text-fill: white; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;" text="Decorator" />
+                <CheckBox fx:id="chkBateria" mnemonicParsing="false" style="-fx-text-fill: #000000; -fx-base: #74b9ff;" text="Bateria" />
+            </children>
+        </VBox>
 
+    </children>
 </AnchorPane>
+
