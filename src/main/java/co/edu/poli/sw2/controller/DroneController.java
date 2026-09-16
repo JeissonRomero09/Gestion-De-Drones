@@ -3,6 +3,9 @@ package co.edu.poli.sw2.controller;
 import co.edu.poli.sw2.Dao.DronDao;
 import co.edu.poli.sw2.Service.Bridge.ControlAutonomo;
 import co.edu.poli.sw2.Service.Bridge.ControlBasico;
+import co.edu.poli.sw2.Service.Decorator.Bateria;
+import co.edu.poli.sw2.Service.Decorator.DronComponent;
+import co.edu.poli.sw2.Service.Decorator.DroneWrapper;
 import co.edu.poli.sw2.Service.Factory.AgriculturaFactory;
 import co.edu.poli.sw2.Service.Factory.DronFactory;
 import co.edu.poli.sw2.Service.Factory.VigilanciaFactory;
@@ -14,7 +17,9 @@ import co.edu.poli.sw2.model.Vigilancia;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -31,6 +36,8 @@ import java.sql.SQLException;
  */
 public class DroneController {
 
+	@FXML
+	private CheckBox chkBateria;
 	@FXML
 	private Button btnAgricola;
 
@@ -630,7 +637,7 @@ public class DroneController {
 		alerta.showAndWait();
 	}
 
-/**
+	/**
 	 * PUNTO 2: Implementación y demostración formal del patrón Builder (Estructura
 	 * GoF).
 	 * 
@@ -742,58 +749,75 @@ public class DroneController {
 			alertError.showAndWait();
 		}
 	}
+
 	/**
-     * Ejecuta el patrón Decorator y muestra los datos formateados en la alerta 
-     * confirmando que el decorador fue creado correctamente.
-     * 
-     * @param event Evento generado por el clic en el botón Decorator.
-     */
-    @FXML
-    void ejecutarDecorator(ActionEvent event) {
-        String idDron = txtId.getText() != null ? txtId.getText().trim() : "";
+	 * Ejecuta el patrón Decorator y muestra los datos formateados en la alerta
+	 * confirmando que el decorador fue creado correctamente.
+	 * 
+	 * @param event Evento generado por el clic en el botón Decorator.
+	 */
+	@FXML
+	void ejecutarDecorator(ActionEvent event) {
 
-        // Validar que el ID esté presente
-        if (idDron.isEmpty()) {
-            Alert alert = new Alert(AlertType.WARNING);
-            alert.setTitle("ID Requerido");
-            alert.setHeaderText(null);
-            alert.setContentText("Por favor, ingrese el ID del dron.");
-            alert.showAndWait();
-            return;
-        }
+		String idDron = txtId.getText() != null ? txtId.getText().trim() : "";
 
-        // Leer información de los demás campos
-        String modelo = (txtModelo != null && !txtModelo.getText().trim().isEmpty()) ? txtModelo.getText().trim() : "N/A";
-        String serial = (txtSerial != null && !txtSerial.getText().trim().isEmpty()) ? txtSerial.getText().trim() : "N/A";
-        String fabricante = (txtFabricante != null && !txtFabricante.getText().trim().isEmpty()) ? txtFabricante.getText().trim() : "N/A";
-        String peso = (txtPeso != null && !txtPeso.getText().trim().isEmpty()) ? txtPeso.getText().trim() : "N/A";
+		if (idDron.isEmpty()) {
 
-        // Aplicación del Patrón Decorator
-        DronComponent dron = null;
-        if (chkBateria.isSelected()) {
-            dron = new Bateria(5000);
-        }
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("ID Requerido");
+			alert.setHeaderText(null);
+			alert.setContentText("Por favor, ingrese el ID del dron.");
+			alert.showAndWait();
 
-        // Construcción de la alerta con el nuevo título
-        Alert alertInfo = new Alert(AlertType.INFORMATION);
-        alertInfo.setTitle("Decorator Creado Correctamente");
-        alertInfo.setHeaderText("¡Patrón Decorator Aplicado Exitosamente!");
+			return;
+		}
 
-        StringBuilder sb = new StringBuilder();
-        sb.append("Decoración de Dron Certificada:\n");
-        sb.append("• ID del Dron: ").append(idDron).append("\n");
-        sb.append("• Serial / Llave: ").append(serial).append("\n");
-        sb.append("• Modelo: ").append(modelo).append("\n");
-        sb.append("• Fabricante: ").append(fabricante).append("\n");
-        sb.append("• Peso total: ").append(peso).append(" gramos\n");
-        sb.append("• Componente Decorado: ").append(dron != null ? dron.descripcion() : "Sin accesorios adicionales");
+		String modelo = (txtModelo != null && !txtModelo.getText().trim().isEmpty()) ? txtModelo.getText().trim()
+				: "N/A";
 
-        alertInfo.setContentText(sb.toString());
-        alertInfo.showAndWait();
-     // 2. Pintar el reporte en el recuadro de la consola tras cerrar la alerta
-        if (txtConsola != null) {
-            txtConsola.setText("=== ESTRUCTURA FORMAL DECORATOR (GoF) ===\n" + sb.toString());
-        }
-    }
+		String serial = (txtSerial != null && !txtSerial.getText().trim().isEmpty()) ? txtSerial.getText().trim()
+				: "N/A";
+
+		String fabricante = (txtFabricante != null && !txtFabricante.getText().trim().isEmpty())
+				? txtFabricante.getText().trim()
+				: "N/A";
+
+		String peso = (txtPeso != null && !txtPeso.getText().trim().isEmpty()) ? txtPeso.getText().trim() : "N/A";
+
+		/*
+		 * Componente concreto del patrón Decorator.
+		 */
+		DronComponent dron = new Bateria(5000);
+
+		/*
+		 * Se aplica el decorador al componente.
+		 */
+
+		if (chkBateria != null && chkBateria.isSelected()) {
+			dron = new DroneWrapper(dron);
+		}
+
+		Alert alertInfo = new Alert(AlertType.INFORMATION);
+
+		alertInfo.setTitle("Decorator Creado Correctamente");
+		alertInfo.setHeaderText("¡Patrón Decorator Aplicado Exitosamente!");
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("Decoración de Dron Certificada:\n");
+		sb.append("• ID del Dron: ").append(idDron).append("\n");
+		sb.append("• Serial / Llave: ").append(serial).append("\n");
+		sb.append("• Modelo: ").append(modelo).append("\n");
+		sb.append("• Fabricante: ").append(fabricante).append("\n");
+		sb.append("• Peso total: ").append(peso).append(" gramos\n");
+		sb.append("• Componente Decorado: ").append(dron.descripcion()).append("\n");
+
+		alertInfo.setContentText(sb.toString());
+		alertInfo.showAndWait();
+
+		if (txtConsola != null) {
+
+			txtConsola.setText("=== ESTRUCTURA FORMAL DECORATOR (GoF) ===\n" + sb.toString());
+		}
+	}
 }
-
