@@ -30,7 +30,7 @@
 				<Image url="@../images/Fondo_D.png" />
 			</image>
 		</ImageView>
-      <VBox layoutX="281.0" layoutY="33.0" prefHeight="192.0" prefWidth="62.0" spacing="8.0" style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;" />
+		<VBox layoutX="281.0" layoutY="33.0" prefHeight="192.0" prefWidth="62.0" spacing="8.0" style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;" />
 
 
 		<!-- ==================== BOTÓN CREAR ==================== -->
@@ -76,7 +76,7 @@
 				</ImageView>
 			</graphic>
 		</Button>
-      <VBox layoutX="282.0" layoutY="255.0" prefHeight="134.0" prefWidth="62.0" spacing="8.0" style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;" />
+		<VBox layoutX="282.0" layoutY="255.0" prefHeight="134.0" prefWidth="62.0" spacing="8.0" style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;" />
 
 		<!-- ==================== IMAGEN AGRÍCOLA ==================== -->
 		<ImageView fx:id="imgAgricola" fitHeight="55.0" fitWidth="45.0" layoutX="290.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true">
@@ -97,7 +97,7 @@
 
 		<!-- ==================== BOTÓN VIGILANTE ==================== -->
 		<Button fx:id="btnVigilante" layoutX="286.0" layoutY="325.0" mnemonicParsing="false" onAction="#crearDronVigilante" prefHeight="67.0" prefWidth="51.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-cursor: hand;" />
-			
+
 		<!-- ==================== ID ==================== -->
 
 		<TextField fx:id="txtId" layoutX="35.0" layoutY="29.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="215.0" promptText=" Id del dron" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
@@ -160,7 +160,7 @@
 
 		<!-- ==================== PILOTO ==================== -->
 
-		<TextField fx:id="txtPiloto" layoutX="35.0" layoutY="260.0" minHeight="-Infinity" minWidth="-Infinity" opacity="0.3" prefHeight="25.0" prefWidth="215.0" promptText="Id del Piloto" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
+		<TextField fx:id="txtPiloto" layoutX="35.0" layoutY="260.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="215.0" promptText="Id del Piloto" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
 			<cursor>
 				<Cursor fx:constant="TEXT" />
 			</cursor>
@@ -172,7 +172,7 @@
 
 		<!-- ==================== SENSOR ==================== -->
 
-		<TextField fx:id="txtSensor" layoutX="35.0" layoutY="300.0" minHeight="-Infinity" minWidth="-Infinity" opacity="0.3" prefHeight="25.0" prefWidth="215.0" promptText="Id del sensor" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
+		<TextField fx:id="txtSensor" layoutX="35.0" layoutY="300.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="215.0" promptText="Id del sensor" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
 			<cursor>
 				<Cursor fx:constant="TEXT" />
 			</cursor>
@@ -213,10 +213,10 @@
 		</VBox>
 
 		<!-- ==================== CLONE PROTOTYPE ==================== -->
-		<Button fx:id="btnClonar" layoutX="588.0" layoutY="111.0" mnemonicParsing="false" onAction="#clonar" prefHeight="15.0" prefWidth="140.0" style="-fx-background-color: #70a1ff; -fx-text-fill: Black; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;" text="Clone Prototype" />
+		<Button fx:id="btnClonar" layoutX="588.0" layoutY="100.0" mnemonicParsing="false" onAction="#clonar" prefHeight="15.0" prefWidth="140.0" style="-fx-background-color: #70a1ff; -fx-text-fill: Black; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;" text="Clone Prototype" />
 
 		<!-- ==================== BUILDER ==================== -->
-		<Button fx:id="btnBuilder" layoutX="588.0" layoutY="77.0" mnemonicParsing="false" onAction="#ejecutarBuilder" prefHeight="15.0" prefWidth="140.0" style="-fx-background-color: #70a1ff; -fx-text-fill: Black; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;" text="Builder" />
+		<Button fx:id="btnBuilder" layoutX="588.0" layoutY="65.0" mnemonicParsing="false" onAction="#ejecutarBuilder" prefHeight="15.0" prefWidth="140.0" style="-fx-background-color: #70a1ff; -fx-text-fill: Black; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;" text="Builder" />
 
 		<!-- ==================== BRIDGE ==================== -->
 		<VBox layoutX="426.0" layoutY="325.0" prefHeight="67.0" prefWidth="118.0" spacing="8.0" style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;">
@@ -233,15 +233,16 @@
 				</RadioButton>
 			</children>
 		</VBox>
-		
-<!-- ==================== DECORATOR ==================== -->
-        <VBox layoutX="581.0" layoutY="148.0" prefHeight="75.0" prefWidth="153.0" spacing="8.0" style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;">
-            <children>
-                <Button fx:id="btnDecorator" mnemonicParsing="false" onAction="#ejecutarDecorator" prefHeight="25.0" prefWidth="193.0" style="-fx-background-color: #70a1ff; -fx-text-fill: white; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;" text="Decorator" />
-                <CheckBox fx:id="chkBateria" mnemonicParsing="false" style="-fx-text-fill: #000000; -fx-base: #74b9ff;" text="Bateria" />
-            </children>
-        </VBox>
 
-    </children>
+		<!-- ==================== DECORATOR ==================== -->
+		<VBox layoutX="426.0" layoutY="235.0" prefHeight="75.0" prefWidth="118.0" spacing="8.0" style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;">
+			<children>
+				<Button fx:id="btnDecorator" mnemonicParsing="false" onAction="#ejecutarDecorator" prefHeight="25.0" prefWidth="193.0" style="-fx-background-color: #70a1ff; -fx-text-fill: white; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;" text="Decorator" />
+				<CheckBox fx:id="chkBateria" mnemonicParsing="false" style="-fx-text-fill: #000000; -fx-base: #74b9ff;" text="Bateria" />
+			</children>
+		</VBox>
+		<!-- ==================== ADAPTER ==================== -->
+		<Button fx:id="btnAdarter" layoutX="588.0" layoutY="135.0" mnemonicParsing="false" onAction="#Adapter" prefHeight="15.0" prefWidth="140.0" style="-fx-background-color: #70a1ff; -fx-text-fill: Black; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;" text="Adapter" />
+
+	</children>
 </AnchorPane>
-

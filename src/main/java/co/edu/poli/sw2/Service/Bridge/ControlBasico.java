@@ -23,4 +23,4 @@ public class ControlBasico implements ControlDron {
     public String controlar(int id) {
     	 return "El dron " + id + " es básico";
     }
-}
+} 	

@@ -1,6 +1,8 @@
 package co.edu.poli.sw2.controller;
 
 import co.edu.poli.sw2.Dao.DronDao;
+import co.edu.poli.sw2.Service.Adapter.MisionAdapter;
+import co.edu.poli.sw2.Service.Adapter.MisionService;
 import co.edu.poli.sw2.Service.Bridge.ControlAutonomo;
 import co.edu.poli.sw2.Service.Bridge.ControlBasico;
 import co.edu.poli.sw2.Service.Decorator.Bateria;
@@ -13,6 +15,7 @@ import co.edu.poli.sw2.Service.Protorype.DronPrototype;
 import co.edu.poli.sw2.Service.Protorype.DronPrototypeImpl;
 import co.edu.poli.sw2.model.Agricultura;
 import co.edu.poli.sw2.model.Dron;
+import co.edu.poli.sw2.model.Mision;
 import co.edu.poli.sw2.model.Vigilancia;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,6 +29,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.ToggleGroup;
 import java.sql.SQLException;
+import java.util.Date;
 
 /**
  * Controlador encargado de gestionar la interfaz gráfica de los drones.
@@ -242,6 +246,247 @@ public class DroneController {
 	private void crearDronVigilante(ActionEvent event) {
 		dronFactory = new VigilanciaFactory();
 		seleccionarTipo(btnVigilante);
+	}
+	/**
+	 * PUNTO 2: Implementación y demostración formal del patrón Builder (Estructura
+	 * GoF).
+	 * 
+	 */
+	@FXML
+	public void ejecutarBuilder() {
+		try {
+			// 1. Validar que el ID no esté vacío (al igual que en el Decorator)
+			String idText = txtId.getText() != null ? txtId.getText().trim() : "";
+			if (idText.isEmpty()) {
+				javafx.scene.control.Alert alertId = new javafx.scene.control.Alert(
+						javafx.scene.control.Alert.AlertType.WARNING);
+				alertId.setTitle("ID Requerido");
+				alertId.setHeaderText(null);
+				alertId.setContentText("Por favor, ingrese el ID del dron.");
+				alertId.showAndWait();
+				return;
+			}
+
+			// 2. Validar selección de tipo de fábrica abajo
+			if (dronFactory == null) {
+				javafx.scene.control.Alert alertWarning = new javafx.scene.control.Alert(
+						javafx.scene.control.Alert.AlertType.WARNING);
+				alertWarning.setTitle("Tipo no seleccionado");
+				alertWarning.setHeaderText(null);
+				alertWarning.setContentText(
+						"Por favor, seleccione primero si el dron es Agrícola o Vigilante con los botones de abajo.");
+				alertWarning.showAndWait();
+				return;
+			}
+
+			// 3. Validar campos de texto requeridos vacíos
+			if (txtSerial.getText().isEmpty() || txtModelo.getText().isEmpty() || txtFabricante.getText().isEmpty()
+					|| txtPeso.getText().isEmpty()) {
+
+				javafx.scene.control.Alert alertCampos = new javafx.scene.control.Alert(
+						javafx.scene.control.Alert.AlertType.WARNING);
+				alertCampos.setTitle("Campos incompletos");
+				alertCampos.setHeaderText(null);
+				alertCampos.setContentText(
+						"Por favor, complete los campos (Serial, Modelo, Fabricante y Peso) a la izquierda antes de construir.");
+				alertCampos.showAndWait();
+				return;
+			}
+
+			// 4. Obtener variables desde la GUI
+			String serial = txtSerial.getText().trim();
+			String modelo = txtModelo.getText().trim();
+			String fabricante = txtFabricante.getText().trim();
+			int peso = Integer.parseInt(txtPeso.getText().trim());
+			int id = Integer.parseInt(idText);
+
+			// 5. INVOCACIÓN SIGUIENDO EL DIAGRAMA DE CLASES
+			Dron dronConstruido = null;
+			String detallesEspecializados = "";
+
+			if (dronFactory instanceof co.edu.poli.sw2.Service.Factory.VigilanciaFactory) {
+				// Instanciar el ConcreteBuilder1 de tu diagrama
+				co.edu.poli.sw2.Service.Builder.VigilanciaBuilder vegBuilder = new co.edu.poli.sw2.Service.Builder.VigilanciaBuilder();
+				vegBuilder.buildDatosBasicos(id, serial, modelo, fabricante, peso); // buildStepA
+				vegBuilder.buildAtributoEspecializado(); // buildStepB
+				dronConstruido = vegBuilder.getResult(); // getResult()
+				detallesEspecializados = "• Sistema Térmico: INSTALADO (true)\n";
+
+			} else if (dronFactory instanceof co.edu.poli.sw2.Service.Factory.AgriculturaFactory) {
+				// Instanciar el ConcreteBuilder2 de tu diagrama
+				co.edu.poli.sw2.Service.Builder.AgriculturaBuilder agroBuilder = new co.edu.poli.sw2.Service.Builder.AgriculturaBuilder();
+				agroBuilder.buildDatosBasicos(id, serial, modelo, fabricante, peso); // buildStepA
+				agroBuilder.buildAtributoEspecializado(); // buildStepB
+				dronConstruido = agroBuilder.getResult(); // getResult()
+				detallesEspecializados = "• Volumen del Tanque: 25.0 L\n";
+			}
+
+			// 6. Registrar el objeto en el mapa de prototipos para que el botón clonar
+			// funcione de inmediato
+			prototypeService.registrarPrototipo(serial, dronConstruido);
+
+			// 7. Construir mensaje de demostración para el Pop-up flotante
+			StringBuilder sb = new StringBuilder();
+			sb.append("Construcción GoF Certificada:\n");
+			sb.append("• Clase Creada: ").append(dronConstruido.getClass().getSimpleName()).append("\n");
+			sb.append("• ID del Dron: ")
+					.append(dronConstruido.getId() == 0 ? "Asignado por DB" : dronConstruido.getId()).append("\n");
+			sb.append("• Serial / Llave: ").append(dronConstruido.getSerial()).append("\n");
+			sb.append("• Modelo: ").append(dronConstruido.getModelo()).append("\n");
+			sb.append("• Fabricante: ").append(dronConstruido.getFabricante()).append("\n");
+			sb.append("• Peso total: ").append(dronConstruido.getPeso()).append(" gramos\n");
+			sb.append(detallesEspecializados);
+
+			// Lanzar alerta de confirmación nativa de JavaFX
+			javafx.scene.control.Alert alertSuccess = new javafx.scene.control.Alert(
+					javafx.scene.control.Alert.AlertType.INFORMATION);
+			alertSuccess.setTitle("Patrón Builder Clásico Ejecutado");
+			alertSuccess.setHeaderText("¡Estructura de construcción GoF verificada!");
+			alertSuccess.setContentText(sb.toString());
+			alertSuccess.showAndWait();
+
+			// Pintar reporte en la caja de texto
+			if (txtConsola != null) {
+				txtConsola.setText("=== ESTRUCTURA FORMAL BUILDER (GoF) ===\n" + sb.toString());
+			}
+
+		} catch (NumberFormatException e) {
+			javafx.scene.control.Alert alertError = new javafx.scene.control.Alert(
+					javafx.scene.control.Alert.AlertType.ERROR);
+			alertError.setTitle("Error de Formato");
+			alertError.setHeaderText(null);
+			alertError.setContentText("Los campos numéricos (ID y Peso) deben contener números enteros válidos.");
+			alertError.showAndWait();
+		}
+	}
+
+	/**
+	 * Ejecuta el patrón Decorator y muestra los datos formateados en la alerta
+	 * confirmando que el decorador fue creado correctamente.
+	 * 
+	 * @param event Evento generado por el clic en el botón Decorator.
+	 */
+	@FXML
+	void ejecutarDecorator(ActionEvent event) {
+
+		String idDron = txtId.getText() != null ? txtId.getText().trim() : "";
+
+		if (idDron.isEmpty()) {
+
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.setTitle("ID Requerido");
+			alert.setHeaderText(null);
+			alert.setContentText("Por favor, ingrese el ID del dron.");
+			alert.showAndWait();
+
+			return;
+		}
+
+		String modelo = (txtModelo != null && !txtModelo.getText().trim().isEmpty()) ? txtModelo.getText().trim()
+				: "N/A";
+
+		String serial = (txtSerial != null && !txtSerial.getText().trim().isEmpty()) ? txtSerial.getText().trim()
+				: "N/A";
+
+		String fabricante = (txtFabricante != null && !txtFabricante.getText().trim().isEmpty())
+				? txtFabricante.getText().trim()
+				: "N/A";
+
+		String peso = (txtPeso != null && !txtPeso.getText().trim().isEmpty()) ? txtPeso.getText().trim() : "N/A";
+
+		/*
+		 * Componente concreto del patrón Decorator.
+		 */
+		DronComponent dron = new Bateria(5000);
+
+		/*
+		 * Se aplica el decorador al componente.
+		 */
+
+		if (chkBateria != null && chkBateria.isSelected()) {
+			dron = new DroneWrapper(dron);
+		}
+
+		Alert alertInfo = new Alert(AlertType.INFORMATION);
+
+		alertInfo.setTitle("Decorator Creado Correctamente");
+		alertInfo.setHeaderText("¡Patrón Decorator Aplicado Exitosamente!");
+
+		StringBuilder sb = new StringBuilder();
+
+		sb.append("Decoración de Dron Certificada:\n");
+		sb.append("• ID del Dron: ").append(idDron).append("\n");
+		sb.append("• Serial / Llave: ").append(serial).append("\n");
+		sb.append("• Modelo: ").append(modelo).append("\n");
+		sb.append("• Fabricante: ").append(fabricante).append("\n");
+		sb.append("• Peso total: ").append(peso).append(" gramos\n");
+		sb.append("• Componente Decorado: ").append(dron.descripcion()).append("\n");
+
+		alertInfo.setContentText(sb.toString());
+		alertInfo.showAndWait();
+
+		if (txtConsola != null) {
+
+			txtConsola.setText("=== ESTRUCTURA FORMAL DECORATOR (GoF) ===\n" + sb.toString());
+		}
+	}
+
+	/**
+	 * Ejecuta la demostración del patrón Adapter.
+	 *
+	 * <p>Crea una instancia de {@link Mision} con información precargada,
+	 * utiliza {@link MisionAdapter} para adaptarla al formato JSON y muestra
+	 * en la consola de la aplicación el resultado de la operación.</p>
+	 *
+	 * @throws Exception si ocurre un error durante la adaptación de la misión.
+	 */
+	@FXML
+	private void Adapter() {
+
+	    try {
+
+	        // Crear una instancia de Mision con información precargada
+	        Mision mision = new Mision();
+
+	        mision.setId(1);
+	        mision.setNombre("Mision de reconocimiento");
+	        mision.setUbicacion("Bogota");
+	        mision.setFecha(new Date());
+
+	        // Crear el servicio de misiones
+	        MisionService misionService = new MisionService();
+	        
+	        txtConsola.appendText("===== ADAPTER =====\n");
+
+	        // Crear el Adapter
+	        MisionAdapter adapter = new MisionAdapter(misionService);
+	        
+	        // Mostrar únicamente la evidencia de la ejecución
+	      
+	        txtConsola.appendText(
+	                "Misión adaptada correctamente.\n");
+
+	        // Adaptar la misión y generar el archivo JSON
+	        String json = adapter.convertir(mision);
+
+	        txtConsola.appendText(
+	                "Archivo JSON generado correctamente.\n");
+	        txtConsola.appendText(
+	                "Resultado:\n");
+	        txtConsola.appendText(json + "\n");
+	        txtConsola.appendText("===================\n\n");
+
+	    } catch (Exception e) {
+
+	        Alert alerta = new Alert(Alert.AlertType.ERROR);
+	        alerta.setTitle("Error en Adapter");
+	        alerta.setHeaderText(null);
+	        alerta.setContentText(
+	                "No fue posible generar el archivo JSON:\n"
+	                + e.getMessage()
+	        );
+	        alerta.showAndWait();
+	    }
 	}
 
 	/**
@@ -637,187 +882,5 @@ public class DroneController {
 		alerta.showAndWait();
 	}
 
-	/**
-	 * PUNTO 2: Implementación y demostración formal del patrón Builder (Estructura
-	 * GoF).
-	 * 
-	 */
-	@FXML
-	public void ejecutarBuilder() {
-		try {
-			// 1. Validar que el ID no esté vacío (al igual que en el Decorator)
-			String idText = txtId.getText() != null ? txtId.getText().trim() : "";
-			if (idText.isEmpty()) {
-				javafx.scene.control.Alert alertId = new javafx.scene.control.Alert(
-						javafx.scene.control.Alert.AlertType.WARNING);
-				alertId.setTitle("ID Requerido");
-				alertId.setHeaderText(null);
-				alertId.setContentText("Por favor, ingrese el ID del dron.");
-				alertId.showAndWait();
-				return;
-			}
 
-			// 2. Validar selección de tipo de fábrica abajo
-			if (dronFactory == null) {
-				javafx.scene.control.Alert alertWarning = new javafx.scene.control.Alert(
-						javafx.scene.control.Alert.AlertType.WARNING);
-				alertWarning.setTitle("Tipo no seleccionado");
-				alertWarning.setHeaderText(null);
-				alertWarning.setContentText(
-						"Por favor, seleccione primero si el dron es Agrícola o Vigilante con los botones de abajo.");
-				alertWarning.showAndWait();
-				return;
-			}
-
-			// 3. Validar campos de texto requeridos vacíos
-			if (txtSerial.getText().isEmpty() || txtModelo.getText().isEmpty() || txtFabricante.getText().isEmpty()
-					|| txtPeso.getText().isEmpty()) {
-
-				javafx.scene.control.Alert alertCampos = new javafx.scene.control.Alert(
-						javafx.scene.control.Alert.AlertType.WARNING);
-				alertCampos.setTitle("Campos incompletos");
-				alertCampos.setHeaderText(null);
-				alertCampos.setContentText(
-						"Por favor, complete los campos (Serial, Modelo, Fabricante y Peso) a la izquierda antes de construir.");
-				alertCampos.showAndWait();
-				return;
-			}
-
-			// 4. Obtener variables desde la GUI
-			String serial = txtSerial.getText().trim();
-			String modelo = txtModelo.getText().trim();
-			String fabricante = txtFabricante.getText().trim();
-			int peso = Integer.parseInt(txtPeso.getText().trim());
-			int id = Integer.parseInt(idText);
-
-			// 5. INVOCACIÓN SIGUIENDO EL DIAGRAMA DE CLASES
-			Dron dronConstruido = null;
-			String detallesEspecializados = "";
-
-			if (dronFactory instanceof co.edu.poli.sw2.Service.Factory.VigilanciaFactory) {
-				// Instanciar el ConcreteBuilder1 de tu diagrama
-				co.edu.poli.sw2.Service.Builder.VigilanciaBuilder vegBuilder = new co.edu.poli.sw2.Service.Builder.VigilanciaBuilder();
-				vegBuilder.buildDatosBasicos(id, serial, modelo, fabricante, peso); // buildStepA
-				vegBuilder.buildAtributoEspecializado(); // buildStepB
-				dronConstruido = vegBuilder.getResult(); // getResult()
-				detallesEspecializados = "• Sistema Térmico: INSTALADO (true)\n";
-
-			} else if (dronFactory instanceof co.edu.poli.sw2.Service.Factory.AgriculturaFactory) {
-				// Instanciar el ConcreteBuilder2 de tu diagrama
-				co.edu.poli.sw2.Service.Builder.AgriculturaBuilder agroBuilder = new co.edu.poli.sw2.Service.Builder.AgriculturaBuilder();
-				agroBuilder.buildDatosBasicos(id, serial, modelo, fabricante, peso); // buildStepA
-				agroBuilder.buildAtributoEspecializado(); // buildStepB
-				dronConstruido = agroBuilder.getResult(); // getResult()
-				detallesEspecializados = "• Volumen del Tanque: 25.0 L\n";
-			}
-
-			// 6. Registrar el objeto en el mapa de prototipos para que el botón clonar
-			// funcione de inmediato
-			prototypeService.registrarPrototipo(serial, dronConstruido);
-
-			// 7. Construir mensaje de demostración para el Pop-up flotante
-			StringBuilder sb = new StringBuilder();
-			sb.append("Construcción GoF Certificada:\n");
-			sb.append("• Clase Creada: ").append(dronConstruido.getClass().getSimpleName()).append("\n");
-			sb.append("• ID del Dron: ")
-					.append(dronConstruido.getId() == 0 ? "Asignado por DB" : dronConstruido.getId()).append("\n");
-			sb.append("• Serial / Llave: ").append(dronConstruido.getSerial()).append("\n");
-			sb.append("• Modelo: ").append(dronConstruido.getModelo()).append("\n");
-			sb.append("• Fabricante: ").append(dronConstruido.getFabricante()).append("\n");
-			sb.append("• Peso total: ").append(dronConstruido.getPeso()).append(" gramos\n");
-			sb.append(detallesEspecializados);
-
-			// Lanzar alerta de confirmación nativa de JavaFX
-			javafx.scene.control.Alert alertSuccess = new javafx.scene.control.Alert(
-					javafx.scene.control.Alert.AlertType.INFORMATION);
-			alertSuccess.setTitle("Patrón Builder Clásico Ejecutado");
-			alertSuccess.setHeaderText("¡Estructura de construcción GoF verificada!");
-			alertSuccess.setContentText(sb.toString());
-			alertSuccess.showAndWait();
-
-			// Pintar reporte en la caja de texto
-			if (txtConsola != null) {
-				txtConsola.setText("=== ESTRUCTURA FORMAL BUILDER (GoF) ===\n" + sb.toString());
-			}
-
-		} catch (NumberFormatException e) {
-			javafx.scene.control.Alert alertError = new javafx.scene.control.Alert(
-					javafx.scene.control.Alert.AlertType.ERROR);
-			alertError.setTitle("Error de Formato");
-			alertError.setHeaderText(null);
-			alertError.setContentText("Los campos numéricos (ID y Peso) deben contener números enteros válidos.");
-			alertError.showAndWait();
-		}
-	}
-
-	/**
-	 * Ejecuta el patrón Decorator y muestra los datos formateados en la alerta
-	 * confirmando que el decorador fue creado correctamente.
-	 * 
-	 * @param event Evento generado por el clic en el botón Decorator.
-	 */
-	@FXML
-	void ejecutarDecorator(ActionEvent event) {
-
-		String idDron = txtId.getText() != null ? txtId.getText().trim() : "";
-
-		if (idDron.isEmpty()) {
-
-			Alert alert = new Alert(AlertType.WARNING);
-			alert.setTitle("ID Requerido");
-			alert.setHeaderText(null);
-			alert.setContentText("Por favor, ingrese el ID del dron.");
-			alert.showAndWait();
-
-			return;
-		}
-
-		String modelo = (txtModelo != null && !txtModelo.getText().trim().isEmpty()) ? txtModelo.getText().trim()
-				: "N/A";
-
-		String serial = (txtSerial != null && !txtSerial.getText().trim().isEmpty()) ? txtSerial.getText().trim()
-				: "N/A";
-
-		String fabricante = (txtFabricante != null && !txtFabricante.getText().trim().isEmpty())
-				? txtFabricante.getText().trim()
-				: "N/A";
-
-		String peso = (txtPeso != null && !txtPeso.getText().trim().isEmpty()) ? txtPeso.getText().trim() : "N/A";
-
-		/*
-		 * Componente concreto del patrón Decorator.
-		 */
-		DronComponent dron = new Bateria(5000);
-
-		/*
-		 * Se aplica el decorador al componente.
-		 */
-
-		if (chkBateria != null && chkBateria.isSelected()) {
-			dron = new DroneWrapper(dron);
-		}
-
-		Alert alertInfo = new Alert(AlertType.INFORMATION);
-
-		alertInfo.setTitle("Decorator Creado Correctamente");
-		alertInfo.setHeaderText("¡Patrón Decorator Aplicado Exitosamente!");
-
-		StringBuilder sb = new StringBuilder();
-
-		sb.append("Decoración de Dron Certificada:\n");
-		sb.append("• ID del Dron: ").append(idDron).append("\n");
-		sb.append("• Serial / Llave: ").append(serial).append("\n");
-		sb.append("• Modelo: ").append(modelo).append("\n");
-		sb.append("• Fabricante: ").append(fabricante).append("\n");
-		sb.append("• Peso total: ").append(peso).append(" gramos\n");
-		sb.append("• Componente Decorado: ").append(dron.descripcion()).append("\n");
-
-		alertInfo.setContentText(sb.toString());
-		alertInfo.showAndWait();
-
-		if (txtConsola != null) {
-
-			txtConsola.setText("=== ESTRUCTURA FORMAL DECORATOR (GoF) ===\n" + sb.toString());
-		}
-	}
 }
