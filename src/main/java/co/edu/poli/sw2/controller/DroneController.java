@@ -5,6 +5,9 @@ import co.edu.poli.sw2.Service.Adapter.MisionAdapter;
 import co.edu.poli.sw2.Service.Adapter.MisionService;
 import co.edu.poli.sw2.Service.Bridge.ControlAutonomo;
 import co.edu.poli.sw2.Service.Bridge.ControlBasico;
+import co.edu.poli.sw2.Service.Composite.SensoresComponent;
+import co.edu.poli.sw2.Service.Composite.SensoresComposite;
+import co.edu.poli.sw2.Service.Composite.SensoresWrapper;
 import co.edu.poli.sw2.Service.Decorator.Bateria;
 import co.edu.poli.sw2.Service.Decorator.DronComponent;
 import co.edu.poli.sw2.Service.Decorator.DroneWrapper;
@@ -16,9 +19,14 @@ import co.edu.poli.sw2.Service.Protorype.DronPrototypeImpl;
 import co.edu.poli.sw2.model.Agricultura;
 import co.edu.poli.sw2.model.Dron;
 import co.edu.poli.sw2.model.Mision;
+import co.edu.poli.sw2.model.Sensores;
 import co.edu.poli.sw2.model.Vigilancia;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -26,10 +34,22 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 /**
  * Controlador encargado de gestionar la interfaz gráfica de los drones.
@@ -39,6 +59,16 @@ import java.util.Date;
  * @version 2.0
  */
 public class DroneController {
+	
+	
+	@FXML
+    private ComboBox<String> cmbTiposSensores;
+
+    @FXML
+    private Button btnComposite;
+
+    @FXML
+    private Button btnAyudaComposite;
 
 	@FXML
 	private CheckBox chkBateria;
@@ -881,6 +911,168 @@ public class DroneController {
 		alerta.setContentText(mensaje);
 		alerta.showAndWait();
 	}
+	/**
+	 * Controlador de JavaFX para construir y visualizar la jerarquía del patrón Composite
+	 * de sensores dentro de un componente {@link TreeView}.
+	 * 
+	 * @author Cristian Vera
+	 * @version 1.0
+     */
+	/**
+     * Carga las opciones en el ComboBox y aplica una fábrica de celdas (CellFactory)
+     * para deshabilitar la selección de los nodos que son grupos o contenedores.
+     * 
+     * @param event Evento de acción de JavaFX.
+     */
+    @FXML
+    void mostrarTiposSensores(ActionEvent event) {
+        if (cmbTiposSensores.getItems().isEmpty()) {
+            cmbTiposSensores.getItems().addAll(
+                "--- Sensor Temperatura ---",
+                "  Sensor Infrarrojo",
+                "  RTD",
+                "--- Sensor Cámara ---",
+                "  Sensor CMOS",
+                "  Sensor CCD",
+                "--- Sensor Sonido ---",
+                "  Sensor Analógico",
+                "--- Sensor Digital ---",
+                "    SPI",
+                "    UART",
+                "  Sensor Inteligente"
+            );
+
+            // Personalizar las celdas para que los grupos no sean seleccionables
+            cmbTiposSensores.setCellFactory(lv -> new ListCell<String>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                        setDisable(false);
+                    } else {
+                        setText(item);
+                        // Si empieza con "---", se considera un grupo/contenedor y se deshabilita
+                        if (item.startsWith("---")) {
+                            setDisable(true);
+                            setStyle("-fx-font-weight: bold; -fx-opacity: 0.5; -fx-text-fill: #888888;");
+                        } else {
+                            setDisable(false);
+                            setStyle("-fx-font-weight: normal; -fx-opacity: 1.0;");
+                        }
+                    }
+                }
+            });
+        }
+        
+        cmbTiposSensores.setVisible(true);
+    }
 
 
-}
+    @FXML
+    void seleccionarSensor(ActionEvent event) {
+        String seleccion = cmbTiposSensores.getValue();
+        
+        if (seleccion != null && !seleccion.startsWith("---")) {
+            
+            // 1. Validar el ID desde el campo txtId
+            if (txtId == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error de Configuración");
+                alert.setHeaderText("Campo No Inyectado");
+                alert.setContentText("El campo txtId no está vinculado en el archivo FXML.");
+                alert.showAndWait();
+                return;
+            }
+
+            String idIngresado = txtId.getText() != null ? txtId.getText().trim() : "";
+
+            if (idIngresado.isEmpty()) {
+                Alert alertError = new Alert(Alert.AlertType.WARNING);
+                alertError.setTitle("ID Requerido");
+                alertError.setHeaderText(null);
+                alertError.setContentText("Por favor, ingrese el ID del dron.");
+                alertError.showAndWait();
+                
+                cmbTiposSensores.getSelectionModel().clearSelection();
+                return;
+            }
+
+            // 2. Detectar el grupo contenedor (Composite) buscando hacia arriba en el ComboBox
+            String sensorFinal = seleccion.trim();
+            String nombreGrupo = "Grupo General de Sensores";
+            int indexSeleccionado = cmbTiposSensores.getSelectionModel().getSelectedIndex();
+            
+            for (int i = indexSeleccionado - 1; i >= 0; i--) {
+                String itemAnterior = cmbTiposSensores.getItems().get(i);
+                if (itemAnterior.startsWith("---")) {
+                    nombreGrupo = itemAnterior.replace("---", "").trim();
+                    break;
+                }
+            }
+
+            // 3. Crear el modelo del sensor asignándole el ID y fabricante
+            Sensores sensorModel = new Sensores();
+            sensorModel.setTipo(sensorFinal);
+            sensorModel.setFabricante("Dron ID: " + idIngresado);
+
+            // 4. Construir la estructura del Patrón Composite
+            SensoresComponent hoja = new SensoresWrapper(sensorModel);
+            SensoresComposite grupo = new SensoresComposite(nombreGrupo);
+            grupo.add(hoja);
+
+            // 5. Formatear y enviar la salida hacia la Consola de la interfaz
+            StringBuilder salidaConsola = new StringBuilder();
+            salidaConsola.append("> ===== EJECUCIÓN PATRÓN COMPOSITE =====\n");
+            salidaConsola.append("> ID Dron Asociado: ").append(idIngresado).append("\n");
+            salidaConsola.append("> ").append(grupo.execute());
+            salidaConsola.append("> ======================================\n\n");
+
+            if (txtConsola != null) {
+                txtConsola.appendText(salidaConsola.toString());
+            } else {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Patrón Composite - Sensores");
+                alert.setHeaderText("Resultado de Ejecución");
+                alert.setContentText(salidaConsola.toString());
+                alert.showAndWait();
+            }
+
+        } else if (seleccion != null && seleccion.startsWith("---")) {
+            cmbTiposSensores.getSelectionModel().clearSelection();
+        }
+    }
+    @FXML
+    void mostrarDiagrama(ActionEvent event) {
+        try {
+            Stage stage = new Stage();
+            stage.setTitle("Diagrama Jerárquico - Patrón Composite");
+
+            Image image = new Image(getClass().getResourceAsStream("/co/edu/poli/sw2/images/diagrama_composite.png"));
+            ImageView imageView = new ImageView(image);
+            imageView.setFitWidth(500);
+            imageView.setPreserveRatio(true);
+
+            StackPane pane = new StackPane(imageView);
+            Scene scene = new Scene(pane, 520, 350);
+            
+            stage.setScene(scene);
+            stage.show();
+        } catch (Exception e) {
+            // Se captura la excepción en silencio (sin e.printStackTrace()) y se notifica vía alerta
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Estructura Composite");
+            alert.setHeaderText("Jerarquía de Sensores");
+            alert.setContentText(
+                "Sensor General\n" +
+                " ├── Sensor Temperatura (Infrarrojo, RTD)\n" +
+                " ├── Sensor Cámara (CMOS, CCD)\n" +
+                " ├── Sensor Sonido (Analógico, Digital -> SPI, UART)\n" +
+                " └── Sensor Inteligente"
+            );
+            alert.showAndWait();
+        }
+    }
+        
+    }
+
