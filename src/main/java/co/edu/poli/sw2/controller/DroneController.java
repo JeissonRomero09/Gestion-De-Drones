@@ -21,6 +21,7 @@ import co.edu.poli.sw2.model.Dron;
 import co.edu.poli.sw2.model.Mision;
 import co.edu.poli.sw2.model.Sensores;
 import co.edu.poli.sw2.model.Vigilancia;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -924,7 +925,7 @@ public class DroneController {
      * 
      * @param event Evento de acción de JavaFX.
      */
-    @FXML
+	@FXML
     void mostrarTiposSensores(ActionEvent event) {
         if (cmbTiposSensores.getItems().isEmpty()) {
             cmbTiposSensores.getItems().addAll(
@@ -963,11 +964,13 @@ public class DroneController {
                     }
                 }
             });
+
+            // Personalizar la celda principal visible para evitar incoherencias visuales
+            cmbTiposSensores.setButtonCell(cmbTiposSensores.getCellFactory().call(null));
         }
         
         cmbTiposSensores.setVisible(true);
     }
-
 
     @FXML
     void seleccionarSensor(ActionEvent event) {
@@ -994,7 +997,8 @@ public class DroneController {
                 alertError.setContentText("Por favor, ingrese el ID del dron.");
                 alertError.showAndWait();
                 
-                cmbTiposSensores.getSelectionModel().clearSelection();
+                // Se difiere la limpieza de la selección para no interrumpir el evento de JavaFX
+                Platform.runLater(() -> cmbTiposSensores.getSelectionModel().clearSelection());
                 return;
             }
 
@@ -1014,7 +1018,7 @@ public class DroneController {
             // 3. Crear el modelo del sensor asignándole el ID y fabricante
             Sensores sensorModel = new Sensores();
             sensorModel.setTipo(sensorFinal);
-            sensorModel.setFabricante("Dron ID: " + idIngresado);
+            sensorModel.setFabricante("Predeterminado");
 
             // 4. Construir la estructura del Patrón Composite
             SensoresComponent hoja = new SensoresWrapper(sensorModel);
@@ -1039,9 +1043,11 @@ public class DroneController {
             }
 
         } else if (seleccion != null && seleccion.startsWith("---")) {
-            cmbTiposSensores.getSelectionModel().clearSelection();
+            // Se difiere la limpieza de la selección para no interrumpir el evento de JavaFX
+            Platform.runLater(() -> cmbTiposSensores.getSelectionModel().clearSelection());
         }
     }
+
     @FXML
     void mostrarDiagrama(ActionEvent event) {
         try {
@@ -1072,7 +1078,6 @@ public class DroneController {
             );
             alert.showAndWait();
         }
-    }
-        
+     }      
     }
 
