@@ -1124,5 +1124,47 @@ public class DroneController {
 		}
 
 	}
+		/**
+	 * Elimina un registro de dron existente utilizando el patrón Proxy de protección.
+	 * 
+	 * @author Cristian Vera
+	 * @version 1.0
+	 */
+	@FXML
+	private void Eliminar() {
+	    try {
+	        if (txtId.getText().isEmpty()) {
+	            mostrarAlerta(Alert.AlertType.WARNING, "ID requerido", "Ingrese el ID del dron que desea eliminar.");
+	            return;
+	        }
 
+	        int id = Integer.parseInt(txtId.getText().trim());
+
+	        // 1. Instanciar el servicio real y el Proxy
+	        ServiceInterface servicioReal = new EliminarDron(this.dronDao);
+	        ServiceInterface proxy = new DronProxy(servicioReal, "Admin123");
+
+	        // 2. Ejecutar la operación a través del Proxy
+	        String resultado = proxy.eliminarDron(id);
+
+	        // 3. Evaluar el mensaje recibido
+	        if (resultado.startsWith("✅")) {
+	            mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", resultado);
+	            limpiarCampos();
+	            if (txtConsola != null) {
+	                txtConsola.appendText("=== PATRÓN PROXY ===\n" + resultado + "\n\n");
+	            }
+	        } else if (resultado.startsWith("❌")) {
+	            mostrarAlerta(Alert.AlertType.ERROR, "Acceso Denegado / Error", resultado);
+	        } else {
+	            mostrarAlerta(Alert.AlertType.WARNING, "Cancelado", resultado);
+	        }
+
+	    } catch (NumberFormatException e) {
+	        mostrarAlerta(Alert.AlertType.ERROR, "ID inválido", "El ID debe ser un número entero.");
+	    } catch (Exception e) {
+	        // Catch genérico para cualquier otro error inesperado en tiempo de ejecución
+	        mostrarAlerta(Alert.AlertType.ERROR, "Error", "Ocurrió un error inesperado: " + e.getMessage());
+	    }
+	}
 }
