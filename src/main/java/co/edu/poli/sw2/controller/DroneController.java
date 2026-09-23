@@ -48,7 +48,9 @@ import javafx.scene.control.ListCell;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -60,16 +62,15 @@ import java.util.ResourceBundle;
  * @version 2.0
  */
 public class DroneController {
-	
-	
+
 	@FXML
-    private ComboBox<String> cmbTiposSensores;
+	private ComboBox<String> cmbTiposSensores;
 
-    @FXML
-    private Button btnComposite;
+	@FXML
+	private Button btnComposite;
 
-    @FXML
-    private Button btnAyudaComposite;
+	@FXML
+	private Button btnAyudaComposite;
 
 	@FXML
 	private CheckBox chkBateria;
@@ -93,6 +94,12 @@ public class DroneController {
 
 	@FXML
 	private TextField txtId;
+
+	@FXML
+	private TextField txtSensor;
+
+	@FXML
+	private TextField txtPiloto;
 
 	@FXML
 	private TextField txtSerial;
@@ -278,6 +285,7 @@ public class DroneController {
 		dronFactory = new VigilanciaFactory();
 		seleccionarTipo(btnVigilante);
 	}
+
 	/**
 	 * PUNTO 2: Implementación y demostración formal del patrón Builder (Estructura
 	 * GoF).
@@ -465,59 +473,55 @@ public class DroneController {
 	/**
 	 * Ejecuta la demostración del patrón Adapter.
 	 *
-	 * <p>Crea una instancia de {@link Mision} con información precargada,
-	 * utiliza {@link MisionAdapter} para adaptarla al formato JSON y muestra
-	 * en la consola de la aplicación el resultado de la operación.</p>
+	 * <p>
+	 * Crea una instancia de {@link Mision} con información precargada, utiliza
+	 * {@link MisionAdapter} para adaptarla al formato JSON y muestra en la consola
+	 * de la aplicación el resultado de la operación.
+	 * </p>
 	 *
 	 * @throws Exception si ocurre un error durante la adaptación de la misión.
 	 */
 	@FXML
 	private void Adapter() {
 
-	    try {
+		try {
 
-	        // Crear una instancia de Mision con información precargada
-	        Mision mision = new Mision();
+			// Crear una instancia de Mision con información precargada
+			Mision mision = new Mision();
 
-	        mision.setId(1);
-	        mision.setNombre("Mision de reconocimiento");
-	        mision.setUbicacion("Bogota");
-	        mision.setFecha(new Date());
+			mision.setId(1);
+			mision.setNombre("Mision de reconocimiento");
+			mision.setUbicacion("Bogota");
+			mision.setFecha(new Date());
 
-	        // Crear el servicio de misiones
-	        MisionService misionService = new MisionService();
-	        
-	        txtConsola.appendText("===== ADAPTER =====\n");
+			// Crear el servicio de misiones
+			MisionService misionService = new MisionService();
 
-	        // Crear el Adapter
-	        MisionAdapter adapter = new MisionAdapter(misionService);
-	        
-	        // Mostrar únicamente la evidencia de la ejecución
-	      
-	        txtConsola.appendText(
-	                "Misión adaptada correctamente.\n");
+			txtConsola.appendText("===== ADAPTER =====\n");
 
-	        // Adaptar la misión y generar el archivo JSON
-	        String json = adapter.convertir(mision);
+			// Crear el Adapter
+			MisionAdapter adapter = new MisionAdapter(misionService);
 
-	        txtConsola.appendText(
-	                "Archivo JSON generado correctamente.\n");
-	        txtConsola.appendText(
-	                "Resultado:\n");
-	        txtConsola.appendText(json + "\n");
-	        txtConsola.appendText("===================\n\n");
+			// Mostrar únicamente la evidencia de la ejecución
 
-	    } catch (Exception e) {
+			txtConsola.appendText("Misión adaptada correctamente.\n");
 
-	        Alert alerta = new Alert(Alert.AlertType.ERROR);
-	        alerta.setTitle("Error en Adapter");
-	        alerta.setHeaderText(null);
-	        alerta.setContentText(
-	                "No fue posible generar el archivo JSON:\n"
-	                + e.getMessage()
-	        );
-	        alerta.showAndWait();
-	    }
+			// Adaptar la misión y generar el archivo JSON
+			String json = adapter.convertir(mision);
+
+			txtConsola.appendText("Archivo JSON generado correctamente.\n");
+			txtConsola.appendText("Resultado:\n");
+			txtConsola.appendText(json + "\n");
+			txtConsola.appendText("===================\n\n");
+
+		} catch (Exception e) {
+
+			Alert alerta = new Alert(Alert.AlertType.ERROR);
+			alerta.setTitle("Error en Adapter");
+			alerta.setHeaderText(null);
+			alerta.setContentText("No fue posible generar el archivo JSON:\n" + e.getMessage());
+			alerta.showAndWait();
+		}
 	}
 
 	/**
@@ -580,14 +584,15 @@ public class DroneController {
 			drone.setFabricante(txtFabricante.getText());
 			drone.setPeso(Integer.parseInt(txtPeso.getText()));
 
-			int idGenerado = dronDao.crear(drone);
+			List<Integer> idsSensores = obtenerSensoresDesdeCampo();
+			int idGenerado = dronDao.crear(drone, idsSensores);
 
 			txtId.setText(String.valueOf(idGenerado));
 
 			String mensajeControl = drone.controlar();
 
 			mostrarAlerta(Alert.AlertType.INFORMATION, "Dron guardado",
-					"El dron se guardó correctamente con ID: " + idGenerado);
+					"El dron se guardó correctamente with ID: " + idGenerado);
 
 			limpiarCampos();
 
@@ -595,6 +600,9 @@ public class DroneController {
 
 		} catch (NumberFormatException e) {
 			mostrarAlerta(Alert.AlertType.ERROR, "Datos inválidos", "El peso debe ser un valor numérico entero.");
+
+		} catch (IllegalArgumentException e) {
+			mostrarAlerta(Alert.AlertType.ERROR, "IDs de sensores inválidos", e.getMessage());
 
 		} catch (SQLException e) {
 			mostrarAlerta(Alert.AlertType.ERROR, "Error de Base de Datos",
@@ -640,6 +648,9 @@ public class DroneController {
 				txtModelo.setText(drone.getModelo());
 				txtFabricante.setText(drone.getFabricante());
 				txtPeso.setText(String.valueOf(drone.getPeso()));
+				if (txtSensor != null) {
+					txtSensor.setText(formatearIdsSensores(drone.getSensores()));
+				}
 
 				// Resetear selecciones previas
 				limpiarSeleccionTipo();
@@ -659,6 +670,9 @@ public class DroneController {
 
 			} else {
 				limpiarSeleccionTipo();
+				if (txtSensor != null) {
+					txtSensor.setText("Ninguno");
+				}
 				mostrarAlerta(Alert.AlertType.WARNING, "Dron no encontrado", "No existe un dron con el ID ingresado.");
 			}
 
@@ -750,7 +764,6 @@ public class DroneController {
 			int id = Integer.parseInt(txtId.getText());
 			int peso = Integer.parseInt(txtPeso.getText());
 
-			// Usar la fábrica para conservar/cambiar el tipo de dron
 			Dron drone = dronFactory.crearDron();
 			drone.setId(id);
 			drone.setSerial(txtSerial.getText());
@@ -758,7 +771,8 @@ public class DroneController {
 			drone.setFabricante(txtFabricante.getText());
 			drone.setPeso(peso);
 
-			dronDao.actualizar(drone);
+			List<Integer> idsSensores = obtenerSensoresDesdeCampo();
+			dronDao.actualizar(drone, idsSensores);
 
 			mostrarAlerta(Alert.AlertType.INFORMATION, "Dron actualizado",
 					"Los datos del dron se actualizaron correctamente.");
@@ -768,6 +782,8 @@ public class DroneController {
 		} catch (NumberFormatException e) {
 			mostrarAlerta(Alert.AlertType.ERROR, "Datos inválidos",
 					"El ID y el Peso deben contener valores numéricos enteros.");
+		} catch (IllegalArgumentException e) {
+			mostrarAlerta(Alert.AlertType.ERROR, "IDs de sensores inválidos", e.getMessage());
 		} catch (SQLException e) {
 			mostrarAlerta(Alert.AlertType.ERROR, "Error de Base de Datos",
 					"No se pudo actualizar el dron: " + e.getMessage());
@@ -793,6 +809,12 @@ public class DroneController {
 		txtModelo.clear();
 		txtFabricante.clear();
 		txtPeso.clear();
+		if (txtPiloto != null) {
+			txtPiloto.clear();
+		}
+		if (txtSensor != null) {
+			txtSensor.clear();
+		}
 
 		limpiarSeleccionTipo();
 	}
@@ -895,6 +917,37 @@ public class DroneController {
 		});
 	}
 
+	private List<Integer> obtenerSensoresDesdeCampo() {
+		List<Integer> ids = new ArrayList<>();
+		if (txtSensor == null || txtSensor.getText() == null || txtSensor.getText().trim().isEmpty()) {
+			return ids;
+		}
+
+		String[] partes = txtSensor.getText().split("[\\s,;]+");
+		for (String parte : partes) {
+			if (parte == null || parte.trim().isEmpty()) {
+				continue;
+			}
+			ids.add(Integer.parseInt(parte.trim()));
+		}
+		return ids;
+	}
+
+	private String formatearIdsSensores(List<Sensores> sensores) {
+		if (sensores == null || sensores.isEmpty()) {
+			return "Ninguno";
+		}
+
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < sensores.size(); i++) {
+			if (i > 0) {
+				sb.append(", ");
+			}
+			sb.append(sensores.get(i).getId());
+		}
+		return sb.toString();
+	}
+
 	/**
 	 * Despliega un cuadro de diálogo modal de tipo {@link Alert} para notificar
 	 * informaciones, advertencias o errores al usuario.
@@ -912,172 +965,164 @@ public class DroneController {
 		alerta.setContentText(mensaje);
 		alerta.showAndWait();
 	}
+
 	/**
-	 * Controlador de JavaFX para construir y visualizar la jerarquía del patrón Composite
-	 * de sensores dentro de un componente {@link TreeView}.
+	 * Controlador de JavaFX para construir y visualizar la jerarquía del patrón
+	 * Composite de sensores dentro de un componente {@link TreeView}.
 	 * 
 	 * @author Cristian Vera
 	 * @version 1.0
-     */
+	 */
 	/**
-     * Carga las opciones en el ComboBox y aplica una fábrica de celdas (CellFactory)
-     * para deshabilitar la selección de los nodos que son grupos o contenedores.
-     * 
-     * @param event Evento de acción de JavaFX.
-     */
+	 * Carga las opciones en el ComboBox y aplica una fábrica de celdas
+	 * (CellFactory) para deshabilitar la selección de los nodos que son grupos o
+	 * contenedores.
+	 * 
+	 * @param event Evento de acción de JavaFX.
+	 */
 	@FXML
-    void mostrarTiposSensores(ActionEvent event) {
-        if (cmbTiposSensores.getItems().isEmpty()) {
-            cmbTiposSensores.getItems().addAll(
-                "--- Sensor Temperatura ---",
-                "  Sensor Infrarrojo",
-                "  RTD",
-                "--- Sensor Cámara ---",
-                "  Sensor CMOS",
-                "  Sensor CCD",
-                "--- Sensor Sonido ---",
-                "  Sensor Analógico",
-                "--- Sensor Digital ---",
-                "    SPI",
-                "    UART",
-                "  Sensor Inteligente"
-            );
+	void mostrarTiposSensores(ActionEvent event) {
+		if (cmbTiposSensores.getItems().isEmpty()) {
+			cmbTiposSensores.getItems().addAll("--- Sensor Temperatura ---", "  Sensor Infrarrojo", "  RTD",
+					"--- Sensor Cámara ---", "  Sensor CMOS", "  Sensor CCD", "--- Sensor Sonido ---",
+					"  Sensor Analógico", "--- Sensor Digital ---", "    SPI", "    UART", "  Sensor Inteligente");
 
-            // Personalizar las celdas para que los grupos no sean seleccionables
-            cmbTiposSensores.setCellFactory(lv -> new ListCell<String>() {
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if (empty || item == null) {
-                        setText(null);
-                        setDisable(false);
-                    } else {
-                        setText(item);
-                        // Si empieza con "---", se considera un grupo/contenedor y se deshabilita
-                        if (item.startsWith("---")) {
-                            setDisable(true);
-                            setStyle("-fx-font-weight: bold; -fx-opacity: 0.5; -fx-text-fill: #888888;");
-                        } else {
-                            setDisable(false);
-                            setStyle("-fx-font-weight: normal; -fx-opacity: 1.0;");
-                        }
-                    }
-                }
-            });
+			// Personalizar las celdas para que los grupos no sean seleccionables
+			cmbTiposSensores.setCellFactory(lv -> new ListCell<String>() {
+				@Override
+				protected void updateItem(String item, boolean empty) {
+					super.updateItem(item, empty);
+					if (empty || item == null) {
+						setText(null);
+						setDisable(false);
+					} else {
+						setText(item);
+						// Si empieza con "---", se considera un grupo/contenedor y se deshabilita
+						if (item.startsWith("---")) {
+							setDisable(true);
+							setStyle("-fx-font-weight: bold; -fx-opacity: 0.5; -fx-text-fill: #888888;");
+						} else {
+							setDisable(false);
+							setStyle("-fx-font-weight: normal; -fx-opacity: 1.0;");
+						}
+					}
+				}
+			});
 
-            // Personalizar la celda principal visible para evitar incoherencias visuales
-            cmbTiposSensores.setButtonCell(cmbTiposSensores.getCellFactory().call(null));
-        }
-        
-        cmbTiposSensores.setVisible(true);
-    }
+			// Personalizar la celda principal visible para evitar incoherencias visuales
+			cmbTiposSensores.setButtonCell(cmbTiposSensores.getCellFactory().call(null));
+		}
 
-    @FXML
-    void seleccionarSensor(ActionEvent event) {
-        String seleccion = cmbTiposSensores.getValue();
-        
-        if (seleccion != null && !seleccion.startsWith("---")) {
-            
-            // 1. Validar el ID desde el campo txtId
-            if (txtId == null) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Error de Configuración");
-                alert.setHeaderText("Campo No Inyectado");
-                alert.setContentText("El campo txtId no está vinculado en el archivo FXML.");
-                alert.showAndWait();
-                return;
-            }
+		cmbTiposSensores.setVisible(true);
+	}
 
-            String idIngresado = txtId.getText() != null ? txtId.getText().trim() : "";
+	@FXML
+	void seleccionarSensor(ActionEvent event) {
+		String seleccion = cmbTiposSensores.getValue();
 
-            if (idIngresado.isEmpty()) {
-                Alert alertError = new Alert(Alert.AlertType.WARNING);
-                alertError.setTitle("ID Requerido");
-                alertError.setHeaderText(null);
-                alertError.setContentText("Por favor, ingrese el ID del dron.");
-                alertError.showAndWait();
-                
-                // Se difiere la limpieza de la selección para no interrumpir el evento de JavaFX
-                Platform.runLater(() -> cmbTiposSensores.getSelectionModel().clearSelection());
-                return;
-            }
+		if (seleccion != null && !seleccion.startsWith("---")) {
 
-            // 2. Detectar el grupo contenedor (Composite) buscando hacia arriba en el ComboBox
-            String sensorFinal = seleccion.trim();
-            String nombreGrupo = "Grupo General de Sensores";
-            int indexSeleccionado = cmbTiposSensores.getSelectionModel().getSelectedIndex();
-            
-            for (int i = indexSeleccionado - 1; i >= 0; i--) {
-                String itemAnterior = cmbTiposSensores.getItems().get(i);
-                if (itemAnterior.startsWith("---")) {
-                    nombreGrupo = itemAnterior.replace("---", "").trim();
-                    break;
-                }
-            }
+			// 1. Validar el ID desde el campo txtId
+			if (txtId == null) {
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("Error de Configuración");
+				alert.setHeaderText("Campo No Inyectado");
+				alert.setContentText("El campo txtId no está vinculado en el archivo FXML.");
+				alert.showAndWait();
+				return;
+			}
 
-            // 3. Crear el modelo del sensor asignándole el ID y fabricante
-            Sensores sensorModel = new Sensores();
-            sensorModel.setTipo(sensorFinal);
-            sensorModel.setFabricante("Predeterminado");
+			String idIngresado = txtId.getText() != null ? txtId.getText().trim() : "";
 
-            // 4. Construir la estructura del Patrón Composite
-            SensoresComponent hoja = new SensoresWrapper(sensorModel);
-            SensoresComposite grupo = new SensoresComposite(nombreGrupo);
-            grupo.add(hoja);
+			if (idIngresado.isEmpty()) {
+				Alert alertError = new Alert(Alert.AlertType.WARNING);
+				alertError.setTitle("ID Requerido");
+				alertError.setHeaderText(null);
+				alertError.setContentText("Por favor, ingrese el ID del dron.");
+				alertError.showAndWait();
 
-            // 5. Formatear y enviar la salida hacia la Consola de la interfaz
-            StringBuilder salidaConsola = new StringBuilder();
-            salidaConsola.append("> ===== EJECUCIÓN PATRÓN COMPOSITE =====\n");
-            salidaConsola.append("> ID Dron Asociado: ").append(idIngresado).append("\n");
-            salidaConsola.append("> ").append(grupo.execute());
-            salidaConsola.append("> ======================================\n\n");
+				// Se difiere la limpieza de la selección para no interrumpir el evento de
+				// JavaFX
+				Platform.runLater(() -> cmbTiposSensores.getSelectionModel().clearSelection());
+				return;
+			}
 
-            if (txtConsola != null) {
-                txtConsola.appendText(salidaConsola.toString());
-            } else {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Patrón Composite - Sensores");
-                alert.setHeaderText("Resultado de Ejecución");
-                alert.setContentText(salidaConsola.toString());
-                alert.showAndWait();
-            }
+			// 2. Detectar el grupo contenedor (Composite) buscando hacia arriba en el
+			// ComboBox
+			String sensorFinal = seleccion.trim();
+			String nombreGrupo = "Grupo General de Sensores";
+			int indexSeleccionado = cmbTiposSensores.getSelectionModel().getSelectedIndex();
 
-        } else if (seleccion != null && seleccion.startsWith("---")) {
-            // Se difiere la limpieza de la selección para no interrumpir el evento de JavaFX
-            Platform.runLater(() -> cmbTiposSensores.getSelectionModel().clearSelection());
-        }
-    }
+			for (int i = indexSeleccionado - 1; i >= 0; i--) {
+				String itemAnterior = cmbTiposSensores.getItems().get(i);
+				if (itemAnterior.startsWith("---")) {
+					nombreGrupo = itemAnterior.replace("---", "").trim();
+					break;
+				}
+			}
 
-    @FXML
-    void mostrarDiagrama(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            stage.setTitle("Diagrama Jerárquico - Patrón Composite");
+			// 3. Crear el modelo del sensor asignándole el ID y fabricante
+			Sensores sensorModel = new Sensores();
+			sensorModel.setTipo(sensorFinal);
+			sensorModel.setFabricante("Predeterminado");
 
-            Image image = new Image(getClass().getResourceAsStream("/co/edu/poli/sw2/images/diagrama_composite.png"));
-            ImageView imageView = new ImageView(image);
-            imageView.setFitWidth(500);
-            imageView.setPreserveRatio(true);
+			// 4. Construir la estructura del Patrón Composite
+			SensoresComponent hoja = new SensoresWrapper(sensorModel);
+			SensoresComposite grupo = new SensoresComposite(nombreGrupo);
+			grupo.add(hoja);
 
-            StackPane pane = new StackPane(imageView);
-            Scene scene = new Scene(pane, 520, 350);
-            
-            stage.setScene(scene);
-            stage.show();
-        } catch (Exception e) {
-            // Se captura la excepción en silencio (sin e.printStackTrace()) y se notifica vía alerta
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Estructura Composite");
-            alert.setHeaderText("Jerarquía de Sensores");
-            alert.setContentText(
-                "Sensor General\n" +
-                " ├── Sensor Temperatura (Infrarrojo, RTD)\n" +
-                " ├── Sensor Cámara (CMOS, CCD)\n" +
-                " ├── Sensor Sonido (Analógico, Digital -> SPI, UART)\n" +
-                " └── Sensor Inteligente"
-            );
-            alert.showAndWait();
-        }
-     }      
-    }
+			// 5. Formatear y enviar la salida hacia la Consola de la interfaz
+			StringBuilder salidaConsola = new StringBuilder();
+			salidaConsola.append("> ===== EJECUCIÓN PATRÓN COMPOSITE =====\n");
+			salidaConsola.append("> ID Dron Asociado: ").append(idIngresado).append("\n");
+			salidaConsola.append("> ").append(grupo.execute());
+			salidaConsola.append("> ======================================\n\n");
 
+			if (txtConsola != null) {
+				txtConsola.appendText(salidaConsola.toString());
+			} else {
+				Alert alert = new Alert(Alert.AlertType.INFORMATION);
+				alert.setTitle("Patrón Composite - Sensores");
+				alert.setHeaderText("Resultado de Ejecución");
+				alert.setContentText(salidaConsola.toString());
+				alert.showAndWait();
+			}
+
+		} else if (seleccion != null && seleccion.startsWith("---")) {
+			// Se difiere la limpieza de la selección para no interrumpir el evento de
+			// JavaFX
+			Platform.runLater(() -> cmbTiposSensores.getSelectionModel().clearSelection());
+		}
+	}
+
+	@FXML
+	void mostrarDiagrama(ActionEvent event) {
+		try {
+			Stage stage = new Stage();
+			stage.setTitle("Diagrama Jerárquico - Patrón Composite");
+
+			Image image = new Image(getClass().getResourceAsStream("/co/edu/poli/sw2/images/diagrama_composite.png"));
+			ImageView imageView = new ImageView(image);
+			imageView.setFitWidth(500);
+			imageView.setPreserveRatio(true);
+
+			StackPane pane = new StackPane(imageView);
+			Scene scene = new Scene(pane, 520, 350);
+
+			stage.setScene(scene);
+			stage.show();
+		} catch (Exception e) {
+			// Se captura la excepción en silencio (sin e.printStackTrace()) y se notifica
+			// vía alerta
+			Alert alert = new Alert(Alert.AlertType.INFORMATION);
+			alert.setTitle("Estructura Composite");
+			alert.setHeaderText("Jerarquía de Sensores");
+			alert.setContentText("Sensor General\n" + " ├── Sensor Temperatura (Infrarrojo, RTD)\n"
+					+ " ├── Sensor Cámara (CMOS, CCD)\n" + " ├── Sensor Sonido (Analógico, Digital -> SPI, UART)\n"
+					+ " └── Sensor Inteligente");
+			alert.showAndWait();
+		}
+
+	}
+
+}

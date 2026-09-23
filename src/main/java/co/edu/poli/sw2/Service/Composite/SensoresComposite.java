@@ -11,26 +11,56 @@ import java.util.List;
  */
 public class SensoresComposite implements SensoresComponent {
 
+    /**
+     * Nombre del grupo de sensores.
+     */
     private String nombreGrupo;
+
+    /**
+     * Lista de componentes hijos que conforman el grupo.
+     */
     private List<SensoresComponent> children;
 
+    /**
+     * Crea un composite con un nombre por defecto.
+     */
     public SensoresComposite() {
         this.children = new ArrayList<>();
     }
 
+    /**
+     * Crea un composite con un nombre de grupo específico.
+     *
+     * @param nombreGrupo nombre que identificará al grupo de sensores.
+     */
     public SensoresComposite(String nombreGrupo) {
         this.nombreGrupo = nombreGrupo;
         this.children = new ArrayList<>();
     }
 
+    /**
+     * Agrega un componente hijo al grupo.
+     *
+     * @param component componente que se agregará al grupo.
+     */
     public void add(SensoresComponent component) {
         children.add(component);
     }
 
+    /**
+     * Elimina un componente hijo del grupo.
+     *
+     * @param component componente que se removerá del grupo.
+     */
     public void remove(SensoresComponent component) {
         children.remove(component);
     }
 
+    /**
+     * Obtiene los subcomponentes del grupo.
+     *
+     * @return lista de componentes hijos.
+     */
     public List<SensoresComponent> getChildren() {
         return children;
     }
@@ -51,11 +81,21 @@ public class SensoresComposite implements SensoresComponent {
         return sb.toString();
     }
 
+    /**
+     * Obtiene el nombre del grupo.
+     *
+     * @return nombre del grupo de sensores.
+     */
     @Override
     public String getNombre() {
         return nombreGrupo != null ? nombreGrupo : "Grupo de Sensores";
     }
 
+    /**
+     * Asigna el nombre del grupo.
+     *
+     * @param nombreGrupo nuevo nombre para el grupo de sensores.
+     */
     public void setNombreGrupo(String nombreGrupo) {
         this.nombreGrupo = nombreGrupo;
     }

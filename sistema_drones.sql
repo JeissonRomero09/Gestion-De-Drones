@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-09-2026 a las 20:16:20
+-- Tiempo de generación: 23-09-2026 a las 02:46:52
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -37,7 +37,8 @@ CREATE TABLE `agricultura` (
 --
 
 INSERT INTO `agricultura` (`id`, `capacidad_tanque`) VALUES
-(43, 0);
+(43, 0),
+(44, 0);
 
 -- --------------------------------------------------------
 
@@ -69,7 +70,8 @@ INSERT INTO `dron` (`id`, `serial`, `modelo`, `fabricante`, `peso`, `piloto_id`)
 (40, 'M-100', '100', 'kas', 100, NULL),
 (41, 'M-200', '300', 'kas', 324, NULL),
 (42, '545', '2334', '45', 4545, NULL),
-(43, '32', '12', '4334', 534, NULL);
+(43, '32', '12', '4334', 534, NULL),
+(44, '43', '23', '46', 56, NULL);
 
 -- --------------------------------------------------------
 
@@ -134,6 +136,17 @@ CREATE TABLE `sensores` (
   `fabricante` varchar(100) NOT NULL,
   `dron_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `sensores`
+--
+
+INSERT INTO `sensores` (`id`, `tipo`, `fabricante`, `dron_id`) VALUES
+(2, 'Cámara', 'DJI', 30),
+(3, 'GPS', 'Garmin', 44),
+(4, 'Camara', 'DJI', 44),
+(5, 'Camara', 'DJI', 30),
+(6, 'GPS', 'Garmin', 30);
 
 -- --------------------------------------------------------
 
@@ -204,7 +217,7 @@ ALTER TABLE `vigilancia`
 -- AUTO_INCREMENT de la tabla `dron`
 --
 ALTER TABLE `dron`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT de la tabla `mision`
@@ -222,7 +235,7 @@ ALTER TABLE `piloto`
 -- AUTO_INCREMENT de la tabla `sensores`
 --
 ALTER TABLE `sensores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas

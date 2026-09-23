@@ -1,7 +1,9 @@
-
 package co.edu.poli.sw2.model;
 
 import co.edu.poli.sw2.Service.Bridge.ControlDron;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Representa un dron dentro del sistema de gestión.
@@ -23,228 +25,260 @@ import co.edu.poli.sw2.Service.Bridge.ControlDron;
  */
 public class Dron {
 
-	/**
-	 * Identificador único del dron.
-	 */
-	private int id;
+    /**
+     * Identificador único del dron.
+     */
+    private int id;
 
-	/**
-	 * Número de serie del dron.
-	 */
-	private String serial;
+    /**
+     * Número de serie del dron.
+     */
+    private String serial;
 
-	/**
-	 * Modelo del dron.
-	 */
-	private String modelo;
+    /**
+     * Modelo del dron.
+     */
+    private String modelo;
 
-	/**
-	 * Fabricante del dron.
-	 */
-	private String fabricante;
+    /**
+     * Fabricante del dron.
+     */
+    private String fabricante;
 
-	/**
-	 * Peso del dron.
-	 */
-	private int peso;
+    /**
+     * Peso del dron.
+     */
+    private int peso;
 
-	/**
-	 * Implementación del control utilizada por el dron.
-	 *
-	 * <p>
-	 * Permite desacoplar el dron de las diferentes formas de control, como el
-	 * control básico y el control autónomo.
-	 * </p>
-	 */
-	private ControlDron controlDron;
+    /**
+     * Sensores asociados al dron.
+     */
+    private List<Sensores> sensores;
 
-	/**
-	 * Constructor vacío de la clase Dron.
-	 */
-	public Dron() {
-	}
+    /**
+     * Implementación del control utilizada por el dron.
+     *
+     * <p>
+     * Permite desacoplar el dron de las diferentes formas de control, como el
+     * control básico y el control autónomo.
+     * </p>
+     */
+    private ControlDron controlDron;
 
-	/**
-	 * Constructor que permite crear un dron con sus atributos básicos.
-	 *
-	 * @param id         identificador único del dron.
-	 * @param serial     número de serie del dron.
-	 * @param modelo     modelo del dron.
-	 * @param fabricante fabricante del dron.
-	 * @param peso       peso del dron.
-	 */
-	public Dron(int id, String serial, String modelo, String fabricante, int peso) {
-		this.id = id;
-		this.serial = serial;
-		this.modelo = modelo;
-		this.fabricante = fabricante;
-		this.peso = peso;
-	}
+    /**
+     * Constructor vacío de la clase Dron.
+     */
+    public Dron() {
+        this.sensores = new ArrayList<>();
+    }
 
-	/**
-	 * Constructor de copia utilizado para implementar el patrón Prototype.
-	 *
-	 * <p>
-	 * Permite crear un nuevo objeto Dron copiando los atributos de una instancia
-	 * existente.
-	 * </p>
-	 *
-	 * @param prototype instancia de Dron que se utilizará como prototipo.
-	 */
-	public Dron(Dron prototype) {
-		if (prototype != null) {
-			this.id = prototype.id;
-			this.serial = prototype.serial;
-			this.modelo = prototype.modelo;
-			this.fabricante = prototype.fabricante;
-			this.peso = prototype.peso;
-		}
-	}
+    /**
+     * Constructor que permite crear un dron con sus atributos básicos.
+     *
+     * @param id         identificador único del dron.
+     * @param serial     número de serie del dron.
+     * @param modelo     modelo del dron.
+     * @param fabricante fabricante del dron.
+     * @param peso       peso del dron.
+     */
+    public Dron(int id, String serial, String modelo, String fabricante, int peso) {
+        this.id = id;
+        this.serial = serial;
+        this.modelo = modelo;
+        this.fabricante = fabricante;
+        this.peso = peso;
+        this.sensores = new ArrayList<>();
+    }
 
-	/**
-	 * Crea una copia de la instancia actual utilizando el constructor de copia.
-	 *
-	 * @return un nuevo objeto Dron con los mismos atributos de la instancia actual.
-	 */
-	public Dron clone() {
-		return new Dron(this);
-	}
+    /**
+     * Constructor de copia utilizado para implementar el patrón Prototype.
+     *
+     * <p>
+     * Permite crear un nuevo objeto Dron copiando los atributos de una instancia
+     * existente.
+     * </p>
+     *
+     * @param prototype instancia de Dron que se utilizará como prototipo.
+     */
+    public Dron(Dron prototype) {
+        if (prototype != null) {
+            this.id = prototype.id;
+            this.serial = prototype.serial;
+            this.modelo = prototype.modelo;
+            this.fabricante = prototype.fabricante;
+            this.peso = prototype.peso;
+            this.controlDron = prototype.controlDron;
+            this.sensores = prototype.sensores != null ? new ArrayList<>(prototype.sensores) : new ArrayList<>();
+        } else {
+            this.sensores = new ArrayList<>();
+        }
+    }
 
-	/**
-	 * Obtiene el identificador del dron.
-	 *
-	 * @return identificador del dron.
-	 */
-	public int getId() {
-		return id;
-	}
+    /**
+     * Crea una copia de la instancia actual utilizando el constructor de copia.
+     *
+     * @return un nuevo objeto Dron con los mismos atributos de la instancia actual.
+     */
+    public Dron clone() {
+        return new Dron(this);
+    }
 
-	/**
-	 * Modifica el identificador del dron.
-	 *
-	 * @param id nuevo identificador del dron.
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
+    /**
+     * Obtiene el identificador del dron.
+     *
+     * @return identificador del dron.
+     */
+    public int getId() {
+        return id;
+    }
 
-	/**
-	 * Obtiene el número de serie del dron.
-	 *
-	 * @return número de serie del dron.
-	 */
-	public String getSerial() {
-		return serial;
-	}
+    /**
+     * Modifica el identificador del dron.
+     *
+     * @param id nuevo identificador del dron.
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	/**
-	 * Modifica el número de serie del dron.
-	 *
-	 * @param serial nuevo número de serie del dron.
-	 */
-	public void setSerial(String serial) {
-		this.serial = serial;
-	}
+    /**
+     * Obtiene el número de serie del dron.
+     *
+     * @return número de serie del dron.
+     */
+    public String getSerial() {
+        return serial;
+    }
 
-	/**
-	 * Obtiene el modelo del dron.
-	 *
-	 * @return modelo del dron.
-	 */
-	public String getModelo() {
-		return modelo;
-	}
+    /**
+     * Modifica el número de serie del dron.
+     *
+     * @param serial nuevo número de serie del dron.
+     */
+    public void setSerial(String serial) {
+        this.serial = serial;
+    }
 
-	/**
-	 * Modifica el modelo del dron.
-	 *
-	 * @param modelo nuevo modelo del dron.
-	 */
-	public void setModelo(String modelo) {
-		this.modelo = modelo;
-	}
+    /**
+     * Obtiene el modelo del dron.
+     *
+     * @return modelo del dron.
+     */
+    public String getModelo() {
+        return modelo;
+    }
 
-	/**
-	 * Obtiene el fabricante del dron.
-	 *
-	 * @return fabricante del dron.
-	 */
-	public String getFabricante() {
-		return fabricante;
-	}
+    /**
+     * Modifica el modelo del dron.
+     *
+     * @param modelo nuevo modelo del dron.
+     */
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
 
-	/**
-	 * Modifica el fabricante del dron.
-	 *
-	 * @param fabricante nuevo fabricante del dron.
-	 */
-	public void setFabricante(String fabricante) {
-		this.fabricante = fabricante;
-	}
+    /**
+     * Obtiene el fabricante del dron.
+     *
+     * @return fabricante del dron.
+     */
+    public String getFabricante() {
+        return fabricante;
+    }
 
-	/**
-	 * Obtiene el peso del dron.
-	 *
-	 * @return peso del dron.
-	 */
-	public int getPeso() {
-		return peso;
-	}
+    /**
+     * Modifica el fabricante del dron.
+     *
+     * @param fabricante nuevo fabricante del dron.
+     */
+    public void setFabricante(String fabricante) {
+        this.fabricante = fabricante;
+    }
 
-	/**
-	 * Modifica el peso del dron.
-	 *
-	 * @param peso nuevo peso del dron.
-	 */
-	public void setPeso(int peso) {
-		this.peso = peso;
-	}
+    /**
+     * Obtiene el peso del dron.
+     *
+     * @return peso del dron.
+     */
+    public int getPeso() {
+        return peso;
+    }
 
-	/**
-	 * Obtiene la implementación de control asociada al dron.
-	 *
-	 * @return implementación de control del dron.
-	 */
-	public ControlDron getControlDron() {
-		return controlDron;
-	}
+    /**
+     * Modifica el peso del dron.
+     *
+     * @param peso nuevo peso del dron.
+     */
+    public void setPeso(int peso) {
+        this.peso = peso;
+    }
 
-	/**
-	 * Asigna la implementación de control que utilizará el dron.
-	 *
-	 * @param controlDron implementación de control del dron.
-	 */
-	public void setControlDron(ControlDron controlDron) {
-		this.controlDron = controlDron;
-	}
+    /**
+     * Obtiene la lista de sensores asociados al dron.
+     *
+     * @return lista de sensores del dron.
+     */
+    public List<Sensores> getSensores() {
+        if (sensores == null) {
+            sensores = new ArrayList<>();
+        }
+        return sensores;
+    }
 
-	/**
-	 * Ejecuta el tipo de control configurado para el dron.
-	 *
-	 * <p>
-	 * El comportamiento es delegado a la implementación de {@code ControlDron}
-	 * asociada al dron, permitiendo utilizar diferentes formas de control sin
-	 * modificar la clase Dron.
-	 * </p>
-	 *
-	 * @return mensaje correspondiente al tipo de control seleccionado.
-	 */
-	public String controlar() {
-		if (controlDron == null) {
-			return "Control de dron no seleccionado";
-		}
+    /**
+     * Establece la lista de sensores asociados al dron.
+     *
+     * @param sensores lista de sensores del dron.
+     */
+    public void setSensores(List<Sensores> sensores) {
+        this.sensores = sensores != null ? sensores : new ArrayList<>();
+    }
 
-		return controlDron.controlar(id);
-	}
+    /**
+     * Obtiene la implementación de control asociada al dron.
+     *
+     * @return implementación de control del dron.
+     */
+    public ControlDron getControlDron() {
+        return controlDron;
+    }
 
-	/**
-	 * Devuelve una representación textual del objeto Dron.
-	 *
-	 * @return cadena de texto con los datos del dron.
-	 */
-	@Override
-	public String toString() {
-		return "Dron{" + "id=" + id + ", serial='" + serial + '\'' + ", modelo='" + modelo + '\'' + ", fabricante='"
-				+ fabricante + '\'' + ", peso=" + peso + '}';
-	}
+    /**
+     * Asigna la implementación de control que utilizará el dron.
+     *
+     * @param controlDron implementación de control del dron.
+     */
+    public void setControlDron(ControlDron controlDron) {
+        this.controlDron = controlDron;
+    }
+
+    /**
+     * Ejecuta el tipo de control configurado para el dron.
+     *
+     * <p>
+     * El comportamiento es delegado a la implementación de {@code ControlDron}
+     * asociada al dron, permitiendo utilizar diferentes formas de control sin
+     * modificar la clase Dron.
+     * </p>
+     *
+     * @return mensaje correspondiente al tipo de control seleccionado.
+     */
+    public String controlar() {
+        if (controlDron == null) {
+            return "Control de dron no seleccionado";
+        }
+
+        return controlDron.controlar(id);
+    }
+
+    /**
+     * Devuelve una representación textual del objeto Dron.
+     *
+     * @return cadena de texto con los datos del dron.
+     */
+    @Override
+    public String toString() {
+        return "Dron{" + "id=" + id + ", serial='" + serial + '\'' + ", modelo='" + modelo + '\'' + ", fabricante='"
+                + fabricante + '\'' + ", peso=" + peso + ", sensores=" + sensores + '}';
+    }
 }

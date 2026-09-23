@@ -42,6 +42,11 @@ public class SensoresWrapper implements SensoresComponent {
         return "Lectura Fallida -> Sensor sin datos asignados.";
     }
 
+    /**
+     * Obtiene el nombre descriptivo del sensor para la representación del árbol.
+     *
+     * @return nombre del sensor o texto predeterminado si no hay datos.
+     */
     @Override
     public String getNombre() {
         if (sensor != null) {
@@ -50,10 +55,20 @@ public class SensoresWrapper implements SensoresComponent {
         return "Sensor Indefinido";
     }
 
+    /**
+     * Obtiene el sensor asociado al wrapper.
+     *
+     * @return instancia de {@link Sensores} contenida en el wrapper.
+     */
     public Sensores getSensor() {
         return sensor;
     }
 
+    /**
+     * Asigna el sensor asociado al wrapper.
+     *
+     * @param sensor instancia de {@link Sensores} a asociar.
+     */
     public void setSensor(Sensores sensor) {
         this.sensor = sensor;
     }

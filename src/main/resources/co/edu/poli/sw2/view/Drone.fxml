@@ -14,30 +14,42 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.control.ComboBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.poli.sw2.controller.DroneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+	minHeight="-Infinity" minWidth="-Infinity" prefHeight="430.0"
+	prefWidth="757.0" xmlns="http://javafx.com/javafx/25"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="co.edu.poli.sw2.controller.DroneController">
 
 	<children>
 
 		<!-- ==================== FONDO ==================== -->
 
-		<ImageView fitHeight="438.0" fitWidth="575.0" layoutX="-7.0" layoutY="-4.0" preserveRatio="false">
+		<ImageView fitHeight="438.0" fitWidth="575.0" layoutX="-7.0"
+			layoutY="-4.0" preserveRatio="false">
 			<image>
 				<Image url="@../images/Fondo_D.png" />
 			</image>
 		</ImageView>
 
-		<ImageView fitHeight="475.0" fitWidth="430.0" layoutX="544.0" layoutY="-45.0" preserveRatio="false">
+		<ImageView fitHeight="475.0" fitWidth="430.0"
+			layoutX="544.0" layoutY="-45.0" preserveRatio="false">
 			<image>
 				<Image url="@../images/Fondo_D.png" />
 			</image>
 		</ImageView>
-		<VBox layoutX="281.0" layoutY="33.0" prefHeight="192.0" prefWidth="62.0" spacing="8.0" style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;" />
+		<VBox layoutX="281.0" layoutY="33.0" prefHeight="192.0"
+			prefWidth="62.0" spacing="8.0"
+			style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;" />
 
 
 		<!-- ==================== BOTÓN CREAR ==================== -->
-		<Button fx:id="btnCrear" layoutX="284.0" layoutY="34.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="51.0" style="-fx-background-color: transparent; -fx-cursor: hand;" styleClass="accion-btn">
+		<Button fx:id="btnCrear" layoutX="284.0" layoutY="34.0"
+			mnemonicParsing="false" prefHeight="42.0" prefWidth="51.0"
+			style="-fx-background-color: transparent; -fx-cursor: hand;"
+			styleClass="accion-btn">
 			<graphic>
-				<ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+				<ImageView fitHeight="40.0" fitWidth="40.0"
+					pickOnBounds="true" preserveRatio="true">
 					<image>
 						<Image url="@../images/I_Agregar.png" />
 					</image>
@@ -46,9 +58,12 @@
 		</Button>
 
 		<!-- ==================== BOTÓN ELIMINAR ==================== -->
-		<Button fx:id="btnEliminar" layoutX="282.0" layoutY="80.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="55.0" style="-fx-background-color: transparent; -fx-cursor: hand;">
+		<Button fx:id="btnEliminar" layoutX="282.0" layoutY="80.0"
+			mnemonicParsing="false" prefHeight="40.0" prefWidth="55.0"
+			style="-fx-background-color: transparent; -fx-cursor: hand;">
 			<graphic>
-				<ImageView fitHeight="43.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+				<ImageView fitHeight="43.0" fitWidth="41.0"
+					pickOnBounds="true" preserveRatio="true">
 					<image>
 						<Image url="@../images/I_Eliminar.png" />
 					</image>
@@ -57,9 +72,12 @@
 		</Button>
 
 		<!-- ==================== BOTÓN BUSCAR ==================== -->
-		<Button fx:id="btnBuscar" layoutX="281.0" layoutY="125.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="55.0" style="-fx-background-color: transparent; -fx-cursor: hand;">
+		<Button fx:id="btnBuscar" layoutX="281.0" layoutY="125.0"
+			mnemonicParsing="false" prefHeight="42.0" prefWidth="55.0"
+			style="-fx-background-color: transparent; -fx-cursor: hand;">
 			<graphic>
-				<ImageView fitHeight="42.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+				<ImageView fitHeight="42.0" fitWidth="46.0"
+					pickOnBounds="true" preserveRatio="true">
 					<image>
 						<Image url="@../images/I_Buscar.png" />
 					</image>
@@ -68,40 +86,58 @@
 		</Button>
 
 		<!-- ==================== BOTÓN EDITAR ==================== -->
-		<Button fx:id="btnActualizar" layoutX="281.0" layoutY="173.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="55.0" style="-fx-background-color: transparent; -fx-cursor: hand;">
+		<Button fx:id="btnActualizar" layoutX="281.0" layoutY="173.0"
+			mnemonicParsing="false" prefHeight="40.0" prefWidth="55.0"
+			style="-fx-background-color: transparent; -fx-cursor: hand;">
 			<graphic>
-				<ImageView fitHeight="44.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+				<ImageView fitHeight="44.0" fitWidth="41.0"
+					pickOnBounds="true" preserveRatio="true">
 					<image>
 						<Image url="@../images/I_Editar.png" />
 					</image>
 				</ImageView>
 			</graphic>
 		</Button>
-		<VBox layoutX="282.0" layoutY="255.0" prefHeight="134.0" prefWidth="62.0" spacing="8.0" style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;" />
+		<VBox layoutX="282.0" layoutY="255.0" prefHeight="134.0"
+			prefWidth="62.0" spacing="8.0"
+			style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;" />
 
 		<!-- ==================== IMAGEN AGRÍCOLA ==================== -->
-		<ImageView fx:id="imgAgricola" fitHeight="55.0" fitWidth="45.0" layoutX="290.0" layoutY="260.0" pickOnBounds="true" preserveRatio="true">
+		<ImageView fx:id="imgAgricola" fitHeight="55.0"
+			fitWidth="45.0" layoutX="290.0" layoutY="260.0" pickOnBounds="true"
+			preserveRatio="true">
 			<image>
 				<Image url="@../images/B.a.png" />
 			</image>
 		</ImageView>
 
 		<!-- ==================== IMAGEN VIGILANTE ==================== -->
-		<ImageView fx:id="imgVigilante" fitHeight="48.0" fitWidth="45.0" layoutX="288.0" layoutY="325.0" pickOnBounds="true" preserveRatio="true">
+		<ImageView fx:id="imgVigilante" fitHeight="48.0"
+			fitWidth="45.0" layoutX="288.0" layoutY="325.0" pickOnBounds="true"
+			preserveRatio="true">
 			<image>
 				<Image url="@../images/B.v.png" />
 			</image>
 		</ImageView>
 
 		<!-- ==================== BOTÓN AGRÍCOLA ==================== -->
-		<Button fx:id="btnAgricola" layoutX="287.0" layoutY="260.0" mnemonicParsing="false" onAction="#crearDronAgricola" prefHeight="55.0" prefWidth="51.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-cursor: hand;" />
+		<Button fx:id="btnAgricola" layoutX="287.0" layoutY="260.0"
+			mnemonicParsing="false" onAction="#crearDronAgricola"
+			prefHeight="55.0" prefWidth="51.0"
+			style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-cursor: hand;" />
 
 		<!-- ==================== BOTÓN VIGILANTE ==================== -->
-		<Button fx:id="btnVigilante" layoutX="286.0" layoutY="325.0" mnemonicParsing="false" onAction="#crearDronVigilante" prefHeight="67.0" prefWidth="51.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-cursor: hand;" />
+		<Button fx:id="btnVigilante" layoutX="286.0" layoutY="325.0"
+			mnemonicParsing="false" onAction="#crearDronVigilante"
+			prefHeight="67.0" prefWidth="51.0"
+			style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-cursor: hand;" />
 
 		<!-- ==================== ID ==================== -->
 
-		<TextField fx:id="txtId" layoutX="35.0" layoutY="29.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0" prefWidth="215.0" promptText=" Id del dron" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
+		<TextField fx:id="txtId" layoutX="35.0" layoutY="29.0"
+			minHeight="-Infinity" minWidth="-Infinity" prefHeight="32.0"
+			prefWidth="215.0" promptText=" Id del dron"
+			style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
 			<cursor>
 				<Cursor fx:constant="TEXT" />
 			</cursor>
@@ -113,7 +149,10 @@
 
 		<!-- ==================== MODELO ==================== -->
 
-		<TextField fx:id="txtModelo" layoutX="35.0" layoutY="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="215.0" promptText="Modelo del dron" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
+		<TextField fx:id="txtModelo" layoutX="35.0" layoutY="100.0"
+			minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0"
+			prefWidth="215.0" promptText="Modelo del dron"
+			style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
 			<cursor>
 				<Cursor fx:constant="TEXT" />
 			</cursor>
@@ -125,7 +164,10 @@
 
 		<!-- ==================== SERIAL ==================== -->
 
-		<TextField fx:id="txtSerial" layoutX="35.0" layoutY="140.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="215.0" promptText="Número de serial" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
+		<TextField fx:id="txtSerial" layoutX="35.0" layoutY="140.0"
+			minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0"
+			prefWidth="215.0" promptText="Número de serial"
+			style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
 			<cursor>
 				<Cursor fx:constant="TEXT" />
 			</cursor>
@@ -137,7 +179,10 @@
 
 		<!-- ==================== FABRICANTE ==================== -->
 
-		<TextField fx:id="txtFabricante" layoutX="35.0" layoutY="180.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="215.0" promptText="Fabricante" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
+		<TextField fx:id="txtFabricante" layoutX="35.0"
+			layoutY="180.0" minHeight="-Infinity" minWidth="-Infinity"
+			prefHeight="25.0" prefWidth="215.0" promptText="Fabricante"
+			style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
 			<cursor>
 				<Cursor fx:constant="TEXT" />
 			</cursor>
@@ -149,7 +194,10 @@
 
 		<!-- ==================== PESO ==================== -->
 
-		<TextField fx:id="txtPeso" layoutX="35.0" layoutY="220.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="215.0" promptText="Peso del dron" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
+		<TextField fx:id="txtPeso" layoutX="35.0" layoutY="220.0"
+			minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0"
+			prefWidth="215.0" promptText="Peso del dron"
+			style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
 			<cursor>
 				<Cursor fx:constant="TEXT" />
 			</cursor>
@@ -161,7 +209,10 @@
 
 		<!-- ==================== PILOTO ==================== -->
 
-		<TextField fx:id="txtPiloto" layoutX="35.0" layoutY="260.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="215.0" promptText="Id del Piloto" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
+		<TextField fx:id="txtPiloto" layoutX="35.0" layoutY="260.0"
+			minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0"
+			prefWidth="215.0" promptText="Id del Piloto"
+			style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
 			<cursor>
 				<Cursor fx:constant="TEXT" />
 			</cursor>
@@ -173,7 +224,10 @@
 
 		<!-- ==================== SENSOR ==================== -->
 
-		<TextField fx:id="txtSensor" layoutX="35.0" layoutY="300.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="215.0" promptText="Id del sensor" style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
+		<TextField fx:id="txtSensor" layoutX="35.0" layoutY="300.0"
+			minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0"
+			prefWidth="215.0" promptText="Id del sensor"
+			style="-fx-background-color: rgba(255,255,255,0.65);                           -fx-background-radius: 8;                           -fx-border-color: rgba(0,0,0,0.25);                           -fx-border-radius: 8;                           -fx-font-size: 15px;">
 			<cursor>
 				<Cursor fx:constant="TEXT" />
 			</cursor>
@@ -185,7 +239,8 @@
 
 		<!-- ==================== TEXTO AGRÍCOLA ==================== -->
 
-		<Text layoutX="294.0" layoutY="315.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Agricola">
+		<Text layoutX="294.0" layoutY="315.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Agricola">
 			<font>
 				<Font name="System Bold" size="9.0" />
 			</font>
@@ -194,7 +249,8 @@
 
 		<!-- ==================== TEXTO VIGILANTE ==================== -->
 
-		<Text layoutX="292.0" layoutY="379.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vigilante">
+		<Text layoutX="292.0" layoutY="379.0" strokeType="OUTSIDE"
+			strokeWidth="0.0" text="Vigilante">
 			<font>
 				<Font name="System Bold" size="9.0" />
 			</font>
@@ -202,32 +258,49 @@
 
 
 		<!-- ==================== DIRECCIÓN DE MEMORIA ==================== -->
-		<VBox layoutX="581.0" layoutY="229.0" prefHeight="153.0" prefWidth="153.0" spacing="6.0" style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;">
+		<VBox layoutX="581.0" layoutY="229.0" prefHeight="153.0"
+			prefWidth="153.0" spacing="6.0"
+			style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;">
 			<children>
 				<Text strokeType="OUTSIDE" strokeWidth="0.0" text="Consola">
 					<font>
 						<Font name="System Bold" size="12.0" />
 					</font>
 				</Text>
-				<TextArea fx:id="txtConsola" editable="false" prefHeight="101.0" prefWidth="129.0" />
+				<TextArea fx:id="txtConsola" editable="false"
+					prefHeight="101.0" prefWidth="129.0" />
 			</children>
 		</VBox>
 
 		<!-- ==================== CLONE PROTOTYPE ==================== -->
-		<Button fx:id="btnClonar" layoutX="588.0" layoutY="100.0" mnemonicParsing="false" onAction="#clonar" prefHeight="15.0" prefWidth="140.0" style="-fx-background-color: #70a1ff; -fx-text-fill: Black; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;" text="Clone Prototype" />
+		<Button fx:id="btnClonar" layoutX="588.0" layoutY="100.0"
+			mnemonicParsing="false" onAction="#clonar" prefHeight="15.0"
+			prefWidth="140.0"
+			style="-fx-background-color: #70a1ff; -fx-text-fill: Black; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;"
+			text="Clone Prototype" />
 
 		<!-- ==================== BUILDER ==================== -->
-		<Button fx:id="btnBuilder" layoutX="588.0" layoutY="65.0" mnemonicParsing="false" onAction="#ejecutarBuilder" prefHeight="15.0" prefWidth="140.0" style="-fx-background-color: #70a1ff; -fx-text-fill: Black; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;" text="Builder" />
+		<Button fx:id="btnBuilder" layoutX="588.0" layoutY="65.0"
+			mnemonicParsing="false" onAction="#ejecutarBuilder" prefHeight="15.0"
+			prefWidth="140.0"
+			style="-fx-background-color: #70a1ff; -fx-text-fill: Black; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;"
+			text="Builder" />
 
 		<!-- ==================== BRIDGE ==================== -->
-		<VBox layoutX="426.0" layoutY="325.0" prefHeight="67.0" prefWidth="118.0" spacing="8.0" style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;">
+		<VBox layoutX="426.0" layoutY="325.0" prefHeight="67.0"
+			prefWidth="118.0" spacing="8.0"
+			style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;">
 			<children>
-				<RadioButton fx:id="rbBasico" mnemonicParsing="false" style="-fx-text-fill: #000000; -fx-base: #70a1ff;" text="Basico">
+				<RadioButton fx:id="rbBasico" mnemonicParsing="false"
+					style="-fx-text-fill: #000000; -fx-base: #70a1ff;" text="Basico">
 					<font>
 						<Font name="System Bold" size="12.0" />
 					</font>
 				</RadioButton>
-				<RadioButton fx:id="rbAutomatico" mnemonicParsing="false" style="-fx-text-fill: #000000; -fx-base: #70a1ff;" text="Automatico">
+				<RadioButton fx:id="rbAutomatico"
+					mnemonicParsing="false"
+					style="-fx-text-fill: #000000; -fx-base: #70a1ff;"
+					text="Automatico">
 					<font>
 						<Font name="System Bold" size="12.0" />
 					</font>
@@ -236,22 +309,42 @@
 		</VBox>
 
 		<!-- ==================== DECORATOR ==================== -->
-		<VBox layoutX="426.0" layoutY="235.0" prefHeight="75.0" prefWidth="118.0" spacing="8.0" style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;">
+		<VBox layoutX="426.0" layoutY="235.0" prefHeight="75.0"
+			prefWidth="118.0" spacing="8.0"
+			style="-fx-background-color: rgba(255, 255, 255, 0.6); -fx-background-radius: 12px; -fx-border-color: #70a1ff; -fx-border-radius: 12px; -fx-border-width: 2px; -fx-padding: 10px;">
 			<children>
-				<Button fx:id="btnDecorator" mnemonicParsing="false" onAction="#ejecutarDecorator" prefHeight="25.0" prefWidth="193.0" style="-fx-background-color: #70a1ff; -fx-text-fill: white; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;" text="Decorator" />
-				<CheckBox fx:id="chkBateria" mnemonicParsing="false" style="-fx-text-fill: #000000; -fx-base: #74b9ff;" text="Bateria" />
+				<Button fx:id="btnDecorator" mnemonicParsing="false"
+					onAction="#ejecutarDecorator" prefHeight="25.0" prefWidth="193.0"
+					style="-fx-background-color: #70a1ff; -fx-text-fill: white; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;"
+					text="Decorator" />
+				<CheckBox fx:id="chkBateria" mnemonicParsing="false"
+					style="-fx-text-fill: #000000; -fx-base: #74b9ff;" text="Bateria" />
 			</children>
 		</VBox>
-         <!-- ==================== ADAPTER ==================== -->
-		<Button fx:id="btnAdarter" layoutX="588.0" layoutY="135.0" mnemonicParsing="false" onAction="#Adapter" prefHeight="15.0" prefWidth="140.0" style="-fx-background-color: #70a1ff; -fx-text-fill: Black; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;" text="Adapter" />
+		<!-- ==================== ADAPTER ==================== -->
+		<Button fx:id="btnAdarter" layoutX="588.0" layoutY="135.0"
+			mnemonicParsing="false" onAction="#Adapter" prefHeight="15.0"
+			prefWidth="140.0"
+			style="-fx-background-color: #70a1ff; -fx-text-fill: Black; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;"
+			text="Adapter" />
 
 		<!-- ==================== COMPOSITE & DESPLEGABLE ==================== -->
-		<Button fx:id="btnComposite" layoutX="588.0" layoutY="175.0" mnemonicParsing="false" onAction="#mostrarTiposSensores" prefHeight="25.0" prefWidth="110.0" style="-fx-background-color: #70a1ff; -fx-text-fill: Black; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;" text="Composite" />
-		
+		<Button fx:id="btnComposite" layoutX="588.0" layoutY="175.0"
+			mnemonicParsing="false" onAction="#mostrarTiposSensores"
+			prefHeight="25.0" prefWidth="110.0"
+			style="-fx-background-color: #70a1ff; -fx-text-fill: Black; -fx-background-radius: 8px; -fx-font-weight: bold; -fx-cursor: hand;"
+			text="Composite" />
+
 		<!-- Botón de ayuda (?) para mostrar el diagrama -->
-		<Button fx:id="btnAyudaComposite" layoutX="703.0" layoutY="175.0" mnemonicParsing="false" onAction="#mostrarDiagrama" prefHeight="25.0" prefWidth="25.0" style="-fx-background-color: #FFA500; -fx-text-fill: white; -fx-background-radius: 15px; -fx-font-weight: bold; -fx-cursor: hand;" text="?" />
+		<Button fx:id="btnAyudaComposite" layoutX="703.0"
+			layoutY="175.0" mnemonicParsing="false" onAction="#mostrarDiagrama"
+			prefHeight="25.0" prefWidth="25.0"
+			style="-fx-background-color: #FFA500; -fx-text-fill: white; -fx-background-radius: 15px; -fx-font-weight: bold; -fx-cursor: hand;"
+			text="?" />
 
 		<!-- Desplegable (ComboBox) que aparece/activa tras presionar Composite -->
-		<ComboBox fx:id="cmbTiposSensores" layoutX="588.0" layoutY="210.0" onAction="#seleccionarSensor" prefWidth="140.0" promptText="Seleccione tipo..." visible="false" />
+		<ComboBox fx:id="cmbTiposSensores" layoutX="588.0"
+			layoutY="210.0" onAction="#seleccionarSensor" prefWidth="140.0"
+			promptText="Seleccione tipo..." visible="false" />
 	</children>
 </AnchorPane>

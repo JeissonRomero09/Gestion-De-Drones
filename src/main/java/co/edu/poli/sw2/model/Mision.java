@@ -9,7 +9,7 @@ import java.util.Date;
  * incluyendo su identificador, nombre, ubicación, fecha y
  * el dron asociado.</p>
  *
- * @author
+ * @author Jeisson Romero
  * @version 1.0
  */
 public class Mision {
@@ -42,7 +42,7 @@ public class Mision {
     /**
      * Obtiene el identificador de la misión.
      *
-     * @return identificador de la misión
+     * @return identificador único de la misión.
      */
     public int getId() {
         return id;
@@ -51,7 +51,7 @@ public class Mision {
     /**
      * Establece el identificador de la misión.
      *
-     * @param id identificador de la misión
+     * @param id identificador único de la misión.
      */
     public void setId(int id) {
         this.id = id;
@@ -60,7 +60,7 @@ public class Mision {
     /**
      * Obtiene el nombre de la misión.
      *
-     * @return nombre de la misión
+     * @return nombre de la misión.
      */
     public String getNombre() {
         return Nombre;
@@ -69,7 +69,7 @@ public class Mision {
     /**
      * Establece el nombre de la misión.
      *
-     * @param Nombre nombre de la misión
+     * @param Nombre nombre que identificará la misión.
      */
     public void setNombre(String Nombre) {
         this.Nombre = Nombre;
@@ -78,7 +78,7 @@ public class Mision {
     /**
      * Obtiene la ubicación de la misión.
      *
-     * @return ubicación de la misión
+     * @return ubicación donde se ejecutará la misión.
      */
     public String getUbicacion() {
         return Ubicacion;
@@ -87,7 +87,7 @@ public class Mision {
     /**
      * Establece la ubicación de la misión.
      *
-     * @param Ubicacion ubicación donde se realizará la misión
+     * @param Ubicacion ubicación donde se realizará la misión.
      */
     public void setUbicacion(String Ubicacion) {
         this.Ubicacion = Ubicacion;
@@ -96,7 +96,7 @@ public class Mision {
     /**
      * Obtiene la fecha programada para la misión.
      *
-     * @return fecha de la misión
+     * @return fecha de ejecución o programación de la misión.
      */
     public Date getFecha() {
         return Fecha;
@@ -105,7 +105,7 @@ public class Mision {
     /**
      * Establece la fecha de la misión.
      *
-     * @param Fecha fecha programada para la misión
+     * @param Fecha fecha programada para la misión.
      */
     public void setFecha(Date Fecha) {
         this.Fecha = Fecha;
@@ -114,7 +114,7 @@ public class Mision {
     /**
      * Obtiene el dron asociado a la misión.
      *
-     * @return dron asociado a la misión
+     * @return dron relacionado con la misión o null si no existe asociación.
      */
     public Dron getDron() {
         return dron;
@@ -123,7 +123,7 @@ public class Mision {
     /**
      * Establece el dron asociado a la misión.
      *
-     * @param dron dron que será asignado a la misión
+     * @param dron objeto {@link Dron} que se asignará a la misión.
      */
     public void setDron(Dron dron) {
         this.dron = dron;
