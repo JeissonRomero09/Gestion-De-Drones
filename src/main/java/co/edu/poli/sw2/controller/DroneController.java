@@ -1127,14 +1127,20 @@ public class DroneController {
 		}
 
 	}
-		/**
+/**
 	 * Elimina un registro de dron existente utilizando el patrón Proxy de protección.
+	 * <p>
+	 * Muestra un diálogo emergente para solicitar la contraseña de administrador
+	 * al usuario. La clave ingresada es validada a través de {@link DronProxy}.
+	 * Si la autenticación es exitosa, se delega la ejecución al servicio real
+	 * {@link EliminarDron} para remover el dron del sistema de datos.
+	 * </p>
 	 * 
 	 * @author Cristian Vera
-	 * @version 1.0
+	 * @version 2.0
 	 */
 	@FXML
-	private void Eliminar() {
+	private void eliminar() {
 	    try {
 	        if (txtId.getText().isEmpty()) {
 	            mostrarAlerta(Alert.AlertType.WARNING, "ID requerido", "Ingrese el ID del dron que desea eliminar.");
@@ -1143,14 +1149,29 @@ public class DroneController {
 
 	        int id = Integer.parseInt(txtId.getText().trim());
 
-	        // 1. Instanciar el servicio real y el Proxy
-	        ServiceInterface servicioReal = new EliminarDron(this.dronDao);
-	        ServiceInterface proxy = new DronProxy(servicioReal, "Admin123");
+	        // 1. Solicitar la contraseña de administrador al usuario
+	        TextInputDialog dialog = new TextInputDialog();
+	        dialog.setTitle("Verificación de Seguridad (Proxy)");
+	        dialog.setHeaderText("Acceso Restringido - Eliminación de Dron");
+	        dialog.setContentText("Ingrese la contraseña de administrador:");
 
-	        // 2. Ejecutar la operación a través del Proxy
+	        Optional<String> result = dialog.showAndWait();
+
+	        if (!result.isPresent() || result.get().trim().isEmpty()) {
+	            mostrarAlerta(Alert.AlertType.WARNING, "Operación Cancelada", "Debe ingresar una contraseña para continuar.");
+	            return;
+	        }
+
+	        String passwordIngresada = result.get().trim();
+
+	        // 2. Instanciar el servicio real y el Proxy con la clave que ingresó el usuario
+	        ServiceInterface servicioReal = new EliminarDron(this.dronDao);
+	        ServiceInterface proxy = new DronProxy(servicioReal, passwordIngresada);
+
+	        // 3. Ejecutar la acción mediante el Proxy
 	        String resultado = proxy.eliminarDron(id);
 
-	        // 3. Evaluar el mensaje recibido
+	        // 4. Evaluar la respuesta devuelta por el Proxy
 	        if (resultado.startsWith("✅")) {
 	            mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", resultado);
 	            limpiarCampos();
@@ -1158,15 +1179,17 @@ public class DroneController {
 	                txtConsola.appendText("=== PATRÓN PROXY ===\n" + resultado + "\n\n");
 	            }
 	        } else if (resultado.startsWith("❌")) {
-	            mostrarAlerta(Alert.AlertType.ERROR, "Acceso Denegado / Error", resultado);
+	            mostrarAlerta(Alert.AlertType.ERROR, "Acceso Denegado", resultado);
+	            if (txtConsola != null) {
+	                txtConsola.appendText("=== PATRÓN PROXY (Bloqueado) ===\n" + resultado + "\n\n");
+	            }
 	        } else {
-	            mostrarAlerta(Alert.AlertType.WARNING, "Cancelado", resultado);
+	            mostrarAlerta(Alert.AlertType.WARNING, "Respuesta Proxy", resultado);
 	        }
 
 	    } catch (NumberFormatException e) {
 	        mostrarAlerta(Alert.AlertType.ERROR, "ID inválido", "El ID debe ser un número entero.");
 	    } catch (Exception e) {
-	        // Catch genérico para cualquier otro error inesperado en tiempo de ejecución
 	        mostrarAlerta(Alert.AlertType.ERROR, "Error", "Ocurrió un error inesperado: " + e.getMessage());
 	    }
 	}
