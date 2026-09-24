@@ -462,53 +462,60 @@ public class DronDao {
             conexion.setAutoCommit(autoCommitOriginal);
         }
     }
-
-    /**
-     * Elimina un dron y desvincula todos sus sensores, sin borrar los registros de la tabla sensores.
+/**
+     * Elimina un dron de la base de datos eliminando previamente sus 
+     * relaciones foráneas en la tabla intermedia mision_dron para mantener 
+     * la integridad referencial.
      *
-     * <p>La eliminación mantiene la integridad de la relación uno a muchos al dejar
-     * {@code sensores.dron_id = NULL} para los sensores asociados y luego borrar el dron.</p>
-     *
-     * @param id identificador del dron a eliminar.
+     * @author Jeisson Romero
+     * @author Cristian Vera
+     * @param id identificador único del dron a eliminar.
      * @throws SQLException si ocurre un error de acceso a la base de datos.
      */
     public void eliminar(int id) throws SQLException {
+
         Connection conexion = Singleton.getInstance().getConexion();
-        boolean autoCommitOriginal = conexion.getAutoCommit();
 
-        try {
-            conexion.setAutoCommit(false);
+        /*
+         * Primero se eliminan las referencias en la tabla intermedia
+         * mision_dron para evitar restricciones de clave foránea (FK).
+         */
+        String sqlMisionDron = "DELETE FROM mision_dron WHERE dron_id = ?";
 
-            String sqlDesvincular = "UPDATE sensores SET dron_id = NULL WHERE dron_id = ?";
-            try (PreparedStatement psDesvincular = conexion.prepareStatement(sqlDesvincular)) {
-                psDesvincular.setInt(1, id);
-                psDesvincular.executeUpdate();
-            }
+        try (PreparedStatement psMision = conexion.prepareStatement(sqlMisionDron)) {
+            psMision.setInt(1, id);
+            psMision.executeUpdate();
+        }
 
-            String sqlAgricultura = "DELETE FROM agricultura WHERE id = ?";
-            try (PreparedStatement psAgricultura = conexion.prepareStatement(sqlAgricultura)) {
-                psAgricultura.setInt(1, id);
-                psAgricultura.executeUpdate();
-            }
+        /*
+         * Se elimina de la tabla especializada Agricultura.
+         * Si no existe el registro, la consulta no afectará filas.
+         */
+        String sqlAgricultura = "DELETE FROM agricultura WHERE id = ?";
 
-            String sqlVigilancia = "DELETE FROM vigilancia WHERE id = ?";
-            try (PreparedStatement psVigilancia = conexion.prepareStatement(sqlVigilancia)) {
-                psVigilancia.setInt(1, id);
-                psVigilancia.executeUpdate();
-            }
+        try (PreparedStatement psAgricultura = conexion.prepareStatement(sqlAgricultura)) {
+            psAgricultura.setInt(1, id);
+            psAgricultura.executeUpdate();
+        }
 
-            String sqlDron = "DELETE FROM dron WHERE id = ?";
-            try (PreparedStatement psDron = conexion.prepareStatement(sqlDron)) {
-                psDron.setInt(1, id);
-                psDron.executeUpdate();
-            }
+        /*
+         * Se elimina de la tabla especializada Vigilancia.
+         */
+        String sqlVigilancia = "DELETE FROM vigilancia WHERE id = ?";
 
-            conexion.commit();
-        } catch (SQLException e) {
-            conexion.rollback();
-            throw e;
-        } finally {
-            conexion.setAutoCommit(autoCommitOriginal);
+        try (PreparedStatement psVigilancia = conexion.prepareStatement(sqlVigilancia)) {
+            psVigilancia.setInt(1, id);
+            psVigilancia.executeUpdate();
+        }
+
+        /*
+         * Finalmente se elimina el registro principal en la tabla Dron.
+         */
+        String sqlDron = "DELETE FROM dron WHERE id = ?";
+
+        try (PreparedStatement psDron = conexion.prepareStatement(sqlDron)) {
+            psDron.setInt(1, id);
+            psDron.executeUpdate();
         }
     }
 }
