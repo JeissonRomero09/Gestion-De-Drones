@@ -24,6 +24,7 @@ import co.edu.poli.sw2.model.Dron;
 import co.edu.poli.sw2.model.Mision;
 import co.edu.poli.sw2.model.Sensores;
 import co.edu.poli.sw2.model.Vigilancia;
+import co.edu.poli.sw2.Service.Facade.DronFacade;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -723,8 +724,10 @@ public class DroneController {
 		}
 	}
 
+	
 	/**
 	 * Actualiza la información de un dron preexistente en la base de datos.
+	 *
 	 * <p>
 	 * Verifica la presencia del identificador del dron, la selección activa de una
 	 * fábrica ({@link DronFactory}) para determinar el tipo concreto (Agrícola o
@@ -732,11 +735,12 @@ public class DroneController {
 	 * instanciada, recrea el objeto especializado, asigna los nuevos atributos y
 	 * solicita la persistencia del cambio mediante la capa DAO.
 	 * </p>
+	 *
 	 * <p>
 	 * Al finalizar con éxito, resetea los campos del formulario para prevenir
 	 * modificaciones accidentales.
 	 * </p>
-	 * 
+	 *
 	 * @see DronFactory#crearDron()
 	 * @see DronDao#actualizar(Dron)
 	 * @see #limpiarCampos()
@@ -744,55 +748,108 @@ public class DroneController {
 	@FXML
 	private void actualizar() {
 
-		try {
-			if (txtId.getText().isEmpty()) {
-				mostrarAlerta(Alert.AlertType.WARNING, "ID requerido", "Ingrese el ID del dron que desea actualizar.");
-				return;
-			}
+	    try {
 
-			if (dronFactory == null) {
-				mostrarAlerta(Alert.AlertType.WARNING, "Tipo no seleccionado",
-						"Por favor seleccione si el dron es Agrícola o Vigilante antes de actualizar.");
-				return;
-			}
+	        if (txtId.getText().isEmpty()) {
+	            mostrarAlerta(
+	                    Alert.AlertType.WARNING,
+	                    "ID requerido",
+	                    "Ingrese el ID del dron que desea actualizar."
+	            );
+	            return;
+	        }
 
-			if (txtSerial.getText().isEmpty() || txtModelo.getText().isEmpty() || txtFabricante.getText().isEmpty()
-					|| txtPeso.getText().isEmpty()) {
+	        if (dronFactory == null) {
+	            mostrarAlerta(
+	                    Alert.AlertType.WARNING,
+	                    "Tipo no seleccionado",
+	                    "Por favor seleccione si el dron es Agrícola o Vigilante antes de actualizar."
+	            );
+	            return;
+	        }
 
-				mostrarAlerta(Alert.AlertType.WARNING, "Campos incompletos",
-						"Complete todos los campos del dron antes de actualizar.");
-				return;
-			}
+	        if (txtSerial.getText().isEmpty()
+	                || txtModelo.getText().isEmpty()
+	                || txtFabricante.getText().isEmpty()
+	                || txtPeso.getText().isEmpty()) {
 
-			int id = Integer.parseInt(txtId.getText());
-			int peso = Integer.parseInt(txtPeso.getText());
+	            mostrarAlerta(
+	                    Alert.AlertType.WARNING,
+	                    "Campos incompletos",
+	                    "Complete todos los campos del dron antes de actualizar."
+	            );
+	            return;
+	        }
 
-			Dron drone = dronFactory.crearDron();
-			drone.setId(id);
-			drone.setSerial(txtSerial.getText());
-			drone.setModelo(txtModelo.getText());
-			drone.setFabricante(txtFabricante.getText());
-			drone.setPeso(peso);
+	        // Validar ID
+	        int id;
 
-			List<Integer> idsSensores = obtenerSensoresDesdeCampo();
-			dronDao.actualizar(drone, idsSensores);
+	        try {
+	            id = Integer.parseInt(txtId.getText().trim());
+	        } catch (NumberFormatException e) {
+	            mostrarAlerta(
+	                    Alert.AlertType.ERROR,
+	                    "ID inválido",
+	                    "El ID debe contener un número entero."
+	            );
+	            return;
+	        }
 
-			mostrarAlerta(Alert.AlertType.INFORMATION, "Dron actualizado",
-					"Los datos del dron se actualizaron correctamente.");
+	        // Validar peso
+	        int peso;
 
-			limpiarCampos();
+	        try {
+	            peso = Integer.parseInt(txtPeso.getText().trim());
+	        } catch (NumberFormatException e) {
+	            mostrarAlerta(
+	                    Alert.AlertType.ERROR,
+	                    "Peso inválido",
+	                    "El peso debe contener un número entero."
+	            );
+	            return;
+	        }
 
-		} catch (NumberFormatException e) {
-			mostrarAlerta(Alert.AlertType.ERROR, "Datos inválidos",
-					"El ID y el Peso deben contener valores numéricos enteros.");
-		} catch (IllegalArgumentException e) {
-			mostrarAlerta(Alert.AlertType.ERROR, "IDs de sensores inválidos", e.getMessage());
-		} catch (SQLException e) {
-			mostrarAlerta(Alert.AlertType.ERROR, "Error de Base de Datos",
-					"No se pudo actualizar el dron: " + e.getMessage());
-		}
+	        // Crear el dron mediante la fábrica seleccionada
+	        Dron drone = dronFactory.crearDron();
+
+	        drone.setId(id);
+	        drone.setSerial(txtSerial.getText().trim());
+	        drone.setModelo(txtModelo.getText().trim());
+	        drone.setFabricante(txtFabricante.getText().trim());
+	        drone.setPeso(peso);
+
+	        // Obtener sensores
+	        List<Integer> idsSensores = obtenerSensoresDesdeCampo();
+
+	        // Actualizar en la base de datos
+	        dronDao.actualizar(drone, idsSensores);
+
+	        mostrarAlerta(
+	                Alert.AlertType.INFORMATION,
+	                "Dron actualizado",
+	                "Los datos del dron se actualizaron correctamente."
+	        );
+
+	        limpiarCampos();
+
+	    } catch (IllegalArgumentException e) {
+
+	        mostrarAlerta(
+	                Alert.AlertType.ERROR,
+	                "IDs de sensores inválidos",
+	                e.getMessage()
+	        );
+
+	    } catch (SQLException e) {
+
+	        mostrarAlerta(
+	                Alert.AlertType.ERROR,
+	                "Error de Base de Datos",
+	                "No se pudo actualizar el dron: " + e.getMessage()
+	        );
+	    }
 	}
-
+	
 	/**
 	 * Limpia y restablece el estado original de todos los campos de texto del
 	 * formulario en la interfaz gráfica.
@@ -1127,20 +1184,128 @@ public class DroneController {
 		}
 
 	}
-/**
+
+
+	/**
+	 * Ejecuta Adapter + Prototype + Decorator mediante la fachada DronFacade.
+	 *
+	 * El Controller prepara los objetos necesarios y la Fachada
+	 * únicamente coordina las implementaciones existentes.
+	 */
+	
+	@FXML
+	public void ejecutarDPA(ActionEvent event) {
+	    try {
+
+	        // =========================================================
+	        // VALIDAR DRON
+	        // =========================================================
+	        String idTexto =
+	                txtId != null && txtId.getText() != null
+	                        ? txtId.getText().trim()
+	                        : "";
+
+	        String serial =
+	                txtSerial != null && txtSerial.getText() != null
+	                        ? txtSerial.getText().trim()
+	                        : "";
+
+	        if (idTexto.isEmpty() && serial.isEmpty()) {
+	            mostrarAlerta(
+	                    Alert.AlertType.WARNING,
+	                    "Dron requerido",
+	                    "Debe ingresar o seleccionar un dron antes de ejecutar los patrones."
+	            );
+	            return;
+	        }
+
+	        // =========================================================
+	        // FACHADA
+	        // =========================================================
+	        DronFacade fachada = new DronFacade(this.prototypeService);
+
+	        // =========================================================
+	        // ADAPTER
+	        // =========================================================
+	        Mision mision = new Mision();
+	        mision.setId(1);
+	        mision.setNombre("Mision de reconocimiento");
+	        mision.setUbicacion("Bogota");
+	        mision.setFecha(new Date());
+
+	        MisionService misionService = new MisionService();
+	        MisionAdapter adapter = new MisionAdapter(misionService);
+
+	        // =========================================================
+	        // PROTOTYPE
+	        // =========================================================
+	        Dron prototipoOriginal = null;
+
+	        if (!serial.isEmpty()) {
+	            prototipoOriginal =
+	                    prototypeService.obtenerPrototipoBase(serial);
+	        }
+
+	        if (prototipoOriginal == null) {
+	            mostrarAlerta(
+	                    Alert.AlertType.WARNING,
+	                    "Prototipo no encontrado",
+	                    "No existe un prototipo registrado para el serial: "
+	                            + serial
+	                            + ".\n\n"
+	                            + "Primero debe registrar/construir el dron mediante Builder."
+	            );
+	            return;
+	        }
+
+	        // =========================================================
+	        // DECORATOR
+	        // =========================================================
+	        DronComponent componente = new Bateria(5000);
+
+	        if (chkBateria != null && chkBateria.isSelected()) {
+	            componente = new DroneWrapper(componente);
+	        }
+
+	        // =========================================================
+	        // EJECUTAR FACHADA
+	        // =========================================================
+	        String salida =
+	                fachada.ejecutarPatrones(
+	                        adapter,
+	                        mision,
+	                        prototipoOriginal,
+	                        componente
+	                );
+
+	        if (txtConsola != null) {
+	            txtConsola.appendText(
+	                    "===== FACADE: ADAPTER + PROTOTYPE + DECORATOR =====\n"
+	                            + salida
+	                            + "\n"
+	            );
+	        }
+
+	    } catch (Exception e) {
+
+	        mostrarAlerta(
+	                Alert.AlertType.ERROR,
+	                "Error",
+	                "No fue posible ejecutar la operación:\n"
+	                        + e.getMessage()
+	        );
+	    }
+	}
+
+
+		/**
 	 * Elimina un registro de dron existente utilizando el patrón Proxy de protección.
-	 * <p>
-	 * Muestra un diálogo emergente para solicitar la contraseña de administrador
-	 * al usuario. La clave ingresada es validada a través de {@link DronProxy}.
-	 * Si la autenticación es exitosa, se delega la ejecución al servicio real
-	 * {@link EliminarDron} para remover el dron del sistema de datos.
-	 * </p>
 	 * 
 	 * @author Cristian Vera
-	 * @version 2.0
+	 * @version 1.0
 	 */
 	@FXML
-	private void eliminar() {
+	private void Eliminar() {
 	    try {
 	        if (txtId.getText().isEmpty()) {
 	            mostrarAlerta(Alert.AlertType.WARNING, "ID requerido", "Ingrese el ID del dron que desea eliminar.");
@@ -1149,29 +1314,14 @@ public class DroneController {
 
 	        int id = Integer.parseInt(txtId.getText().trim());
 
-	        // 1. Solicitar la contraseña de administrador al usuario
-	        TextInputDialog dialog = new TextInputDialog();
-	        dialog.setTitle("Verificación de Seguridad (Proxy)");
-	        dialog.setHeaderText("Acceso Restringido - Eliminación de Dron");
-	        dialog.setContentText("Ingrese la contraseña de administrador:");
-
-	        Optional<String> result = dialog.showAndWait();
-
-	        if (!result.isPresent() || result.get().trim().isEmpty()) {
-	            mostrarAlerta(Alert.AlertType.WARNING, "Operación Cancelada", "Debe ingresar una contraseña para continuar.");
-	            return;
-	        }
-
-	        String passwordIngresada = result.get().trim();
-
-	        // 2. Instanciar el servicio real y el Proxy con la clave que ingresó el usuario
+	        // 1. Instanciar el servicio real y el Proxy
 	        ServiceInterface servicioReal = new EliminarDron(this.dronDao);
-	        ServiceInterface proxy = new DronProxy(servicioReal, passwordIngresada);
+	        ServiceInterface proxy = new DronProxy(servicioReal, "Admin123");
 
-	        // 3. Ejecutar la acción mediante el Proxy
+	        // 2. Ejecutar la operación a través del Proxy
 	        String resultado = proxy.eliminarDron(id);
 
-	        // 4. Evaluar la respuesta devuelta por el Proxy
+	        // 3. Evaluar el mensaje recibido
 	        if (resultado.startsWith("✅")) {
 	            mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", resultado);
 	            limpiarCampos();
@@ -1179,17 +1329,15 @@ public class DroneController {
 	                txtConsola.appendText("=== PATRÓN PROXY ===\n" + resultado + "\n\n");
 	            }
 	        } else if (resultado.startsWith("❌")) {
-	            mostrarAlerta(Alert.AlertType.ERROR, "Acceso Denegado", resultado);
-	            if (txtConsola != null) {
-	                txtConsola.appendText("=== PATRÓN PROXY (Bloqueado) ===\n" + resultado + "\n\n");
-	            }
+	            mostrarAlerta(Alert.AlertType.ERROR, "Acceso Denegado / Error", resultado);
 	        } else {
-	            mostrarAlerta(Alert.AlertType.WARNING, "Respuesta Proxy", resultado);
+	            mostrarAlerta(Alert.AlertType.WARNING, "Cancelado", resultado);
 	        }
 
 	    } catch (NumberFormatException e) {
 	        mostrarAlerta(Alert.AlertType.ERROR, "ID inválido", "El ID debe ser un número entero.");
 	    } catch (Exception e) {
+	        // Catch genérico para cualquier otro error inesperado en tiempo de ejecución
 	        mostrarAlerta(Alert.AlertType.ERROR, "Error", "Ocurrió un error inesperado: " + e.getMessage());
 	    }
 	}
